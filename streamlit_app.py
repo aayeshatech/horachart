@@ -328,16 +328,16 @@ if analyze_button:
             col1, col2, col3 = st.columns(3)
             
             with col1:
-                st.metric("🌟 Current Mahadasha", current_dasha_info['mahadasha'], 
-                         f"Period: {current_dasha_info['start_date']} - {current_dasha_info['end_date']}")
+                st.metric("🌟 Current Mahadasha", current_dasha_info['mahadasha'])
+                st.caption(f"Period: {current_dasha_info['start_date']} - {current_dasha_info['end_date']}")
             
             with col2:
-                st.metric("🌙 Current Antardasha", current_dasha_info['antardasha'],
-                         f"Sub-period within {current_dasha_info['mahadasha']} Dasha")
+                st.metric("🌙 Current Antardasha", current_dasha_info['antardasha'])
+                st.caption(f"Sub-period within {current_dasha_info['mahadasha']} Dasha")
             
             with col3:
-                st.metric("🔮 Next Mahadasha", current_dasha_info['next_dasha'],
-                         f"Starts: {current_dasha_info['next_start']}")
+                st.metric("🔮 Next Mahadasha", current_dasha_info['next_dasha'])
+                st.caption(f"Starts: {current_dasha_info['next_start']}")
             
             # Dasha Table
             st.markdown("### 📊 **Complete Dasha Sequence**")
@@ -456,18 +456,18 @@ if analyze_button:
             
             with col1:
                 st.metric("📈 BULLISH PLANETS", "6", 
-                         "Sun, Moon, Venus, Mars, Jupiter, Ketu",
-                         delta="Strong market support")
+                         "Sun, Moon, Venus, Mars, Jupiter, Ketu")
+                st.caption("Strong market support")
             
             with col2:
                 st.metric("📉 BEARISH PLANETS", "2",
-                         "Mercury (R), Saturn (R)",
-                         delta="Communication & traditional sectors")
+                         "Mercury (R), Saturn (R)")
+                st.caption("Communication & traditional sectors")
             
             with col3:
                 st.metric("⚖️ NEUTRAL FORCE", "1",
-                         "Rahu (Innovation)",
-                         delta="Disruptive but opportunity")
+                         "Rahu (Innovation)")
+                st.caption("Disruptive but opportunity")
         
         with tab2:
             st.markdown("""
