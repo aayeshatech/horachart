@@ -392,27 +392,15 @@
         <div class="dashboard">
             <div class="info-panel">
                 <h3>📋 Personal Information</h3>
-                <div class="info-grid">
-                    <div class="info-item"><span><strong>Name:</strong></span><span id="dispName">-</span></div>
-                    <div class="info-item"><span><strong>Date:</strong></span><span id="dispDate">-</span></div>
-                    <div class="info-item"><span><strong>Time:</strong></span><span id="dispTime">-</span></div>
-                    <div class="info-item"><span><strong>Place:</strong></span><span id="dispPlace">-</span></div>
-                    <div class="info-item"><span><strong>Weekday:</strong></span><span id="dispWeekday">-</span></div>
-                    <div class="info-item"><span><strong>Tithi:</strong></span><span id="dispTithi">-</span></div>
-                    <div class="info-item"><span><strong>Nakshatra:</strong></span><span id="dispNakshatra">-</span></div>
-                    <div class="info-item"><span><strong>Yoga:</strong></span><span id="dispYoga">-</span></div>
+                <div class="info-grid" id="personalInfo">
+                    <!-- Personal info will be populated here -->
                 </div>
             </div>
 
             <div class="info-panel">
                 <h3>⏰ Current Transit Status</h3>
-                <div class="info-grid">
-                    <div class="info-item"><span><strong>Current Dasha:</strong></span><span id="currentDasha">-</span></div>
-                    <div class="info-item"><span><strong>Antardasha:</strong></span><span id="currentAntardasha">-</span></div>
-                    <div class="info-item"><span><strong>Pratyantardasha:</strong></span><span id="currentPratyantardasha">-</span></div>
-                    <div class="info-item"><span><strong>Moon Sign:</strong></span><span id="moonSign">-</span></div>
-                    <div class="info-item"><span><strong>Rising Sign:</strong></span><span id="risingSign">-</span></div>
-                    <div class="info-item"><span><strong>Lagna Lord:</strong></span><span id="lagnaLord">-</span></div>
+                <div class="info-grid" id="transitStatus">
+                    <!-- Transit status will be populated here -->
                 </div>
             </div>
         </div>
@@ -436,7 +424,7 @@
         <div class="dasha-panel">
             <div class="dasha-header">⏳ Dasha Analysis & Period Predictions</div>
             <div class="dasha-content">
-                <div class="current-period">
+                <div class="current-period" id="currentPeriod">
                     <h3>🔆 Current Running Period</h3>
                     <div id="currentPeriodInfo">Loading current period...</div>
                 </div>
@@ -453,24 +441,6 @@
                 <p>Communications, family matters, and emotional decisions require extra caution</p>
             </div>
             <div class="transit-grid" id="transitGrid"></div>
-            
-            <div style="margin: 20px; background: rgba(255,255,255,0.95); padding: 15px; border-radius: 10px;">
-                <h4 style="margin-bottom: 10px;">📅 Upcoming Key Transit Dates:</h4>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 10px;">
-                    <div style="background: #d4edda; padding: 10px; border-radius: 5px; border-left: 4px solid #28a745;">
-                        <strong>Aug 11, 2025:</strong> Mercury turns Direct in Cancer - Communication improves
-                    </div>
-                    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; border-left: 4px solid #ffc107;">
-                        <strong>Aug 17, 2025:</strong> Sun enters Leo - Leadership energy increases
-                    </div>
-                    <div style="background: #d4edda; padding: 10px; border-radius: 5px; border-left: 4px solid #28a745;">
-                        <strong>Aug 21, 2025:</strong> Venus enters Cancer - Love and harmony in family
-                    </div>
-                    <div style="background: #f8d7da; padding: 10px; border-radius: 5px; border-left: 4px solid #dc3545;">
-                        <strong>Sep 1, 2025:</strong> Saturn Re-enters Pisces - Spiritual challenges return
-                    </div>
-                </div>
-            </div>
         </div>
 
         <table class="planetary-table">
@@ -491,12 +461,6 @@
     </div>
 
     <script>
-        const planets = ['Sun ☉', 'Moon ☽', 'Mars ♂', 'Mercury ☿', 'Jupiter ♃', 'Venus ♀', 'Saturn ♄', 'Rahu ☊', 'Ketu ☋', 'Ascendant ⬆'];
-        const signs = ['♈ Aries', '♉ Taurus', '♊ Gemini', '♋ Cancer', '♌ Leo', '♍ Virgo', '♎ Libra', '♏ Scorpio', '♐ Sagittarius', '♑ Capricorn', '♒ Aquarius', '♓ Pisces'];
-        const nakshatras = ['Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Ardra', 'Punarvasu', 'Pushya', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni', 'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha', 'Mula', 'Purva Ashadha', 'Uttara Ashadha', 'Shravana', 'Dhanishtha', 'Shatabhisha', 'Purva Bhadrapada', 'Uttara Bhadrapada', 'Revati'];
-        const dashaPlanets = ['Sun', 'Moon', 'Mars', 'Rahu', 'Jupiter', 'Saturn', 'Mercury', 'Ketu', 'Venus'];
-        const dashaYears = [6, 10, 7, 18, 16, 19, 17, 7, 20];
-
         function updateCurrentTime() {
             const now = new Date();
             document.getElementById('currentTime').textContent = now.toLocaleString('en-IN', {
@@ -510,72 +474,58 @@
             });
         }
 
-        function calculateChart() {
-            const name = document.getElementById('name').value || 'Unknown Person';
-            const date = document.getElementById('date').value;
-            const time = document.getElementById('time').value;
-            const place = document.getElementById('place').value || 'Unknown Location';
+        async function calculateChart() {
+            const formData = {
+                name: document.getElementById('name').value || 'Unknown Person',
+                date: document.getElementById('date').value,
+                time: document.getElementById('time').value,
+                place: document.getElementById('place').value || 'Unknown Location',
+                latitude: document.getElementById('latitude').value,
+                longitude: document.getElementById('longitude').value
+            };
 
-            updatePersonalInfo(name, date, time, place);
-            generatePlanetaryData(new Date(date));
-            generateDashaAnalysis(new Date(date));
-            generateTransitData();
-            updateCharts();
+            try {
+                const response = await fetch('/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const data = await response.json();
+                
+                updatePersonalInfo(data.personal_info);
+                updatePlanetaryData(data.planetary_positions);
+                updateTransitData(data.current_transits);
+                updateDashaInfo(data.dasha_info);
+                updateCharts();
+                
+            } catch (error) {
+                console.error('Error calculating chart:', error);
+                alert('Error calculating chart. Please try again.');
+            }
         }
 
-        function updatePersonalInfo(name, date, time, place) {
-            document.getElementById('dispName').textContent = name;
-            document.getElementById('dispDate').textContent = formatDate(date);
-            document.getElementById('dispTime').textContent = time;
-            document.getElementById('dispPlace').textContent = place;
-
-            const dateObj = new Date(date);
-            const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-            document.getElementById('dispWeekday').textContent = weekdays[dateObj.getDay()];
-
-            // Generate dynamic values
-            const tithis = ['Pratipada', 'Dwitiya', 'Tritiya', 'Chaturthi', 'Panchami', 'Shashthi', 'Saptami', 'Ashtami', 'Navami', 'Dashami', 'Ekadashi', 'Dwadashi', 'Trayodashi', 'Chaturdashi', 'Purnima'];
-            const yogas = ['Vishkumbha', 'Preeti', 'Ayushman', 'Saubhagya', 'Shobhana', 'Atiganda', 'Sukarma', 'Dhriti', 'Shula', 'Ganda', 'Vriddhi', 'Dhruva', 'Vyaghata', 'Harshana', 'Vajra', 'Siddhi', 'Vyatipata', 'Variyana', 'Parigha', 'Shiva', 'Siddha', 'Sadhya', 'Shubha', 'Shukla', 'Brahma', 'Indra', 'Vaidhriti'];
-            
-            document.getElementById('dispTithi').textContent = tithis[Math.floor(Math.random() * tithis.length)];
-            document.getElementById('dispNakshatra').textContent = nakshatras[Math.floor(Math.random() * nakshatras.length)];
-            document.getElementById('dispYoga').textContent = yogas[Math.floor(Math.random() * yogas.length)];
-            
-            document.getElementById('moonSign').textContent = signs[Math.floor(Math.random() * 12)];
-            document.getElementById('risingSign').textContent = signs[Math.floor(Math.random() * 12)];
-            document.getElementById('lagnaLord').textContent = planets[Math.floor(Math.random() * 9)];
+        function updatePersonalInfo(info) {
+            const container = document.getElementById('personalInfo');
+            container.innerHTML = `
+                <div class="info-item"><span><strong>Name:</strong></span><span>${info.name}</span></div>
+                <div class="info-item"><span><strong>Date:</strong></span><span>${info.date}</span></div>
+                <div class="info-item"><span><strong>Time:</strong></span><span>${info.time}</span></div>
+                <div class="info-item"><span><strong>Place:</strong></span><span>${info.place}</span></div>
+                <div class="info-item"><span><strong>Weekday:</strong></span><span>${info.weekday}</span></div>
+                <div class="info-item"><span><strong>Tithi:</strong></span><span>${info.tithi}</span></div>
+                <div class="info-item"><span><strong>Nakshatra:</strong></span><span>${info.nakshatra}</span></div>
+            `;
         }
 
-        function formatDate(dateStr) {
-            const date = new Date(dateStr);
-            return date.toLocaleDateString('en-IN', { 
-                day: '2-digit', 
-                month: '2-digit', 
-                year: 'numeric' 
-            });
-        }
-
-        function generatePlanetaryData(birthDate) {
+        function updatePlanetaryData(positions) {
             const tbody = document.getElementById('planetaryData');
             tbody.innerHTML = '';
 
-            // Current real planetary positions (August 7, 2025)
-            const realPositions = [
-                { planet: 'Sun ☉', sign: '♋ Cancer', degree: '20.76', nakshatra: 'Ashlesha', lord: 'Mercury ☿', pada: 2, house: 4, status: 'good', motion: '' },
-                { planet: 'Moon ☽', sign: '♐ Sagittarius', degree: '24.88', nakshatra: 'Purva Ashadha', lord: 'Venus ♀', pada: 4, house: 9, status: 'good', motion: '' },
-                { planet: 'Mercury ☿', sign: '♋ Cancer', degree: '10.93', nakshatra: 'Pushya', lord: 'Saturn ♄', pada: 3, house: 4, status: 'bad', motion: 'Retrograde' },
-                { planet: 'Venus ♀', sign: '♊ Gemini', degree: '13.98', nakshatra: 'Ardra', lord: 'Rahu ☊', pada: 3, house: 3, status: 'good', motion: '' },
-                { planet: 'Mars ♂', sign: '♍ Virgo', degree: '5.94', nakshatra: 'Uttara Phalguni', lord: 'Sun ☉', pada: 3, house: 6, status: 'neutral', motion: '' },
-                { planet: 'Jupiter ♃', sign: '♊ Gemini', degree: '18.81', nakshatra: 'Ardra', lord: 'Rahu ☊', pada: 4, house: 3, status: 'good', motion: '' },
-                { planet: 'Saturn ♄', sign: '♓ Pisces', degree: '7.20', nakshatra: 'Uttara Bhadrapada', lord: 'Saturn ♄', pada: 2, house: 12, status: 'neutral', motion: 'Retrograde' },
-                { planet: 'Rahu ☊', sign: '♒ Aquarius', degree: '25.73', nakshatra: 'Purva Bhadrapada', lord: 'Jupiter ♃', pada: 2, house: 11, status: 'neutral', motion: 'Retrograde' },
-                { planet: 'Ketu ☋', sign: '♌ Leo', degree: '25.73', nakshatra: 'Purva Phalguni', lord: 'Venus ♀', pada: 4, house: 5, status: 'neutral', motion: 'Retrograde' },
-                { planet: 'Ascendant ⬆', sign: '♉ Taurus', degree: '15.00', nakshatra: 'Rohini', lord: 'Moon ☽', pada: 2, house: 1, status: 'good', motion: '' }
-            ];
-
-            realPositions.forEach((pos, index) => {
+            positions.forEach(pos => {
                 const row = document.createElement('tr');
-                
                 let statusText = 'Neutral';
                 if (pos.status === 'good') statusText = 'Favorable';
                 if (pos.status === 'bad') statusText = 'Challenging';
@@ -596,142 +546,11 @@
             });
         }
 
-        function generateDashaAnalysis(birthDate) {
-            // Calculate current dasha based on birth date
-            const now = new Date();
-            const ageInYears = (now - birthDate) / (365.25 * 24 * 60 * 60 * 1000);
-            
-            let totalYears = 0;
-            let currentMainDasha = '';
-            let currentAntardasha = '';
-            let currentPratyantardasha = '';
-            
-            // Find current main dasha
-            for (let i = 0; i < dashaPlanets.length; i++) {
-                if (ageInYears >= totalYears && ageInYears < totalYears + dashaYears[i]) {
-                    currentMainDasha = dashaPlanets[i];
-                    
-                    // Calculate antardasha
-                    const dashaProgress = ageInYears - totalYears;
-                    const antardashaDuration = dashaYears[i] / dashaPlanets.length;
-                    const antardashaIndex = Math.floor(dashaProgress / antardashaDuration);
-                    currentAntardasha = dashaPlanets[antardashaIndex % dashaPlanets.length];
-                    
-                    // Calculate pratyantardasha
-                    const antardashaProgress = dashaProgress % antardashaDuration;
-                    const pratyantardashaDuration = antardashaDuration / dashaPlanets.length;
-                    const pratyantardashaIndex = Math.floor(antardashaProgress / pratyantardashaDuration);
-                    currentPratyantardasha = dashaPlanets[pratyantardashaIndex % dashaPlanets.length];
-                    
-                    break;
-                }
-                totalYears += dashaYears[i];
-            }
+        function updateTransitData(transits) {
+            const grid = document.getElementById('transitGrid');
+            grid.innerHTML = '';
 
-            // Update current dasha info
-            document.getElementById('currentDasha').textContent = currentMainDasha;
-            document.getElementById('currentAntardasha').textContent = currentAntardasha;
-            document.getElementById('currentPratyantardasha').textContent = currentPratyantardasha;
-
-            // Generate current period info with real transit considerations
-            const periodInfo = `
-                <strong>Main Dasha:</strong> ${currentMainDasha} (${getDashaStatus(currentMainDasha)})<br>
-                <strong>Antardasha:</strong> ${currentAntardasha} (${getDashaStatus(currentAntardasha)})<br>
-                <strong>Pratyantardasha:</strong> ${currentPratyantardasha} (${getDashaStatus(currentPratyantardasha)})<br>
-                <strong>Overall Period:</strong> ${getOverallPeriodStatus(currentMainDasha, currentAntardasha)}<br>
-                <strong>Current Key Transit:</strong> Mercury Retrograde in Cancer (Caution advised)<br>
-                <strong>Next Major Transit:</strong> Mars enters Libra (Aug 6, 2025)
-            `;
-            document.getElementById('currentPeriodInfo').innerHTML = periodInfo;
-
-            // Generate period breakdown
-            generatePeriodBreakdown(birthDate, currentMainDasha);
-        }
-
-        function getDashaStatus(planet) {
-            const beneficPlanets = ['Jupiter', 'Venus', 'Moon'];
-            const maleficPlanets = ['Saturn', 'Mars', 'Rahu', 'Ketu'];
-            
-            if (beneficPlanets.includes(planet)) return 'Favorable';
-            if (maleficPlanets.includes(planet)) return 'Challenging';
-            return 'Mixed Results';
-        }
-
-        function getOverallPeriodStatus(mainDasha, antardasha) {
-            const beneficPlanets = ['Jupiter', 'Venus', 'Moon'];
-            const maleficPlanets = ['Saturn', 'Mars', 'Rahu', 'Ketu'];
-            
-            const mainIsBenefic = beneficPlanets.includes(mainDasha);
-            const antarIsBenefic = beneficPlanets.includes(antardasha);
-            
-            if (mainIsBenefic && antarIsBenefic) return 'Highly Favorable';
-            if (maleficPlanets.includes(mainDasha) && maleficPlanets.includes(antardasha)) return 'Challenging';
-            return 'Mixed Results';
-        }
-
-        function generatePeriodBreakdown(birthDate, currentMainDasha) {
-            const breakdown = document.getElementById('periodBreakdown');
-            breakdown.innerHTML = '';
-
-            const now = new Date();
-            
-            dashaPlanets.forEach((planet, index) => {
-                const card = document.createElement('div');
-                
-                // Determine period type
-                let periodClass = 'neutral-period';
-                let statusIcon = '⚖️';
-                let description = 'Mixed results expected';
-                
-                if (['Jupiter', 'Venus', 'Moon'].includes(planet)) {
-                    periodClass = 'good-period';
-                    statusIcon = '✅';
-                    description = 'Favorable period for growth and prosperity';
-                } else if (['Saturn', 'Mars', 'Rahu', 'Ketu'].includes(planet)) {
-                    periodClass = 'bad-period';
-                    statusIcon = '⚠️';
-                    description = 'Challenging period requiring caution';
-                }
-
-                // Calculate approximate dates
-                const startYear = new Date(birthDate).getFullYear() + (index * 8);
-                const endYear = startYear + dashaYears[index];
-                
-                card.className = `period-card ${periodClass}`;
-                card.innerHTML = `
-                    <div class="period-title">${statusIcon} ${planet} Mahadasha</div>
-                    <div class="period-details">
-                        <strong>Duration:</strong> ${dashaYears[index]} years (${startYear} - ${endYear})<br>
-                        <strong>Status:</strong> ${description}<br>
-                        <strong>Current:</strong> ${planet === currentMainDasha ? 'Running Now' : (startYear <= now.getFullYear() ? 'Completed' : 'Upcoming')}
-                    </div>
-                `;
-                
-                breakdown.appendChild(card);
-            });
-        }
-
-        function generateTransitData() {
-            const transitGrid = document.getElementById('transitGrid');
-            transitGrid.innerHTML = '';
-
-            // Real current planetary positions as of August 7, 2025
-            const currentTransits = [
-                { planet: 'Sun ☉', sign: '♋ Cancer (20.76°)', house: 'Ashlesha Nakshatra', effect: 'Emotional depth & family focus', status: 'good' },
-                { planet: 'Moon ☽', sign: '♐ Sagittarius (24.88°)', house: 'Purva Ashadha', effect: 'Spiritual expansion & optimism', status: 'good' },
-                { planet: 'Mercury ☿', sign: '♋ Cancer (10.93°) ℞', house: 'Pushya Nakshatra', effect: 'Communication delays (Retrograde)', status: 'bad' },
-                { planet: 'Venus ♀', sign: '♊ Gemini (13.98°)', house: 'Ardra Nakshatra', effect: 'Social versatility & learning', status: 'good' },
-                { planet: 'Mars ♂', sign: '♍ Virgo (5.94°)', house: 'Uttara Phalguni', effect: 'Practical action & organization', status: 'good' },
-                { planet: 'Jupiter ♃', sign: '♊ Gemini (18.81°)', house: 'Ardra Nakshatra', effect: 'Knowledge expansion & teaching', status: 'good' },
-                { planet: 'Saturn ♄', sign: '♓ Pisces (7.2°) ℞', house: 'Uttara Bhadrapada', effect: 'Spiritual lessons (Retrograde)', status: 'neutral' },
-                { planet: 'Rahu ☊', sign: '♒ Aquarius (25.73°) ℞', house: 'Purva Bhadrapada', effect: 'Humanitarian focus', status: 'neutral' },
-                { planet: 'Ketu ☋', sign: '♌ Leo (25.73°) ℞', house: 'Purva Phalguni', effect: 'Creative detachment', status: 'neutral' },
-                { planet: 'Uranus ♅', sign: '♉ Taurus (6.87°)', house: 'Krittika Nakshatra', effect: 'Material innovation', status: 'neutral' },
-                { planet: 'Neptune ♆', sign: '♓ Pisces (7.67°) ℞', house: 'Uttara Bhadrapada', effect: 'Spiritual illusions', status: 'neutral' },
-                { planet: 'Pluto ♇', sign: '♑ Capricorn (8.07°) ℞', house: 'Uttara Ashadha', effect: 'Structural transformation', status: 'bad' }
-            ];
-
-            currentTransits.forEach(transit => {
+            transits.forEach(transit => {
                 const card = document.createElement('div');
                 card.className = 'transit-card';
                 
@@ -742,12 +561,21 @@
                 card.innerHTML = `
                     <h4 style="color: ${statusColor}; margin-bottom: 10px;">${transit.planet}</h4>
                     <p><strong>Current Sign:</strong> ${transit.sign}</p>
-                    <p><strong>House:</strong> ${transit.house}</p>
+                    <p><strong>Nakshatra:</strong> ${transit.house}</p>
                     <p><strong>Effect:</strong> ${transit.effect}</p>
                 `;
                 
-                transitGrid.appendChild(card);
+                grid.appendChild(card);
             });
+        }
+
+        function updateDashaInfo(dashaInfo) {
+            const currentPeriodInfo = document.getElementById('currentPeriodInfo');
+            currentPeriodInfo.innerHTML = `
+                <strong>Main Dasha:</strong> ${dashaInfo.current_dasha}<br>
+                <strong>Antardasha:</strong> ${dashaInfo.current_antardasha}<br>
+                <strong>Status:</strong> Currently running period
+            `;
         }
 
         function updateCharts() {
@@ -759,7 +587,6 @@
             const chart = document.getElementById(chartId);
             chart.innerHTML = '';
 
-            // Create chart grid (North Indian style)
             const houseOrder = [12, 1, 2, 3, 11, '', '', 4, 10, '', '', 5, 9, 8, 7, 6];
             
             houseOrder.forEach((house, index) => {
@@ -775,7 +602,6 @@
                     houseNum.textContent = house;
                     cell.appendChild(houseNum);
 
-                    // Add random planets to houses
                     if (Math.random() > 0.7) {
                         const planetList = document.createElement('div');
                         planetList.className = 'planet-list';
@@ -803,9 +629,7 @@
             updateCurrentTime();
             setInterval(updateCurrentTime, 1000);
             
-            // Set default date to today
             document.getElementById('date').value = new Date().toISOString().split('T')[0];
-            calculateChart();
         };
     </script>
 </body>
