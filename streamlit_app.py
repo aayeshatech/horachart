@@ -400,8 +400,9 @@ def get_current_dasha_info(birth_date):
 
 def get_financial_instruments_analysis():
     """Get detailed financial analysis for specific instruments"""
-    return {
-        "NIFTY": {
+    return [
+        {
+            "name": "NIFTY",
             "current_trend": "Bullish",
             "planetary_influence": "Jupiter in Gemini + Sun in Cancer",
             "intraday": "Buy on dips 9:30-10:30 AM, Sell peaks 2:30-3:15 PM",
@@ -409,7 +410,8 @@ def get_financial_instruments_analysis():
             "monthly": "Expect 8-12% growth, support at 24,500",
             "key_dates": "Aug 17-25 (Sun in Leo), Oct 18+ (Jupiter in Cancer)"
         },
-        "BANK_NIFTY": {
+        {
+            "name": "BANK_NIFTY",
             "current_trend": "Bullish",
             "planetary_influence": "Sun in Cancer (Traditional banking strong)",
             "intraday": "Strong 10:00-11:30 AM, Weak 1:00-2:00 PM",
@@ -417,7 +419,8 @@ def get_financial_instruments_analysis():
             "monthly": "15-20% growth potential, buy on corrections",
             "key_dates": "Aug 21+ (Venus in Cancer), Family banking focus"
         },
-        "GOLD": {
+        {
+            "name": "GOLD",
             "current_trend": "Bullish",
             "planetary_influence": "Sun (Gold ruler) in exaltation degree",
             "intraday": "Buy 9:15-9:45 AM, Sell 2:45-3:15 PM",
@@ -425,7 +428,8 @@ def get_financial_instruments_analysis():
             "monthly": "12-18% upside, accumulate on dips",
             "key_dates": "Aug 17 (Sun → Leo), Traditional strength"
         },
-        "SILVER": {
+        {
+            "name": "SILVER",
             "current_trend": "Bullish",
             "planetary_influence": "Moon in Sagittarius (Silver lord strong)",
             "intraday": "Volatile, trade with stops, best 10:30-11:30 AM",
@@ -433,7 +437,8 @@ def get_financial_instruments_analysis():
             "monthly": "20-25% potential, more volatile than gold",
             "key_dates": "Full Moon periods, Lunar eclipses"
         },
-        "CRUDE_OIL": {
+        {
+            "name": "CRUDE_OIL",
             "current_trend": "Bearish",
             "planetary_influence": "Saturn retrograde (Oil industry challenges)",
             "intraday": "Sell rallies 10:00-11:00 AM, Cover 2:30-3:00 PM",
@@ -441,7 +446,8 @@ def get_financial_instruments_analysis():
             "monthly": "10-15% downside, renewable transition",
             "key_dates": "Sep 1 (Saturn direct), Energy transition"
         },
-        "BITCOIN": {
+        {
+            "name": "BITCOIN",
             "current_trend": "Neutral",
             "planetary_influence": "Rahu in Aquarius (Cryptocurrency ruler)",
             "intraday": "High volatility, avoid Mercury retrograde period",
@@ -449,7 +455,7 @@ def get_financial_instruments_analysis():
             "monthly": "Innovation cycles, regulatory clarity needed",
             "key_dates": "Aug 12+ (Mercury direct), Tech recovery"
         }
-    }
+    ]
 
 # Main Analysis
 if analyze_button:
@@ -967,16 +973,14 @@ if analyze_button:
             instruments = get_financial_instruments_analysis()
             
             # Display instruments in 3-column layout
-            instrument_names = list(instruments.keys())
-            
-            for i in range(0, len(instrument_names), 3):
+            for i in range(0, len(instruments), 3):
                 col1, col2, col3 = st.columns(3)
                 cols = [col1, col2, col3]
                 
                 for j, col in enumerate(cols):
-                    if i + j < len(instrument_names):
-                        inst_name = instrument_names[i + j]
-                        inst_data = instruments[inst_name]
+                    if i + j < len(instruments):
+                        inst_data = instruments[i + j]
+                        inst_name = inst_data["name"]
                         
                         if inst_data["current_trend"] == "Bullish":
                             card_class = "market-bullish"
