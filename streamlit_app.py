@@ -15,15 +15,15 @@ st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600&display=swap');
     
-    /* Global Styles - Lighter Cosmic Theme */
+    /* Global Styles - Light Cosmic Theme with Dark Text */
     .main {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
-        color: #ffffff;
+        background: linear-gradient(135deg, #f8f9ff 0%, #e6f0ff 25%, #d4e6ff 50%, #c2dcff 75%, #b0d2ff 100%);
+        color: #1a1a2e;
         font-family: 'Space Grotesk', sans-serif;
     }
     
     .stApp {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #7209b7 100%);
+        background: linear-gradient(135deg, #f8f9ff 0%, #e6f0ff 25%, #d4e6ff 50%, #c2dcff 75%, #b0d2ff 100%);
     }
     
     /* Enhanced Stars Background */
@@ -144,55 +144,60 @@ st.markdown("""
     .earth { background: linear-gradient(45deg, #6b93d6, #4a90e2); box-shadow: 0 0 15px #6b93d6; }
     .mars { background: linear-gradient(45deg, #c1440e, #e74c3c); box-shadow: 0 0 15px #c1440e; }
     
-    /* Tab Styling */
+    /* Tab Styling - Improved contrast */
     .stTabs [data-baseweb="tab-list"] {
         gap: 10px;
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.7);
         padding: 10px;
         border-radius: 15px;
         backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
     
     .stTabs [data-baseweb="tab"] {
         height: 60px;
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8), rgba(118, 75, 162, 0.8));
         border-radius: 15px;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
         color: #ffffff;
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 600;
         font-size: 16px;
         transition: all 0.3s ease;
         backdrop-filter: blur(5px);
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
     
     .stTabs [data-baseweb="tab"]:hover {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.9), rgba(118, 75, 162, 0.9));
         transform: translateY(-2px);
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
+        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        color: #ffffff;
     }
     
     .stTabs [aria-selected="true"] {
         background: linear-gradient(135deg, #667eea, #764ba2) !important;
         box-shadow: 0 5px 25px rgba(102, 126, 234, 0.5);
         transform: translateY(-2px);
+        color: #ffffff !important;
     }
     
-    /* Enhanced Input Fields with Better Fonts */
+    /* Enhanced Input Fields with Better Contrast */
     .stTextInput > div > div > input,
     .stDateInput > div > div > input,
     .stTimeInput > div > div > input,
     .stSelectbox > div > div > input {
-        background: rgba(255, 255, 255, 0.15) !important;
+        background: rgba(255, 255, 255, 0.9) !important;
         border: 2px solid rgba(102, 126, 234, 0.4) !important;
         border-radius: 12px !important;
-        color: #ffffff !important;
+        color: #1a1a2e !important;
         font-family: 'Inter', sans-serif !important;
         font-size: 16px !important;
         font-weight: 500 !important;
         padding: 12px 16px !important;
         backdrop-filter: blur(10px) !important;
         transition: all 0.3s ease !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1) !important;
     }
     
     .stTextInput > div > div > input:focus,
@@ -200,44 +205,58 @@ st.markdown("""
     .stTimeInput > div > div > input:focus {
         border-color: #667eea !important;
         box-shadow: 0 0 20px rgba(102, 126, 234, 0.5) !important;
-        background: rgba(255, 255, 255, 0.2) !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        color: #1a1a2e !important;
     }
     
-    /* Input Labels */
+    .stTextInput > div > div > input::placeholder,
+    .stDateInput > div > div > input::placeholder,
+    .stTimeInput > div > div > input::placeholder {
+        color: #6c757d !important;
+        opacity: 0.7 !important;
+    }
+    
+    /* Input Labels - Dark text for visibility */
     .stTextInput > label,
     .stDateInput > label,
     .stTimeInput > label,
     .stSelectbox > label {
-        color: #ffffff !important;
+        color: #1a1a2e !important;
         font-family: 'Space Grotesk', sans-serif !important;
         font-weight: 600 !important;
         font-size: 16px !important;
-        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3) !important;
+        text-shadow: 0 1px 3px rgba(255, 255, 255, 0.8) !important;
     }
     
-    /* Enhanced Panels */
+    /* Enhanced Panels - Light theme with dark text */
     .cosmic-panel {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.75));
         backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(102, 126, 234, 0.3);
         border-radius: 20px;
         padding: 30px;
         margin: 25px 0;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
         position: relative;
         overflow: hidden;
         transition: all 0.3s ease;
+        color: #1a1a2e;
     }
     
     .cosmic-panel:hover {
         transform: translateY(-5px);
         box-shadow: 0 15px 50px rgba(102, 126, 234, 0.2);
-        border-color: rgba(255, 255, 255, 0.4);
+        border-color: rgba(102, 126, 234, 0.5);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
     }
     
-    /* Mercury Alert - Less Intense */
+    .cosmic-panel h2, .cosmic-panel h3 {
+        color: #1a1a2e !important;
+    }
+    
+    /* Mercury Alert - Improved contrast */
     .mercury-alert {
-        background: linear-gradient(135deg, rgba(255, 107, 107, 0.8), rgba(255, 71, 87, 0.6));
+        background: linear-gradient(135deg, #ff6b6b 0%, #ff5252 50%, #ff4757 100%);
         padding: 25px;
         border-radius: 20px;
         text-align: center;
@@ -245,6 +264,7 @@ st.markdown("""
         animation: gentleAlert 3s ease-in-out infinite;
         box-shadow: 0 10px 30px rgba(255, 107, 107, 0.3);
         backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.3);
     }
     
     @keyframes gentleAlert {
@@ -252,9 +272,14 @@ st.markdown("""
         50% { transform: scale(1.01); box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4); }
     }
     
-    /* Planet Cards */
+    .mercury-alert h2, .mercury-alert p {
+        color: #ffffff !important;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    }
+    
+    /* Planet Cards - Light theme with dark text */
     .planet-card {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
         border-radius: 15px;
         padding: 25px;
         margin: 15px 0;
@@ -263,54 +288,76 @@ st.markdown("""
         transition: all 0.3s ease;
         backdrop-filter: blur(10px);
         font-family: 'Space Grotesk', sans-serif;
+        color: #1a1a2e;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
     
     .planet-card:hover {
         transform: translateX(8px);
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.12));
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    }
+    
+    .planet-card h3 {
+        color: #1a1a2e !important;
+    }
+    
+    .planet-card p {
+        color: #2c3e50 !important;
     }
     
     .planet-good {
-        border-left-color: #00d4aa;
-        background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 200, 160, 0.1));
+        border-left-color: #00a085;
+        background: linear-gradient(135deg, rgba(0, 212, 170, 0.1), rgba(255, 255, 255, 0.9));
     }
     
     .planet-challenging {
-        border-left-color: #ff6b6b;
-        background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 80, 80, 0.1));
+        border-left-color: #e74c3c;
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 255, 255, 0.9));
     }
     
     .planet-neutral {
-        border-left-color: #feca57;
-        background: linear-gradient(135deg, rgba(254, 202, 87, 0.15), rgba(255, 165, 2, 0.1));
+        border-left-color: #f39c12;
+        background: linear-gradient(135deg, rgba(254, 202, 87, 0.1), rgba(255, 255, 255, 0.9));
     }
     
-    /* Metrics */
+    /* Metrics - Light theme */
     .cosmic-metric {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8));
         border-radius: 15px;
         padding: 25px;
         text-align: center;
         margin: 15px 0;
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(102, 126, 234, 0.3);
         transition: all 0.3s ease;
         position: relative;
         overflow: hidden;
         backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        color: #1a1a2e;
     }
     
     .cosmic-metric:hover {
         transform: scale(1.03);
         box-shadow: 0 10px 35px rgba(102, 126, 234, 0.25);
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.12));
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
     }
     
-    /* Sidebar Enhancement */
+    .cosmic-metric h3 {
+        color: #667eea !important;
+        font-family: 'Space Grotesk', sans-serif !important;
+    }
+    
+    .cosmic-metric p {
+        color: #1a1a2e !important;
+    }
+    
+    /* Sidebar Enhancement - Light theme */
     .css-1d391kg {
-        background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)) !important;
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.6)) !important;
         backdrop-filter: blur(15px) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border-right: 1px solid rgba(102, 126, 234, 0.3) !important;
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1) !important;
     }
     
     /* Enhanced Buttons */
@@ -335,26 +382,34 @@ st.markdown("""
         background: linear-gradient(135deg, #764ba2, #f093fb) !important;
     }
     
-    /* Success/Error/Info Messages */
+    /* Success/Error/Info Messages - Better contrast */
     .stSuccess {
-        background: linear-gradient(135deg, rgba(0, 212, 170, 0.15), rgba(0, 200, 160, 0.1)) !important;
-        border: 1px solid rgba(0, 212, 170, 0.4) !important;
+        background: linear-gradient(135deg, rgba(0, 212, 170, 0.9), rgba(0, 180, 150, 0.8)) !important;
+        border: 1px solid rgba(0, 150, 130, 0.6) !important;
         border-radius: 12px !important;
         backdrop-filter: blur(10px) !important;
+        color: #ffffff !important;
     }
     
     .stError {
-        background: linear-gradient(135deg, rgba(255, 107, 107, 0.15), rgba(255, 80, 80, 0.1)) !important;
-        border: 1px solid rgba(255, 107, 107, 0.4) !important;
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(255, 80, 80, 0.8)) !important;
+        border: 1px solid rgba(255, 60, 60, 0.6) !important;
         border-radius: 12px !important;
         backdrop-filter: blur(10px) !important;
+        color: #ffffff !important;
     }
     
     .stWarning, .stInfo {
-        background: linear-gradient(135deg, rgba(254, 202, 87, 0.15), rgba(255, 165, 2, 0.1)) !important;
-        border: 1px solid rgba(254, 202, 87, 0.4) !important;
+        background: linear-gradient(135deg, rgba(254, 202, 87, 0.9), rgba(255, 165, 2, 0.8)) !important;
+        border: 1px solid rgba(255, 140, 0, 0.6) !important;
         border-radius: 12px !important;
         backdrop-filter: blur(10px) !important;
+        color: #ffffff !important;
+    }
+    
+    .stSuccess div, .stError div, .stWarning div, .stInfo div {
+        color: #ffffff !important;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
     }
     
     /* Tab Content Styling */
@@ -464,9 +519,11 @@ st.markdown("""
 # Enhanced Sidebar with Better Input Styling
 with st.sidebar:
     st.markdown("""
-    <div style="background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); 
-                padding: 25px; border-radius: 20px; margin-bottom: 20px; backdrop-filter: blur(10px);">
-        <h2 style="color: #ffffff; text-align: center; font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+    <div style="background: linear-gradient(135deg, #667eea, #764ba2); 
+                padding: 25px; border-radius: 20px; margin-bottom: 20px; backdrop-filter: blur(10px);
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+        <h2 style="color: #ffffff; text-align: center; font-family: 'Orbitron', monospace; margin-bottom: 20px;
+                   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);">
             🌟 COSMIC COORDINATES
         </h2>
     </div>
@@ -506,10 +563,11 @@ with st.sidebar:
     # Real-time cosmic clock
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     st.markdown(f"""
-    <div style="background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2)); 
-                padding: 20px; border-radius: 15px; text-align: center; margin: 15px 0; backdrop-filter: blur(10px);">
-        <h4 style="color: #ffffff; margin: 0; font-family: 'Orbitron', monospace;">🕐 COSMIC TIME</h4>
-        <p style="color: #ffffff; font-size: 1.1em; margin: 8px 0 0 0; font-family: 'Inter', monospace;">
+    <div style="background: linear-gradient(135deg, #667eea, #764ba2); 
+                padding: 20px; border-radius: 15px; text-align: center; margin: 15px 0; 
+                backdrop-filter: blur(10px); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);">
+        <h4 style="color: #ffffff; margin: 0; font-family: 'Orbitron', monospace; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);">🕐 COSMIC TIME</h4>
+        <p style="color: #ffffff; font-size: 1.1em; margin: 8px 0 0 0; font-family: 'Inter', monospace; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);">
             {current_time}
         </p>
     </div>
@@ -889,16 +947,18 @@ else:
     # Enhanced Welcome Screen
     st.markdown("""
     <div class="cosmic-panel">
-        <h2 style="text-align: center; color: #ffffff; font-family: 'Orbitron', monospace; margin-bottom: 20px;">
+        <h2 style="text-align: center; color: #1a1a2e; font-family: 'Orbitron', monospace; margin-bottom: 20px;">
             🌌 WELCOME TO THE COSMIC INTELLIGENCE CENTER
         </h2>
-        <p style="text-align: center; color: #e0e0e0; font-size: 1.3em; margin: 25px 0; font-family: 'Space Grotesk', sans-serif; line-height: 1.6;">
+        <p style="text-align: center; color: #2c3e50; font-size: 1.3em; margin: 25px 0; font-family: 'Space Grotesk', sans-serif; line-height: 1.6;">
             Enter your cosmic coordinates in the sidebar and initiate your comprehensive stellar analysis
         </p>
         <div style="text-align: center; margin: 30px 0;">
-            <div style="display: inline-block; background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2)); 
-                        padding: 20px 40px; border-radius: 50px; border: 2px solid rgba(255, 255, 255, 0.3);">
-                <span style="font-size: 1.2em; color: #ffffff; font-family: 'Space Grotesk', sans-serif;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); 
+                        padding: 20px 40px; border-radius: 50px; border: 2px solid rgba(255, 255, 255, 0.3);
+                        box-shadow: 0 5px 25px rgba(102, 126, 234, 0.3);">
+                <span style="font-size: 1.2em; color: #ffffff; font-family: 'Space Grotesk', sans-serif;
+                           text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);">
                     🚀 Ready for cosmic navigation
                 </span>
             </div>
@@ -929,15 +989,16 @@ else:
 # Enhanced Footer
 st.markdown("""
 <div style="text-align: center; margin: 50px 0 30px 0; padding: 35px; 
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05)); 
-            border-radius: 25px; backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.2);">
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.8)); 
+            border-radius: 25px; backdrop-filter: blur(15px); border: 1px solid rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);">
     <h3 style="color: #667eea; margin-bottom: 15px; font-family: 'Orbitron', monospace;">
         🌌 COSMIC MISSION CONTROL
     </h3>
-    <p style="color: #ffffff; font-size: 1.1em; font-family: 'Space Grotesk', sans-serif; margin-bottom: 10px;">
+    <p style="color: #1a1a2e; font-size: 1.1em; font-family: 'Space Grotesk', sans-serif; margin-bottom: 10px; font-weight: 500;">
         Powered by Real Astronomical Data | Solar System Coordinates: August 7, 2025
     </p>
-    <p style="color: #e0e0e0; font-family: 'Inter', sans-serif; font-size: 0.95em;">
+    <p style="color: #2c3e50; font-family: 'Inter', sans-serif; font-size: 0.95em;">
         Advanced cosmic navigation utilizing precise astronomical calculations & ancient Vedic wisdom
     </p>
 </div>
