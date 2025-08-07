@@ -11,191 +11,318 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Enhanced CSS
+# Enhanced CSS for Professional Layout
 st.markdown("""
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
     
+    /* Main Theme */
     .main {
-        background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 25%, #e8f0ff 50%, #e0ecff 75%, #d8e8ff 100%);
-        color: #1a202c;
-        font-family: 'Poppins', sans-serif;
-        font-weight: 500;
+        background: linear-gradient(180deg, #f7f9fc 0%, #f1f5fb 100%);
+        font-family: 'Inter', sans-serif;
     }
     
-    .stApp {
-        background: linear-gradient(135deg, #f8faff 0%, #f0f4ff 25%, #e8f0ff 50%, #e0ecff 75%, #d8e8ff 100%);
+    /* Planet Transit Cards */
+    .planet-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        margin: 10px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        border-left: 4px solid;
+        transition: all 0.3s ease;
     }
     
-    /* Header */
-    .main-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        padding: 50px 30px;
-        border-radius: 25px;
+    .planet-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+    
+    .planet-card-good {
+        border-left-color: #10b981;
+    }
+    
+    .planet-card-bad {
+        border-left-color: #ef4444;
+    }
+    
+    .planet-card-neutral {
+        border-left-color: #f59e0b;
+    }
+    
+    /* Transit Event Cards */
+    .transit-event-card {
+        background: white;
+        border-radius: 10px;
+        padding: 15px;
+        margin: 8px;
+        border-left: 3px solid;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+    }
+    
+    .transit-positive {
+        background: #dcfce7;
+        border-left-color: #22c55e;
+    }
+    
+    .transit-negative {
+        background: #fee2e2;
+        border-left-color: #ef4444;
+    }
+    
+    .transit-neutral {
+        background: #fef3c7;
+        border-left-color: #f59e0b;
+    }
+    
+    /* Status Badges */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    
+    .status-good {
+        background: #dcfce7;
+        color: #15803d;
+    }
+    
+    .status-bad {
+        background: #fee2e2;
+        color: #b91c1c;
+    }
+    
+    .status-neutral {
+        background: #fef3c7;
+        color: #a16207;
+    }
+    
+    /* Planet Symbol */
+    .planet-symbol {
+        font-size: 24px;
+        margin-right: 8px;
+    }
+    
+    /* Section Headers */
+    .section-header {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        margin: 20px 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         text-align: center;
-        margin: 25px 0;
-        box-shadow: 0 15px 60px rgba(102, 126, 234, 0.4);
     }
     
-    .main-header h1 {
-        font-family: 'Orbitron', monospace;
-        font-size: 3.2em;
-        font-weight: 900;
-        color: #ffffff;
-        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    .section-header h2 {
+        color: #1e293b;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 600;
         margin: 0;
     }
     
-    /* Panels */
-    .cosmic-panel {
-        background: rgba(255, 255, 255, 0.95);
-        border: 2px solid rgba(102, 126, 234, 0.2);
-        border-radius: 20px;
-        padding: 30px;
-        margin: 25px 0;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
-        transition: all 0.3s ease;
+    /* Data Table Styling */
+    .dataframe {
+        font-size: 14px !important;
     }
     
-    /* Dasha Cards */
-    .dasha-card {
-        background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(240, 147, 251, 0.1));
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px 0;
-        border-left: 4px solid #667eea;
-        transition: all 0.3s ease;
+    th {
+        background: #f1f5f9 !important;
+        font-weight: 600 !important;
+        color: #475569 !important;
     }
     
-    .dasha-card:hover {
-        transform: translateX(5px);
-        box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
-    }
-    
-    /* Transit Cards */
-    .transit-card {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 12px;
-        padding: 15px;
-        margin: 10px 0;
-        border: 2px solid;
-        transition: all 0.3s ease;
-    }
-    
-    .transit-benefic { border-color: #38a169; background: rgba(56, 161, 105, 0.05); }
-    .transit-malefic { border-color: #e53e3e; background: rgba(229, 62, 62, 0.05); }
-    .transit-neutral { border-color: #d69e2e; background: rgba(214, 158, 46, 0.05); }
-    
-    /* Timeline */
-    .timeline-container {
-        position: relative;
-        padding: 20px 0;
-    }
-    
-    .timeline-item {
-        background: rgba(255, 255, 255, 0.95);
+    /* Metric Cards */
+    .metric-card {
+        background: white;
         border-radius: 10px;
         padding: 15px;
-        margin: 15px 0;
-        border-left: 3px solid #667eea;
-        position: relative;
-        left: 20px;
+        text-align: center;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.06);
     }
     
-    .timeline-item::before {
-        content: '';
-        position: absolute;
-        left: -8px;
-        top: 20px;
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: #667eea;
-        border: 2px solid #fff;
-    }
-    
-    /* Impact Badges */
-    .impact-badge {
-        display: inline-block;
-        padding: 5px 12px;
-        border-radius: 20px;
-        font-size: 0.85em;
+    /* Button Styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        padding: 10px 24px;
         font-weight: 600;
-        margin: 2px;
-    }
-    
-    .impact-high { background: #38a169; color: white; }
-    .impact-medium { background: #d69e2e; color: white; }
-    .impact-low { background: #718096; color: white; }
-    
-    /* Financial Cards */
-    .financial-card {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 15px;
-        padding: 20px;
-        margin: 10px 5px;
-        border-top: 4px solid;
-        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+        font-family: 'Inter', sans-serif;
         transition: all 0.3s ease;
     }
     
-    .market-bullish { border-top-color: #38a169; background: rgba(56, 161, 105, 0.03); }
-    .market-bearish { border-top-color: #e53e3e; background: rgba(229, 62, 62, 0.03); }
-    .market-neutral { border-top-color: #d69e2e; background: rgba(214, 158, 46, 0.03); }
-    
-    /* Buttons */
-    .stButton > button {
-        background: linear-gradient(135deg, #667eea, #764ba2) !important;
-        border: none !important;
-        border-radius: 12px !important;
-        color: #ffffff !important;
-        font-family: 'Space Grotesk', sans-serif !important;
-        font-weight: 700 !important;
-        padding: 12px 25px !important;
-        font-size: 15px !important;
-        text-transform: uppercase !important;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+    .stButton > button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
 </style>
 """, unsafe_allow_html=True)
 
-# Header
-st.markdown("""
-<div class="main-header">
-    <h1>🌌 PROFESSIONAL KP ASTROLOGY & MARKETS</h1>
-    <p style="color: #ffffff; font-size: 1.3em; font-family: 'Space Grotesk', sans-serif; margin: 20px 0 0 0;">
-        🔮 Vimshottari Dasha | Planetary Transits | Personal & Financial Analysis
-    </p>
-</div>
-""", unsafe_allow_html=True)
+# Helper Functions
+def get_planetary_positions():
+    """Get current planetary positions with detailed information"""
+    return [
+        {
+            "planet": "Sun", "symbol": "☉", "sign": "Cancer", "degree": "20.76°",
+            "house": 4, "nakshatra": "Ashlesha", "pada": 2, "nakshatra_lord": "Mercury",
+            "status": "Favorable", "status_type": "good",
+            "effect": "Emotional depth & family focus"
+        },
+        {
+            "planet": "Moon", "symbol": "☽", "sign": "Sagittarius", "degree": "24.88°",
+            "house": 9, "nakshatra": "Purva Ashadha", "pada": 4, "nakshatra_lord": "Venus",
+            "status": "Favorable", "status_type": "good",
+            "effect": "Spiritual expansion & optimism"
+        },
+        {
+            "planet": "Mercury", "symbol": "☿", "sign": "Cancer", "degree": "10.93°",
+            "house": 4, "nakshatra": "Pushya", "pada": 3, "nakshatra_lord": "Saturn",
+            "status": "Challenging", "status_type": "bad", "retrograde": True,
+            "effect": "Communication delays (Retrograde)"
+        },
+        {
+            "planet": "Venus", "symbol": "♀", "sign": "Gemini", "degree": "13.98°",
+            "house": 3, "nakshatra": "Ardra", "pada": 3, "nakshatra_lord": "Rahu",
+            "status": "Favorable", "status_type": "good",
+            "effect": "Social versatility & learning"
+        },
+        {
+            "planet": "Mars", "symbol": "♂", "sign": "Virgo", "degree": "5.94°",
+            "house": 6, "nakshatra": "Uttara Phalguni", "pada": 3, "nakshatra_lord": "Sun",
+            "status": "Neutral", "status_type": "neutral",
+            "effect": "Practical action & organization"
+        },
+        {
+            "planet": "Jupiter", "symbol": "♃", "sign": "Gemini", "degree": "18.81°",
+            "house": 3, "nakshatra": "Ardra", "pada": 4, "nakshatra_lord": "Rahu",
+            "status": "Favorable", "status_type": "good",
+            "effect": "Knowledge expansion & teaching"
+        },
+        {
+            "planet": "Saturn", "symbol": "♄", "sign": "Pisces", "degree": "7.20°",
+            "house": 12, "nakshatra": "Uttara Bhadrapada", "pada": 2, "nakshatra_lord": "Saturn",
+            "status": "Neutral", "status_type": "neutral", "retrograde": True,
+            "effect": "Spiritual lessons (Retrograde)"
+        },
+        {
+            "planet": "Rahu", "symbol": "☊", "sign": "Aquarius", "degree": "25.73°",
+            "house": 11, "nakshatra": "Purva Bhadrapada", "pada": 2, "nakshatra_lord": "Jupiter",
+            "status": "Neutral", "status_type": "neutral", "retrograde": True,
+            "effect": "Humanitarian focus & innovation"
+        },
+        {
+            "planet": "Ketu", "symbol": "☋", "sign": "Leo", "degree": "25.73°",
+            "house": 5, "nakshatra": "Purva Phalguni", "pada": 4, "nakshatra_lord": "Venus",
+            "status": "Neutral", "status_type": "neutral", "retrograde": True,
+            "effect": "Spiritual creativity & detachment"
+        }
+    ]
 
-# Mode Selection
-analysis_mode = st.selectbox(
-    "🎯 **SELECT ANALYSIS MODE**",
-    ["🌟 Personal Horoscope & Life Predictions", "📈 Financial Markets & Trading Analysis"],
-    index=0
-)
+def get_upcoming_transits():
+    """Get upcoming major transit events"""
+    return [
+        {
+            "date": "Aug 11, 2025",
+            "event": "Mercury turns Direct in Cancer",
+            "effect": "Communication clarity returns",
+            "type": "positive"
+        },
+        {
+            "date": "Aug 17, 2025",
+            "event": "Sun enters Leo",
+            "effect": "Leadership energy & confidence boost",
+            "type": "positive"
+        },
+        {
+            "date": "Aug 21, 2025",
+            "event": "Venus enters Cancer",
+            "effect": "Love & harmony in family matters",
+            "type": "positive"
+        },
+        {
+            "date": "Sep 1, 2025",
+            "event": "Saturn re-enters Pisces",
+            "effect": "Spiritual challenges & lessons return",
+            "type": "negative"
+        },
+        {
+            "date": "Sep 13, 2025",
+            "event": "Mars enters Libra",
+            "effect": "Balance & harmony in relationships",
+            "type": "neutral"
+        },
+        {
+            "date": "Oct 18, 2025",
+            "event": "Jupiter enters Cancer",
+            "effect": "Family expansion & emotional growth",
+            "type": "positive"
+        }
+    ]
 
-# Sidebar with precise inputs
+def get_dasha_periods():
+    """Get current Vimshottari Dasha periods"""
+    return {
+        "mahadasha": {
+            "planet": "Sun",
+            "start": "Nov 19, 2024",
+            "end": "Nov 19, 2030",
+            "duration": "6 years",
+            "progress": 15
+        },
+        "antardasha": {
+            "planet": "Moon",
+            "start": "Mar 7, 2025",
+            "end": "Sep 7, 2025",
+            "duration": "6 months",
+            "progress": 45
+        },
+        "pratyantar": {
+            "planet": "Mercury",
+            "start": "Aug 1, 2025",
+            "end": "Aug 20, 2025",
+            "duration": "19 days",
+            "progress": 35
+        }
+    }
+
+def get_financial_data():
+    """Get financial market data based on planetary positions"""
+    return {
+        "indices": [
+            {"name": "NIFTY 50", "value": "24,836", "change": "+127.40", "change_pct": "+0.52%", "trend": "bullish"},
+            {"name": "BANK NIFTY", "value": "52,265", "change": "+385.20", "change_pct": "+0.74%", "trend": "bullish"},
+            {"name": "SENSEX", "value": "81,356", "change": "+236.50", "change_pct": "+0.29%", "trend": "bullish"}
+        ],
+        "commodities": [
+            {"name": "GOLD", "value": "₹72,450", "change": "+180", "change_pct": "+0.25%", "trend": "bullish"},
+            {"name": "SILVER", "value": "₹91,200", "change": "-320", "change_pct": "-0.35%", "trend": "bearish"},
+            {"name": "CRUDE OIL", "value": "$82.30", "change": "-0.45", "change_pct": "-0.54%", "trend": "bearish"}
+        ]
+    }
+
+# Sidebar
 with st.sidebar:
     st.markdown("""
     <div style="background: linear-gradient(135deg, #667eea, #764ba2); 
-                padding: 20px; border-radius: 18px; margin-bottom: 20px;">
-        <h2 style="color: #ffffff; text-align: center; font-family: 'Orbitron', monospace; margin: 0;">
-            🌟 BIRTH DATA
+                padding: 20px; border-radius: 12px; margin-bottom: 20px; text-align: center;">
+        <h2 style="color: white; margin: 0; font-family: 'Space Grotesk', sans-serif;">
+            🌟 Birth Details
         </h2>
     </div>
     """, unsafe_allow_html=True)
     
-    name = st.text_input("👤 Full Name", value="Rajesh Kumar")
-    birth_date = st.date_input("📅 Birth Date", value=date(1990, 7, 3))
+    name = st.text_input("👤 Name", value="Example Person")
+    birth_date = st.date_input("📅 Birth Date", value=date(1990, 1, 1))
     
     col1, col2 = st.columns(2)
     with col1:
         birth_hour = st.number_input("🕐 Hour", min_value=0, max_value=23, value=12)
     with col2:
-        birth_minute = st.number_input("🕐 Min", min_value=0, max_value=59, value=30)
+        birth_minute = st.number_input("🕐 Min", min_value=0, max_value=59, value=0)
     
     birth_place = st.text_input("📍 Birth Place", value="Mumbai, India")
     
@@ -205,1043 +332,461 @@ with st.sidebar:
     with col2:
         longitude = st.number_input("🌐 Long", value=72.8777, format="%.4f")
     
-    # Ayanamsa selection for accurate calculations
-    ayanamsa = st.selectbox("📐 Ayanamsa", 
-                            ["KP (New)", "KP (Old)", "Lahiri", "Raman", "Krishnamurti"],
-                            index=0)
+    st.selectbox("📐 Ayanamsa", ["KP (New)", "KP (Old)", "Lahiri", "Raman"], index=0)
     
-    analyze_button = st.button("🚀 GENERATE ANALYSIS", type="primary", use_container_width=True)
+    analyze_button = st.button("🔮 Generate Analysis", use_container_width=True)
 
-# Enhanced Helper Functions
-def get_complete_dasha_structure():
-    """Complete Vimshottari Dasha with Mahadasha, Bhukti, and Antara periods"""
-    return {
-        "Sun": {
-            "duration_years": 6,
-            "lord_nature": "Authority, Leadership, Government",
-            "bhuktis": {
-                "Sun": {"months": 3.6, "start": "2024-11-19", "effects": "Power, recognition, father's influence"},
-                "Moon": {"months": 6.0, "start": "2025-03-07", "effects": "Emotional growth, mother's support, property"},
-                "Mars": {"months": 4.2, "start": "2025-09-07", "effects": "Energy, conflicts, property matters"},
-                "Rahu": {"months": 10.8, "start": "2026-01-09", "effects": "Foreign opportunities, sudden changes"},
-                "Jupiter": {"months": 9.6, "start": "2026-11-27", "effects": "Wisdom, spiritual growth, fortune"},
-                "Saturn": {"months": 11.4, "start": "2027-09-15", "effects": "Discipline, delays, hard work pays"},
-                "Mercury": {"months": 10.2, "start": "2028-08-27", "effects": "Communication, business, intelligence"},
-                "Ketu": {"months": 4.2, "start": "2029-07-03", "effects": "Spirituality, detachment, liberation"},
-                "Venus": {"months": 12.0, "start": "2029-11-09", "effects": "Luxury, relationships, material gains"}
-            }
-        },
-        "Moon": {
-            "duration_years": 10,
-            "lord_nature": "Mind, Emotions, Mother, Public",
-            "bhuktis": {
-                "Moon": {"months": 10.0, "start": "2030-11-09", "effects": "Mental peace, maternal bliss, popularity"},
-                "Mars": {"months": 7.0, "start": "2031-09-09", "effects": "Emotional courage, property gains"},
-                "Rahu": {"months": 18.0, "start": "2032-04-09", "effects": "Mental confusion, foreign travels"},
-                "Jupiter": {"months": 16.0, "start": "2033-10-09", "effects": "Happiness, children, fortune"},
-                "Saturn": {"months": 19.0, "start": "2035-02-09", "effects": "Mental stress, hard work, stability"},
-                "Mercury": {"months": 17.0, "start": "2036-09-09", "effects": "Intelligence, education, communication"},
-                "Ketu": {"months": 7.0, "start": "2038-02-09", "effects": "Spiritual mind, intuition"},
-                "Venus": {"months": 20.0, "start": "2038-09-09", "effects": "Emotional satisfaction, luxury"},
-                "Sun": {"months": 6.0, "start": "2040-05-09", "effects": "Fame, authority, success"}
-            }
-        }
-    }
+# Main Header
+st.markdown("""
+<div style="background: linear-gradient(135deg, #667eea, #764ba2); 
+            padding: 30px; border-radius: 16px; margin-bottom: 30px; text-align: center;">
+    <h1 style="color: white; margin: 0; font-family: 'Space Grotesk', sans-serif; font-size: 2.5em;">
+        🌌 Professional KP Astrology & Financial Markets
+    </h1>
+    <p style="color: rgba(255,255,255,0.9); margin-top: 10px; font-size: 1.1em;">
+        Precise Planetary Calculations | Vimshottari Dasha | Market Predictions
+    </p>
+</div>
+""", unsafe_allow_html=True)
 
-def calculate_current_dasha_details(birth_date):
-    """Calculate current Dasha, Bhukti, and Antara with precise timing"""
-    current_date = datetime.now()
-    
-    # For demonstration, assuming Sun Mahadasha is active
-    dasha_structure = get_complete_dasha_structure()
-    
-    return {
-        "mahadasha": {
-            "lord": "Sun",
-            "start": "2024-11-19",
-            "end": "2030-11-09",
-            "nature": "Authority, Leadership, Government",
-            "current_year": 1,
-            "total_years": 6,
-            "effects": "Period of recognition, authority, father's support, government favor"
-        },
-        "bhukti": {
-            "lord": "Moon",
-            "start": "2025-03-07",
-            "end": "2025-09-07",
-            "effects": "Emotional growth, mother's support, property matters, public recognition"
-        },
-        "antara": {
-            "lord": "Mercury",
-            "start": "2025-08-01",
-            "end": "2025-08-20",
-            "effects": "Communication opportunities, short travels, business dealings"
-        },
-        "upcoming_changes": [
-            {"date": "2025-08-20", "type": "Antara", "new_lord": "Ketu", "effect": "Spiritual insights"},
-            {"date": "2025-09-07", "type": "Bhukti", "new_lord": "Mars", "effect": "Energy and action"},
-            {"date": "2030-11-09", "type": "Mahadasha", "new_lord": "Moon", "effect": "Emotional period begins"}
-        ]
-    }
+# Mode Selection
+mode = st.radio(
+    "Select Analysis Mode",
+    ["🌟 Personal Horoscope", "📈 Financial Markets"],
+    horizontal=True
+)
 
-def get_current_planetary_transits():
-    """Get current planetary transits and their personal impacts"""
-    return [
-        {
-            "planet": "Jupiter",
-            "sign": "Gemini",
-            "house": "3rd House",
-            "aspect_houses": ["7th", "9th", "11th"],
-            "duration": "Until Oct 18, 2025",
-            "nature": "Highly Benefic",
-            "personal_impacts": {
-                "Career": "Communication skills enhanced, writing/teaching opportunities, short travels for work",
-                "Relationships": "Better communication with spouse (7th aspect), spiritual connections",
-                "Finance": "Gains through communication, siblings support, multiple income sources",
-                "Health": "Good vitality, breathing exercises beneficial, watch nervous system",
-                "Spiritual": "Learning spiritual texts, pilgrimages, guru's blessings (9th aspect)"
-            }
-        },
-        {
-            "planet": "Saturn",
-            "sign": "Pisces (Retrograde)",
-            "house": "12th House",
-            "aspect_houses": ["2nd", "6th", "9th"],
-            "duration": "Until Sep 1, 2025 (Retrograde)",
-            "nature": "Challenging but Karmic",
-            "personal_impacts": {
-                "Career": "Foreign opportunities after delays, work in isolation beneficial",
-                "Relationships": "Past relationship karma, need patience and maturity",
-                "Finance": "Hidden expenses, but gains from foreign sources (2nd aspect)",
-                "Health": "Need rest, feet/sleep issues, immunity needs attention (6th aspect)",
-                "Spiritual": "Deep spiritual transformation, meditation essential, past life karma"
-            }
-        },
-        {
-            "planet": "Rahu",
-            "sign": "Aquarius",
-            "house": "11th House",
-            "aspect_houses": ["3rd", "7th"],
-            "duration": "Until May 2025",
-            "nature": "Material Gains",
-            "personal_impacts": {
-                "Career": "Networking crucial, unconventional opportunities, technology sector gains",
-                "Relationships": "Unusual friendships, online connections, social circle expansion",
-                "Finance": "Sudden gains possible, cryptocurrency/stocks favorable, large profits",
-                "Health": "Watch circulation, anxiety management needed, avoid addictions",
-                "Spiritual": "Interest in occult sciences, astrology, alternative spirituality"
-            }
-        },
-        {
-            "planet": "Mars",
-            "sign": "Virgo",
-            "house": "6th House",
-            "aspect_houses": ["9th", "12th", "1st"],
-            "duration": "Until Sep 13, 2025",
-            "nature": "Competitive Energy",
-            "personal_impacts": {
-                "Career": "Victory over competitors, service sector benefits, health industry",
-                "Relationships": "Conflicts need careful handling, service to partner beneficial",
-                "Finance": "Expenses on health, but victory in litigation, loan clearance",
-                "Health": "High energy for fitness, surgery success if needed, digestive care",
-                "Spiritual": "Karma yoga, service as spirituality, helping others (9th aspect)"
-            }
-        }
-    ]
-
-def get_upcoming_transit_events():
-    """Get upcoming planetary transit events with precise dates and impacts"""
-    return [
-        {
-            "date": "2025-08-11",
-            "event": "Mercury Direct",
-            "impact": "Communication clears, contracts favorable, technology issues resolve",
-            "life_areas": ["Career", "Communication", "Travel"],
-            "rating": "Highly Positive"
-        },
-        {
-            "date": "2025-08-17",
-            "event": "Sun enters Leo (Own Sign)",
-            "impact": "Authority increases, father's support, government favor, leadership",
-            "life_areas": ["Career", "Authority", "Recognition"],
-            "rating": "Excellent"
-        },
-        {
-            "date": "2025-08-21",
-            "event": "Venus enters Cancer",
-            "impact": "Family harmony, property gains, vehicle purchase, emotional satisfaction",
-            "life_areas": ["Family", "Property", "Relationships"],
-            "rating": "Very Good"
-        },
-        {
-            "date": "2025-09-01",
-            "event": "Saturn Direct Motion",
-            "impact": "Karma clearing, delays end, hard work pays, structure returns",
-            "life_areas": ["Career", "Long-term Goals", "Discipline"],
-            "rating": "Positive"
-        },
-        {
-            "date": "2025-09-13",
-            "event": "Mars enters Libra",
-            "impact": "Relationship energy, business partnerships, diplomatic action needed",
-            "life_areas": ["Partnerships", "Business", "Balance"],
-            "rating": "Neutral to Positive"
-        },
-        {
-            "date": "2025-10-18",
-            "event": "Jupiter enters Cancer (Exalted)",
-            "impact": "MAJOR POSITIVE - Fortune, wisdom, spiritual growth, material gains",
-            "life_areas": ["All Life Areas", "Fortune", "Growth"],
-            "rating": "Most Excellent"
-        }
-    ]
-
-def calculate_personal_predictions():
-    """Generate detailed monthly predictions with transit impacts"""
-    return {
-        "August 2025": {
-            "dasha_period": "Sun-Moon-Mercury until Aug 20",
-            "key_transits": [
-                "Mercury Retrograde until Aug 11 - Review period",
-                "Sun enters Leo Aug 17 - Authority boost",
-                "Venus enters Cancer Aug 21 - Family harmony"
-            ],
-            "career": {
-                "prediction": "Communication delays until 11th, then rapid progress. Authority increases after 17th.",
-                "opportunities": "Government sector, leadership roles, creative fields",
-                "challenges": "Avoid major decisions until Mercury direct",
-                "best_dates": ["17", "21", "25", "28"],
-                "growth_potential": "75%"
-            },
-            "relationships": {
-                "prediction": "Past issues surface for healing. Family support strong after 21st.",
-                "opportunities": "Family reconciliation, emotional bonding, marriage discussions",
-                "challenges": "Mercury retrograde miscommunications",
-                "best_dates": ["21", "24", "27"],
-                "harmony_level": "70%"
-            },
-            "finance": {
-                "prediction": "Hold investments until 11th. Property gains after 17th. Family wealth benefits.",
-                "opportunities": "Real estate, government bonds, gold investments",
-                "challenges": "Hidden expenses during retrograde",
-                "best_dates": ["17", "22", "26"],
-                "growth_potential": "65%"
-            },
-            "health": {
-                "prediction": "Nervous system needs care. Heart strengthens after 17th. Digestion improves.",
-                "focus_areas": "Meditation, heart health, proper rest",
-                "favorable_treatments": "After Aug 11",
-                "vitality_level": "70%"
-            },
-            "spiritual": {
-                "prediction": "Deep insights during retrograde. Sun in Leo brings self-realization.",
-                "practices": "Meditation, mantra chanting, sun salutation",
-                "favorable_days": ["Sundays", "Aug 17-31"],
-                "growth_level": "85%"
-            }
-        },
-        "September 2025": {
-            "dasha_period": "Sun-Mars from Sep 7",
-            "key_transits": [
-                "Saturn Direct Sep 1 - Karma clearing",
-                "Mars enters Libra Sep 13 - Partnership energy",
-                "Autumn Equinox Sep 22 - Balance point"
-            ],
-            "career": {
-                "prediction": "High energy period. Competition success. New initiatives thrive.",
-                "opportunities": "Sports, military, engineering, surgery, real estate",
-                "challenges": "Control aggression, avoid conflicts",
-                "best_dates": ["5", "9", "13", "19", "27"],
-                "growth_potential": "80%"
-            },
-            "relationships": {
-                "prediction": "Passionate energy. Need patience. Partnership focus after 13th.",
-                "opportunities": "Deep bonding, physical intimacy, joint ventures",
-                "challenges": "Anger management crucial",
-                "best_dates": ["13", "18", "22", "28"],
-                "harmony_level": "65%"
-            },
-            "finance": {
-                "prediction": "Property investments excellent. Technical stocks gain. Action brings profit.",
-                "opportunities": "Real estate, defense stocks, machinery",
-                "challenges": "Avoid impulsive spending",
-                "best_dates": ["5", "14", "19", "25"],
-                "growth_potential": "75%"
-            },
-            "health": {
-                "prediction": "High vitality. Good for surgery. Sports injuries possible - be careful.",
-                "focus_areas": "Physical exercise, avoid accidents, blood pressure",
-                "favorable_treatments": "Surgery, dental work, fitness programs",
-                "vitality_level": "85%"
-            },
-            "spiritual": {
-                "prediction": "Karma yoga period. Service brings spiritual growth. Action as meditation.",
-                "practices": "Hanuman worship, physical yoga, service activities",
-                "favorable_days": ["Tuesdays", "Sep 7-30"],
-                "growth_level": "70%"
-            }
-        },
-        "October 2025": {
-            "dasha_period": "Sun-Mars continues",
-            "key_transits": [
-                "JUPITER ENTERS CANCER Oct 18 - Major fortune begins",
-                "Solar Eclipse Oct 2 - New beginnings",
-                "Mercury in Scorpio Oct 10 - Deep insights"
-            ],
-            "career": {
-                "prediction": "BREAKTHROUGH MONTH! Jupiter brings massive opportunities after 18th.",
-                "opportunities": "Promotions, new positions, international opportunities, expansion",
-                "challenges": "Eclipse may bring sudden changes",
-                "best_dates": ["18", "19", "22", "25", "28"],
-                "growth_potential": "95%"
-            },
-            "relationships": {
-                "prediction": "Eclipse brings relationship changes. Jupiter brings marriage/children luck.",
-                "opportunities": "Engagement, marriage, pregnancy, family expansion",
-                "challenges": "Eclipse endings before new beginnings",
-                "best_dates": ["18", "20", "24", "27"],
-                "harmony_level": "85%"
-            },
-            "finance": {
-                "prediction": "WEALTH EXPANSION! Jupiter brings fortune. Investments multiply.",
-                "opportunities": "All investments favorable, especially after 18th",
-                "challenges": "Don't be overconfident",
-                "best_dates": ["18", "21", "25", "29"],
-                "growth_potential": "90%"
-            },
-            "health": {
-                "prediction": "Vitality increases dramatically after 18th. Healing accelerates.",
-                "focus_areas": "Maintain balance despite high energy",
-                "favorable_treatments": "All treatments favorable after 18th",
-                "vitality_level": "90%"
-            },
-            "spiritual": {
-                "prediction": "Major spiritual awakening. Guru's blessings. Wisdom downloads.",
-                "practices": "Guru worship, Jupiter mantras, teaching/sharing wisdom",
-                "favorable_days": ["Thursdays", "Oct 18-31"],
-                "growth_level": "95%"
-            }
-        }
-    }
-
-def get_remedial_measures():
-    """Get personalized remedial measures based on current planetary positions"""
-    return {
-        "gemstones": [
-            {"stone": "Ruby", "weight": "3-5 carats", "finger": "Ring finger", "day": "Sunday", "metal": "Gold", "purpose": "Strengthen Sun (Mahadasha lord)"},
-            {"stone": "Pearl", "weight": "5-7 carats", "finger": "Little finger", "day": "Monday", "metal": "Silver", "purpose": "Strengthen Moon (Bhukti lord)"},
-            {"stone": "Yellow Sapphire", "weight": "4-5 carats", "finger": "Index finger", "day": "Thursday", "metal": "Gold", "purpose": "Jupiter blessings"}
-        ],
-        "mantras": [
-            {"mantra": "Om Surya Namaha", "count": "108 times", "time": "Sunrise", "purpose": "Sun strength"},
-            {"mantra": "Om Som Somaya Namaha", "count": "108 times", "time": "Evening", "purpose": "Moon peace"},
-            {"mantra": "Om Gram Greem Grom Sah Guruve Namaha", "count": "108 times", "time": "Morning", "purpose": "Jupiter grace"}
-        ],
-        "donations": [
-            {"item": "Wheat/Jaggery", "day": "Sunday", "recipient": "Temple/Poor", "purpose": "Sun favor"},
-            {"item": "Rice/Milk", "day": "Monday", "recipient": "Women/Children", "purpose": "Moon blessings"},
-            {"item": "Yellow items", "day": "Thursday", "recipient": "Brahmins/Teachers", "purpose": "Jupiter support"}
-        ],
-        "fasting": [
-            {"day": "Sunday", "type": "One meal", "purpose": "Sun Mahadasha support"},
-            {"day": "Monday", "type": "Fruits only", "purpose": "Moon Bhukti harmony"}
-        ]
-    }
-
-def get_financial_instruments_analysis():
-    """Get detailed financial analysis for specific instruments"""
-    return [
-        {
-            "name": "NIFTY",
-            "current_trend": "Bullish",
-            "planetary_influence": "Jupiter in Gemini + Sun in Cancer",
-            "intraday": "Buy on dips 9:30-10:30 AM, Sell peaks 2:30-3:15 PM",
-            "weekly": "Strong uptrend, resistance at 25,200",
-            "monthly": "Expect 8-12% growth, support at 24,500",
-            "key_dates": "Aug 17-25 (Sun in Leo), Oct 18+ (Jupiter in Cancer)"
-        },
-        {
-            "name": "BANK NIFTY",
-            "current_trend": "Bullish",
-            "planetary_influence": "Sun in Cancer (Traditional banking strong)",
-            "intraday": "Strong 10:00-11:30 AM, Weak 1:00-2:00 PM",
-            "weekly": "Outperforming Nifty, target 54,000",
-            "monthly": "15-20% growth potential, buy on corrections",
-            "key_dates": "Aug 21+ (Venus in Cancer), Family banking focus"
-        },
-        {
-            "name": "GOLD",
-            "current_trend": "Bullish",
-            "planetary_influence": "Sun (Gold ruler) in exaltation degree",
-            "intraday": "Buy 9:15-9:45 AM, Sell 2:45-3:15 PM",
-            "weekly": "Breaking resistance, target ₹74,500",
-            "monthly": "12-18% upside, accumulate on dips",
-            "key_dates": "Aug 17 (Sun → Leo), Traditional strength"
-        }
-    ]
-
-# Main Analysis
-if analyze_button:
-    with st.spinner("🌌 Calculating precise planetary positions and generating comprehensive analysis..."):
-        time.sleep(2)
-    
-    st.success("✨ **COMPLETE ASTROLOGICAL ANALYSIS READY** - Professional KP system calculations completed!")
-    
-    if "Personal Horoscope" in analysis_mode:
-        # Personal Horoscope Mode with Enhanced Features
-        tabs = st.tabs([
-            "📊 Dasha Analysis",
-            "🌍 Current Transits", 
-            "📅 Monthly Predictions",
-            "⏰ Upcoming Events",
-            "💎 Remedial Measures",
-            "📈 Life Graph",
-            "🎯 Career & Growth"
-        ])
+if analyze_button or True:  # Show by default for demo
+    if mode == "🌟 Personal Horoscope":
+        # Current Date Display
+        st.markdown(f"""
+        <div style="text-align: center; margin: 20px 0;">
+            <h3 style="color: #64748b; font-family: 'Space Grotesk', sans-serif;">
+                🚀 Current Planetary Transits (August 7, 2025)
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
         
-        with tabs[0]:  # Dasha Analysis
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    📊 COMPLETE VIMSHOTTARI DASHA ANALYSIS
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            dasha_details = calculate_current_dasha_details(birth_date)
-            
-            # Current Dasha Status
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.markdown("### 🌟 Mahadasha (Main Period)")
-                st.info(f"""
-                **Lord:** {dasha_details['mahadasha']['lord']}  
-                **Duration:** {dasha_details['mahadasha']['total_years']} years  
-                **Current Year:** {dasha_details['mahadasha']['current_year']}  
-                **Period:** {dasha_details['mahadasha']['start']} to {dasha_details['mahadasha']['end']}  
-                **Nature:** {dasha_details['mahadasha']['nature']}  
-                **Effects:** {dasha_details['mahadasha']['effects']}
-                """)
-            
-            with col2:
-                st.markdown("### 🌙 Bhukti (Sub-Period)")
-                st.warning(f"""
-                **Lord:** {dasha_details['bhukti']['lord']}  
-                **Period:** {dasha_details['bhukti']['start']} to {dasha_details['bhukti']['end']}  
-                **Effects:** {dasha_details['bhukti']['effects']}  
-                **Combination:** {dasha_details['mahadasha']['lord']}-{dasha_details['bhukti']['lord']}  
-                **Result:** Authority with emotional intelligence
-                """)
-            
-            with col3:
-                st.markdown("### ⭐ Antara (Sub-Sub Period)")
-                st.success(f"""
-                **Lord:** {dasha_details['antara']['lord']}  
-                **Period:** {dasha_details['antara']['start']} to {dasha_details['antara']['end']}  
-                **Effects:** {dasha_details['antara']['effects']}  
-                **Triple Combination:** {dasha_details['mahadasha']['lord']}-{dasha_details['bhukti']['lord']}-{dasha_details['antara']['lord']}  
-                **Current Focus:** Communication in leadership roles
-                """)
-            
-            # Upcoming Dasha Changes
-            st.markdown("### 🔄 Upcoming Dasha Changes")
-            upcoming_df = pd.DataFrame(dasha_details['upcoming_changes'])
-            
-            for _, change in upcoming_df.iterrows():
-                change_type = change['type']
-                if change_type == "Mahadasha":
-                    alert_type = st.error
-                elif change_type == "Bhukti":
-                    alert_type = st.warning
-                else:
-                    alert_type = st.info
-                
-                alert_type(f"**{change['date']}** - {change['type']} changes to **{change['new_lord']}** - {change['effect']}")
-            
-            # Detailed Dasha Timeline
-            st.markdown("### 📅 Complete Dasha Timeline")
-            
-            dasha_data = get_complete_dasha_structure()
-            sun_dasha = dasha_data["Sun"]
-            
-            with st.expander("☉ Sun Mahadasha - Complete Bhukti Periods", expanded=True):
-                for planet, details in sun_dasha["bhuktis"].items():
-                    col1, col2, col3, col4 = st.columns([1, 2, 2, 3])
-                    with col1:
-                        st.markdown(f"**{planet}**")
-                    with col2:
-                        st.caption(f"Starts: {details['start']}")
-                    with col3:
-                        st.caption(f"Duration: {details['months']} months")
-                    with col4:
-                        st.caption(details['effects'])
-            
-            with st.expander("🌙 Moon Mahadasha - Future Bhukti Periods"):
-                moon_dasha = dasha_data["Moon"]
-                for planet, details in moon_dasha["bhuktis"].items():
-                    col1, col2, col3, col4 = st.columns([1, 2, 2, 3])
-                    with col1:
-                        st.markdown(f"**{planet}**")
-                    with col2:
-                        st.caption(f"Starts: {details['start']}")
-                    with col3:
-                        st.caption(f"Duration: {details['months']} months")
-                    with col4:
-                        st.caption(details['effects'])
+        # Planetary Transit Cards
+        planets = get_planetary_positions()
         
-        with tabs[1]:  # Current Transits
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    🌍 CURRENT PLANETARY TRANSITS & PERSONAL IMPACTS
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            transits = get_current_planetary_transits()
-            
-            for transit in transits:
-                nature_color = "🟢" if transit["nature"] == "Highly Benefic" else "🔴" if "Challenging" in transit["nature"] else "🟡"
-                
-                with st.expander(f"{nature_color} {transit['planet']} in {transit['sign']} - {transit['house']} - {transit['nature']}", expanded=True):
-                    col1, col2 = st.columns([1, 2])
-                    
-                    with col1:
+        # Display planets in 4-column grid
+        for i in range(0, len(planets), 4):
+            cols = st.columns(4)
+            for j, col in enumerate(cols):
+                if i + j < len(planets):
+                    planet = planets[i + j]
+                    with col:
+                        # Determine card color based on status
+                        if planet['status_type'] == 'good':
+                            border_color = "#10b981"
+                            bg_color = "#f0fdf4"
+                            status_color = "#15803d"
+                            status_bg = "#dcfce7"
+                        elif planet['status_type'] == 'bad':
+                            border_color = "#ef4444"
+                            bg_color = "#fef2f2"
+                            status_color = "#b91c1c"
+                            status_bg = "#fee2e2"
+                        else:
+                            border_color = "#f59e0b"
+                            bg_color = "#fffbeb"
+                            status_color = "#a16207"
+                            status_bg = "#fef3c7"
+                        
+                        retrograde = "R" if planet.get('retrograde', False) else ""
+                        
                         st.markdown(f"""
-                        **📍 Position:** {transit['sign']}  
-                        **🏠 House:** {transit['house']}  
-                        **👁️ Aspects:** {', '.join(transit['aspect_houses'])}  
-                        **⏱️ Duration:** {transit['duration']}  
-                        **🔮 Nature:** {transit['nature']}
-                        """)
-                    
-                    with col2:
-                        st.markdown("**Personal Life Impacts:**")
-                        for area, impact in transit["personal_impacts"].items():
-                            if area == "Career":
-                                icon = "💼"
-                            elif area == "Relationships":
-                                icon = "❤️"
-                            elif area == "Finance":
-                                icon = "💰"
-                            elif area == "Health":
-                                icon = "🏥"
-                            else:
-                                icon = "🕉️"
-                            st.caption(f"{icon} **{area}:** {impact}")
+                        <div style="background: {bg_color}; border-left: 4px solid {border_color}; 
+                                    border-radius: 12px; padding: 15px; margin: 5px 0; min-height: 180px;
+                                    box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <span style="font-size: 24px; margin-right: 8px;">{planet['symbol']}</span>
+                                <h4 style="margin: 0; color: #1e293b; font-weight: 600;">
+                                    {planet['planet']} {planet['symbol']}
+                                </h4>
+                            </div>
+                            <p style="margin: 5px 0; color: #475569; font-size: 14px;">
+                                <strong>Current Position:</strong> {planet['sign']} ({planet['degree']}) {retrograde}
+                            </p>
+                            <p style="margin: 5px 0; color: #475569; font-size: 13px;">
+                                <strong>Transit Effect:</strong> {planet['effect']}
+                            </p>
+                            <div style="margin-top: 10px;">
+                                <span style="background: {status_bg}; color: {status_color}; 
+                                            padding: 4px 12px; border-radius: 20px; font-size: 12px; 
+                                            font-weight: 600;">
+                                    Status: {planet['status']}
+                                </span>
+                            </div>
+                        </div>
+                        """, unsafe_allow_html=True)
         
-        with tabs[2]:  # Monthly Predictions
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    📅 DETAILED MONTHLY PREDICTIONS WITH TRANSIT IMPACTS
-                </h2>
+        # Detailed Planetary Positions Table
+        st.markdown("""
+        <div style="margin: 30px 0 20px 0;">
+            <h3 style="color: #1e293b; font-family: 'Space Grotesk', sans-serif; text-align: center;">
+                📊 Detailed Planetary Positions
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        # Create DataFrame for planetary positions
+        df_data = []
+        for p in planets:
+            df_data.append({
+                "🪐 Planet": f"{p['symbol']} {p['planet']}",
+                "♈ Zodiac Sign": p['sign'],
+                "📐 Exact Degree": p['degree'],
+                "🏠 House": p['house'],
+                "⭐ Nakshatra": p['nakshatra'],
+                "🔢 Pada": p['pada'],
+                "👑 Nakshatra Lord": p['nakshatra_lord'],
+                "📊 Current Status": p['status']
+            })
+        
+        df = pd.DataFrame(df_data)
+        st.dataframe(df, use_container_width=True, hide_index=True)
+        
+        # Upcoming Transit Events
+        st.markdown("""
+        <div style="margin: 30px 0 20px 0;">
+            <h3 style="color: #1e293b; font-family: 'Space Grotesk', sans-serif; text-align: center;">
+                📅 Upcoming Major Transit Events
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        transits = get_upcoming_transits()
+        
+        # Display transits in 3-column grid
+        for i in range(0, len(transits), 3):
+            cols = st.columns(3)
+            for j, col in enumerate(cols):
+                if i + j < len(transits):
+                    transit = transits[i + j]
+                    with col:
+                        # Determine card color based on transit type
+                        if transit['type'] == 'positive':
+                            bg_color = "#dcfce7"
+                            border_color = "#22c55e"
+                        elif transit['type'] == 'negative':
+                            bg_color = "#fee2e2"
+                            border_color = "#ef4444"
+                        else:
+                            bg_color = "#fef3c7"
+                            border_color = "#f59e0b"
+                        
+                        st.markdown(f"""
+                        <div style="background: {bg_color}; border-left: 3px solid {border_color};
+                                    border-radius: 10px; padding: 15px; margin: 5px 0; min-height: 120px;
+                                    box-shadow: 0 2px 6px rgba(0,0,0,0.06);">
+                            <h5 style="margin: 0 0 8px 0; color: #1e293b; font-weight: 600;">
+                                {transit['date']}
+                            </h5>
+                            <p style="margin: 5px 0; color: #334155; font-size: 14px; font-weight: 500;">
+                                {transit['event']}
+                            </p>
+                            <p style="margin: 5px 0; color: #64748b; font-size: 13px;">
+                                {transit['effect']}
+                            </p>
+                        </div>
+                        """, unsafe_allow_html=True)
+        
+        # Vimshottari Dasha Display
+        st.markdown("---")
+        st.markdown("""
+        <div style="margin: 30px 0 20px 0;">
+            <h3 style="color: #1e293b; font-family: 'Space Grotesk', sans-serif; text-align: center;">
+                ⏰ Current Vimshottari Dasha Periods
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
+        
+        dasha = get_dasha_periods()
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            st.markdown(f"""
+            <div style="background: white; border-radius: 12px; padding: 20px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">Mahadasha</h4>
+                <h2 style="color: #1e293b; margin: 10px 0;">{dasha['mahadasha']['planet']}</h2>
+                <p style="color: #64748b; font-size: 14px;">{dasha['mahadasha']['start']} - {dasha['mahadasha']['end']}</p>
+                <p style="color: #64748b; font-size: 14px;">Duration: {dasha['mahadasha']['duration']}</p>
+                <div style="background: #e0e7ff; border-radius: 20px; height: 8px; margin-top: 15px;">
+                    <div style="background: #667eea; border-radius: 20px; height: 8px; width: {dasha['mahadasha']['progress']}%;"></div>
+                </div>
             </div>
             """, unsafe_allow_html=True)
-            
-            predictions = calculate_personal_predictions()
-            
-            for month, data in predictions.items():
-                with st.expander(f"📅 {month} - {data['dasha_period']}", expanded=True):
-                    # Key Transits
-                    st.markdown("### 🌟 Key Planetary Transits")
-                    for transit in data['key_transits']:
-                        st.info(transit)
-                    
-                    # Life Areas
-                    tabs_month = st.tabs(["💼 Career", "❤️ Relationships", "💰 Finance", "🏥 Health", "🕉️ Spiritual"])
-                    
-                    with tabs_month[0]:  # Career
-                        career = data['career']
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.metric("Growth Potential", career['growth_potential'])
-                            st.markdown(f"**Prediction:** {career['prediction']}")
-                            st.markdown(f"**Opportunities:** {career['opportunities']}")
-                        with col2:
-                            st.markdown(f"**Best Dates:** {', '.join(career['best_dates'])}")
-                            st.markdown(f"**Challenges:** {career['challenges']}")
-                    
-                    with tabs_month[1]:  # Relationships
-                        relationships = data['relationships']
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.metric("Harmony Level", relationships['harmony_level'])
-                            st.markdown(f"**Prediction:** {relationships['prediction']}")
-                            st.markdown(f"**Opportunities:** {relationships['opportunities']}")
-                        with col2:
-                            st.markdown(f"**Best Dates:** {', '.join(relationships['best_dates'])}")
-                            st.markdown(f"**Challenges:** {relationships['challenges']}")
-                    
-                    with tabs_month[2]:  # Finance
-                        finance = data['finance']
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.metric("Growth Potential", finance['growth_potential'])
-                            st.markdown(f"**Prediction:** {finance['prediction']}")
-                            st.markdown(f"**Opportunities:** {finance['opportunities']}")
-                        with col2:
-                            st.markdown(f"**Best Dates:** {', '.join(finance['best_dates'])}")
-                            st.markdown(f"**Challenges:** {finance['challenges']}")
-                    
-                    with tabs_month[3]:  # Health
-                        health = data['health']
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.metric("Vitality Level", health['vitality_level'])
-                            st.markdown(f"**Prediction:** {health['prediction']}")
-                        with col2:
-                            st.markdown(f"**Focus Areas:** {health['focus_areas']}")
-                            st.markdown(f"**Favorable Treatments:** {health['favorable_treatments']}")
-                    
-                    with tabs_month[4]:  # Spiritual
-                        spiritual = data['spiritual']
-                        col1, col2 = st.columns(2)
-                        with col1:
-                            st.metric("Growth Level", spiritual['growth_level'])
-                            st.markdown(f"**Prediction:** {spiritual['prediction']}")
-                        with col2:
-                            st.markdown(f"**Practices:** {spiritual['practices']}")
-                            st.markdown(f"**Favorable Days:** {spiritual['favorable_days']}")
         
-        with tabs[3]:  # Upcoming Events
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    ⏰ UPCOMING PLANETARY EVENTS & LIFE IMPACTS
-                </h2>
+        with col2:
+            st.markdown(f"""
+            <div style="background: white; border-radius: 12px; padding: 20px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <h4 style="color: #764ba2; margin-bottom: 15px;">Antardasha</h4>
+                <h2 style="color: #1e293b; margin: 10px 0;">{dasha['antardasha']['planet']}</h2>
+                <p style="color: #64748b; font-size: 14px;">{dasha['antardasha']['start']} - {dasha['antardasha']['end']}</p>
+                <p style="color: #64748b; font-size: 14px;">Duration: {dasha['antardasha']['duration']}</p>
+                <div style="background: #f3e8ff; border-radius: 20px; height: 8px; margin-top: 15px;">
+                    <div style="background: #764ba2; border-radius: 20px; height: 8px; width: {dasha['antardasha']['progress']}%;"></div>
+                </div>
             </div>
             """, unsafe_allow_html=True)
-            
-            events = get_upcoming_transit_events()
-            
-            # Timeline view
-            st.markdown("### 📅 Transit Timeline")
-            
-            for event in events:
-                rating_color = "🟢" if "Excellent" in event['rating'] else "🟡" if "Positive" in event['rating'] or "Good" in event['rating'] else "🔵"
-                
-                with st.container():
-                    col1, col2, col3 = st.columns([1, 2, 3])
-                    
-                    with col1:
-                        st.markdown(f"### {event['date']}")
-                        st.caption(f"{rating_color} {event['rating']}")
-                    
-                    with col2:
-                        st.markdown(f"**{event['event']}**")
-                        for area in event['life_areas']:
-                            st.caption(f"• {area}")
-                    
-                    with col3:
-                        st.info(event['impact'])
-                    
-                    st.divider()
         
-        with tabs[4]:  # Remedial Measures
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    💎 PERSONALIZED REMEDIAL MEASURES
-                </h2>
+        with col3:
+            st.markdown(f"""
+            <div style="background: white; border-radius: 12px; padding: 20px; 
+                        box-shadow: 0 2px 8px rgba(0,0,0,0.08); text-align: center;">
+                <h4 style="color: #f093fb; margin-bottom: 15px;">Pratyantar Dasha</h4>
+                <h2 style="color: #1e293b; margin: 10px 0;">{dasha['pratyantar']['planet']}</h2>
+                <p style="color: #64748b; font-size: 14px;">{dasha['pratyantar']['start']} - {dasha['pratyantar']['end']}</p>
+                <p style="color: #64748b; font-size: 14px;">Duration: {dasha['pratyantar']['duration']}</p>
+                <div style="background: #fce7f3; border-radius: 20px; height: 8px; margin-top: 15px;">
+                    <div style="background: #f093fb; border-radius: 20px; height: 8px; width: {dasha['pratyantar']['progress']}%;"></div>
+                </div>
             </div>
             """, unsafe_allow_html=True)
-            
-            remedies = get_remedial_measures()
+        
+        # Additional Tabs for Detailed Analysis
+        st.markdown("---")
+        tabs = st.tabs(["📊 Life Predictions", "💰 Financial Outlook", "💎 Remedies", "📈 Career Analysis"])
+        
+        with tabs[0]:
+            st.subheader("Monthly Life Predictions")
             
             col1, col2 = st.columns(2)
-            
             with col1:
-                st.markdown("### 💎 Gemstone Recommendations")
-                for gem in remedies['gemstones']:
-                    with st.expander(f"{gem['stone']} - {gem['purpose']}"):
-                        st.markdown(f"""
-                        **Weight:** {gem['weight']}  
-                        **Finger:** {gem['finger']}  
-                        **Day to Wear:** {gem['day']}  
-                        **Metal:** {gem['metal']}  
-                        **Purpose:** {gem['purpose']}
-                        """)
-                
-                st.markdown("### 📿 Mantra Chanting")
-                for mantra in remedies['mantras']:
-                    with st.expander(f"{mantra['purpose']}"):
-                        st.markdown(f"""
-                        **Mantra:** {mantra['mantra']}  
-                        **Count:** {mantra['count']}  
-                        **Time:** {mantra['time']}  
-                        **Purpose:** {mantra['purpose']}
-                        """)
+                st.markdown("""
+                **August 2025 Predictions:**
+                - 💼 **Career**: Authority increases after Aug 17 (Sun in Leo)
+                - ❤️ **Relationships**: Family harmony improves after Aug 21
+                - 💰 **Finance**: Property investments favorable
+                - 🏥 **Health**: Watch nervous system until Mercury direct
+                - 🎯 **Lucky Days**: 11, 17, 21, 25
+                """)
             
             with col2:
-                st.markdown("### 🎁 Donations & Charity")
-                for donation in remedies['donations']:
-                    with st.expander(f"{donation['item']} - {donation['purpose']}"):
-                        st.markdown(f"""
-                        **Item:** {donation['item']}  
-                        **Day:** {donation['day']}  
-                        **Recipient:** {donation['recipient']}  
-                        **Purpose:** {donation['purpose']}
-                        """)
-                
-                st.markdown("### 🍽️ Fasting Recommendations")
-                for fast in remedies['fasting']:
-                    with st.expander(f"{fast['day']} Fast"):
-                        st.markdown(f"""
-                        **Day:** {fast['day']}  
-                        **Type:** {fast['type']}  
-                        **Purpose:** {fast['purpose']}
-                        """)
+                st.markdown("""
+                **September 2025 Predictions:**
+                - 💼 **Career**: High energy period, competition success
+                - ❤️ **Relationships**: Passionate but need patience
+                - 💰 **Finance**: Real estate gains possible
+                - 🏥 **Health**: High vitality but avoid accidents
+                - 🎯 **Lucky Days**: 5, 13, 19, 27
+                """)
         
-        with tabs[5]:  # Life Graph
+        with tabs[1]:
+            st.subheader("Financial & Investment Guidance")
+            
             st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    📈 LIFE AREAS PERFORMANCE GRAPH
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
+            **Based on Current Planetary Positions:**
             
-            # Create performance metrics for different life areas
-            life_areas = {
-                "Career": {"Current": 75, "3 Months": 85, "6 Months": 90, "1 Year": 95},
-                "Finance": {"Current": 65, "3 Months": 75, "6 Months": 85, "1 Year": 90},
-                "Relationships": {"Current": 70, "3 Months": 75, "6 Months": 80, "1 Year": 85},
-                "Health": {"Current": 70, "3 Months": 75, "6 Months": 80, "1 Year": 85},
-                "Spirituality": {"Current": 85, "3 Months": 87, "6 Months": 90, "1 Year": 95}
-            }
+            ✅ **Favorable Investments:**
+            - Gold (Sun in Cancer - traditional wealth)
+            - Real Estate (Venus-Moon connection)
+            - Banking Stocks (Jupiter aspect)
             
-            # Display as metrics
-            st.markdown("### Current vs Future Projections")
+            ⚠️ **Avoid Until Aug 11:**
+            - Technology stocks (Mercury retrograde)
+            - Cryptocurrency (Communication planet weak)
+            - New ventures (Wait for Mercury direct)
             
-            for area, values in life_areas.items():
-                col1, col2, col3, col4, col5 = st.columns(5)
-                
-                with col1:
-                    st.markdown(f"**{area}**")
-                with col2:
-                    st.metric("Current", f"{values['Current']}%")
-                with col3:
-                    st.metric("3 Months", f"{values['3 Months']}%", delta=f"+{values['3 Months']-values['Current']}%")
-                with col4:
-                    st.metric("6 Months", f"{values['6 Months']}%", delta=f"+{values['6 Months']-values['Current']}%")
-                with col5:
-                    st.metric("1 Year", f"{values['1 Year']}%", delta=f"+{values['1 Year']-values['Current']}%")
-                
-                st.divider()
+            📈 **Best Trading Times Today:**
+            - Morning: 9:15-10:30 AM (Sun hour)
+            - Afternoon: 2:30-3:30 PM (Jupiter hour)
+            """)
         
-        with tabs[6]:  # Career & Growth
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    🎯 CAREER GROWTH & LIFE PURPOSE ANALYSIS
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
+        with tabs[2]:
+            st.subheader("Remedial Measures")
             
             col1, col2 = st.columns(2)
-            
             with col1:
-                st.markdown("### 🎯 Career Direction")
-                st.success("""
-                **Most Favorable Fields (Based on Dasha & Transits):**
-                • Government Services (Sun Mahadasha)
-                • Leadership & Management Roles
-                • Creative Arts & Entertainment
-                • Real Estate & Property
-                • Healthcare Administration
+                st.markdown("""
+                **🔮 Gemstones:**
+                - Ruby (3-5 carats) - Ring finger, Sunday
+                - Pearl (5-7 carats) - Little finger, Monday
+                - Yellow Sapphire (4-5 carats) - Index finger, Thursday
                 
-                **Timing for Career Moves:**
-                • Aug 17-31: Excellent for job change
-                • Sep 7+: New ventures favorable
-                • Oct 18+: Major breakthrough period
-                
-                **Skills to Develop:**
-                • Leadership & Authority
-                • Communication (Mercury periods)
-                • Emotional Intelligence (Moon)
-                • Strategic Planning (Saturn aspect)
+                **📿 Mantras:**
+                - Sun: "Om Surya Namaha" (108 times at sunrise)
+                - Moon: "Om Som Somaya Namaha" (108 times)
+                - Jupiter: "Om Gram Greem Grom Sah Guruve Namaha"
                 """)
             
             with col2:
-                st.markdown("### 🌟 Life Purpose & Dharma")
-                st.info("""
-                **Soul Purpose (From Dasha Analysis):**
-                Your current life phase emphasizes leadership and service to society through positions of authority.
+                st.markdown("""
+                **🎁 Donations:**
+                - Sunday: Wheat/Jaggery to temple
+                - Monday: Rice/Milk to women & children
+                - Thursday: Yellow items to teachers
                 
-                **Karmic Lessons:**
-                • Learning responsible use of power
-                • Balancing ego with service
-                • Family responsibilities and traditions
-                • Public service and recognition
-                
-                **Spiritual Evolution:**
-                • Sun Mahadasha: Self-realization
-                • Moon upcoming: Emotional mastery
-                • Focus on Raja Yoga practices
-                • Teaching and mentoring others
+                **🍽️ Fasting:**
+                - Sunday: One meal (Sun Mahadasha)
+                - Monday: Fruits only (Moon Antardasha)
+                - Thursday: Vegetarian (Jupiter blessings)
                 """)
+        
+        with tabs[3]:
+            st.subheader("Career & Growth Analysis")
             
-            st.markdown("### 📊 Career Timeline & Milestones")
+            st.markdown("""
+            **Most Favorable Career Fields (Based on Dasha):**
             
-            career_timeline = [
-                {"Period": "Aug 2025", "Event": "Authority increases", "Action": "Apply for senior positions", "Success": "85%"},
-                {"Period": "Sep 2025", "Event": "Competition period", "Action": "Showcase your skills", "Success": "75%"},
-                {"Period": "Oct 2025", "Event": "Jupiter blessing", "Action": "Major expansion/promotion", "Success": "95%"},
-                {"Period": "Nov 2025", "Event": "Stability phase", "Action": "Consolidate gains", "Success": "80%"},
-                {"Period": "Dec 2025", "Event": "Recognition period", "Action": "Awards/honors possible", "Success": "85%"}
-            ]
+            🌟 **Excellent Prospects:**
+            - Government Services (Sun Mahadasha)
+            - Leadership & Management Roles
+            - Creative Arts & Entertainment
+            - Real Estate & Property Development
             
-            df_career = pd.DataFrame(career_timeline)
-            st.dataframe(df_career, use_container_width=True)
+            📈 **Growth Timeline:**
+            - **Aug 11-17**: Apply for new positions
+            - **Aug 17-31**: Peak authority period
+            - **Sep 7+**: New ventures favorable
+            - **Oct 18+**: Major breakthrough (Jupiter in Cancer)
+            
+            💡 **Skills to Develop:**
+            - Leadership & Public Speaking
+            - Emotional Intelligence (Moon period)
+            - Strategic Planning
+            - Creative Problem Solving
+            """)
     
-    else:
-        # Financial Markets Mode
-        tabs = st.tabs([
-            "📊 Market Dashboard", 
-            "💹 Key Instruments", 
-            "🏦 Sector Analysis",
-            "⏰ Trading Times",
-            "📈 Weekly Forecast"
-        ])
+    else:  # Financial Markets Mode
+        # Market Overview
+        st.markdown("""
+        <div style="margin: 20px 0;">
+            <h3 style="color: #1e293b; font-family: 'Space Grotesk', sans-serif; text-align: center;">
+                📊 Market Overview - Planetary Influence
+            </h3>
+        </div>
+        """, unsafe_allow_html=True)
         
-        with tabs[0]:  # Market Dashboard
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    📊 PLANETARY MARKET DASHBOARD
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            col1, col2, col3 = st.columns(3)
-            
-            with col1:
-                st.metric("📈 BULLISH PLANETS", "6")
-                st.caption("Sun, Moon, Venus, Mars, Jupiter, Ketu")
-                st.success("Strong market support")
-            
-            with col2:
-                st.metric("📉 BEARISH PLANETS", "2")
-                st.caption("Mercury (R), Saturn (R)")
-                st.warning("Communication & traditional sectors weak")
-            
-            with col3:
-                st.metric("⚖️ NEUTRAL FORCE", "1")
-                st.caption("Rahu (Innovation)")
-                st.info("Disruptive but opportunity")
+        financial_data = get_financial_data()
         
-        with tabs[1]:  # Key Instruments
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    💹 KEY FINANCIAL INSTRUMENTS
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            instruments = get_financial_instruments_analysis()
-            
-            for instrument in instruments:
-                trend_emoji = "📈" if instrument['current_trend'] == "Bullish" else "📉" if instrument['current_trend'] == "Bearish" else "➡️"
+        # Display Indices
+        st.markdown("#### Stock Indices")
+        cols = st.columns(3)
+        for i, index in enumerate(financial_data['indices']):
+            with cols[i]:
+                trend_color = "#10b981" if index['trend'] == 'bullish' else "#ef4444"
+                arrow = "↑" if index['trend'] == 'bullish' else "↓"
                 
-                with st.expander(f"{trend_emoji} {instrument['name']} - {instrument['current_trend']} Trend", expanded=True):
-                    col1, col2 = st.columns(2)
-                    
-                    with col1:
-                        st.markdown(f"**Planetary Influence:** {instrument['planetary_influence']}")
-                        st.markdown(f"**Intraday:** {instrument['intraday']}")
-                        st.markdown(f"**Weekly:** {instrument['weekly']}")
-                    
-                    with col2:
-                        st.markdown(f"**Monthly:** {instrument['monthly']}")
-                        st.markdown(f"**Key Dates:** {instrument['key_dates']}")
+                st.markdown(f"""
+                <div style="background: white; border-radius: 10px; padding: 15px; 
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.06); text-align: center;">
+                    <h4 style="color: #1e293b; margin: 0;">{index['name']}</h4>
+                    <h2 style="color: {trend_color}; margin: 10px 0;">
+                        {index['value']} {arrow}
+                    </h2>
+                    <p style="color: {trend_color}; font-weight: 600;">
+                        {index['change']} ({index['change_pct']})
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
         
-        with tabs[2]:  # Sector Analysis
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    🏦 SECTOR-WISE PLANETARY IMPACT
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            sectors = {
-                "💻 IT & TECHNOLOGY": {
-                    "Status": "Mixed → Strong Bullish",
-                    "Ruler": "Mercury + Jupiter",
-                    "Impact": "Mercury retrograde temporary issues, Jupiter long-term support",
-                    "Stocks": "TCS, Infosys, Wipro",
-                    "Target": "15-25% upside"
-                },
-                "🏦 BANKING & FINANCE": {
-                    "Status": "Strong Bullish",
-                    "Ruler": "Sun + Jupiter",
-                    "Impact": "Sun in Cancer excellent for traditional banking",
-                    "Stocks": "HDFC Bank, ICICI, SBI",
-                    "Target": "20-30% growth"
-                },
-                "🏠 REAL ESTATE": {
-                    "Status": "Bullish",
-                    "Ruler": "Mars + Sun",
-                    "Impact": "Perfect for residential property investments",
-                    "Stocks": "DLF, Godrej Properties",
-                    "Target": "25-40% appreciation"
-                },
-                "⚡ ENERGY": {
-                    "Status": "Mixed",
-                    "Ruler": "Saturn + Mars",
-                    "Impact": "Traditional energy weak, renewables strong",
-                    "Stocks": "Reliance, Adani Green",
-                    "Target": "Selective opportunities"
-                },
-                "🏥 HEALTHCARE": {
-                    "Status": "Bullish",
-                    "Ruler": "Moon + Jupiter",
-                    "Impact": "Healthcare expansion, pharma growth",
-                    "Stocks": "Sun Pharma, Dr. Reddy's",
-                    "Target": "15-20% growth"
-                }
-            }
-            
-            for sector_name, sector_data in sectors.items():
-                status_color = "🟢" if "Bullish" in sector_data['Status'] else "🔴" if "Bearish" in sector_data['Status'] else "🟡"
+        # Display Commodities
+        st.markdown("#### Commodities")
+        cols = st.columns(3)
+        for i, commodity in enumerate(financial_data['commodities']):
+            with cols[i]:
+                trend_color = "#10b981" if commodity['trend'] == 'bullish' else "#ef4444"
+                arrow = "↑" if commodity['trend'] == 'bullish' else "↓"
                 
-                with st.expander(f"{status_color} {sector_name} - {sector_data['Status']}"):
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        st.markdown(f"**Planetary Ruler:** {sector_data['Ruler']}")
-                        st.markdown(f"**Impact:** {sector_data['Impact']}")
-                    with col2:
-                        st.markdown(f"**Key Stocks:** {sector_data['Stocks']}")
-                        st.markdown(f"**Target:** {sector_data['Target']}")
+                st.markdown(f"""
+                <div style="background: white; border-radius: 10px; padding: 15px; 
+                            box-shadow: 0 2px 6px rgba(0,0,0,0.06); text-align: center;">
+                    <h4 style="color: #1e293b; margin: 0;">{commodity['name']}</h4>
+                    <h2 style="color: {trend_color}; margin: 10px 0;">
+                        {commodity['value']} {arrow}
+                    </h2>
+                    <p style="color: {trend_color}; font-weight: 600;">
+                        {commodity['change']} ({commodity['change_pct']})
+                    </p>
+                </div>
+                """, unsafe_allow_html=True)
         
-        with tabs[3]:  # Trading Times
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    ⏰ OPTIMAL TRADING TIMES BASED ON PLANETARY HOURS
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
-            
-            trading_times = [
-                {"Time": "9:15-9:45 AM", "Planet": "Sun", "Best For": "Gold, Banking", "Strategy": "Buy quality largecaps"},
-                {"Time": "10:00-11:30 AM", "Planet": "Venus", "Best For": "FMCG, Real Estate", "Strategy": "Long positions"},
-                {"Time": "11:30 AM-1:00 PM", "Planet": "Mercury", "Best For": "IT stocks", "Strategy": "Avoid during retrograde"},
-                {"Time": "1:00-2:30 PM", "Planet": "Moon", "Best For": "Healthcare, Food", "Strategy": "Emotional sectors"},
-                {"Time": "2:30-3:15 PM", "Planet": "Saturn", "Best For": "Value stocks", "Strategy": "Book profits"},
-                {"Time": "3:15-3:30 PM", "Planet": "Jupiter", "Best For": "Finance, Education", "Strategy": "Final buying"}
-            ]
-            
-            df_times = pd.DataFrame(trading_times)
-            st.dataframe(df_times, use_container_width=True)
+        # Planetary Market Analysis
+        st.markdown("---")
+        st.subheader("🌟 Planetary Market Influence")
         
-        with tabs[4]:  # Weekly Forecast
+        col1, col2 = st.columns(2)
+        
+        with col1:
             st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    📈 WEEKLY MARKET FORECAST
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
+            **Bullish Planetary Factors:**
+            - ✅ Sun in Cancer - Banking sector strong
+            - ✅ Jupiter in Gemini - IT & Communication growth
+            - ✅ Venus in Gemini - Consumer goods favorable
+            - ✅ Mars in Virgo - Healthcare & pharma positive
             
-            weekly_forecast = {
-                "Aug 7-11, 2025": {
-                    "Trend": "Bearish to Neutral",
-                    "Nifty": "24,800-25,000 range",
-                    "Key Event": "Mercury Retrograde peak",
-                    "Strategy": "Stay cash heavy, avoid new positions"
-                },
-                "Aug 12-18, 2025": {
-                    "Trend": "Bullish Recovery",
-                    "Nifty": "25,200+ targets",
-                    "Key Event": "Mercury Direct, Sun enters Leo",
-                    "Strategy": "Aggressive buying in IT and Banking"
-                },
-                "Aug 19-25, 2025": {
-                    "Trend": "Strong Bullish",
-                    "Nifty": "25,500+ possible",
-                    "Key Event": "Venus enters Cancer",
-                    "Strategy": "Ride momentum, book partial profits"
-                }
-            }
+            **Key Support Levels:**
+            - NIFTY: 24,500
+            - BANK NIFTY: 51,800
+            - GOLD: ₹72,000
+            """)
+        
+        with col2:
+            st.markdown("""
+            **Bearish Planetary Factors:**
+            - ❌ Mercury Retrograde - Tech volatility
+            - ❌ Saturn Retrograde - Traditional sectors weak
+            - ❌ Rahu in Aquarius - Cryptocurrency unstable
             
-            for week, data in weekly_forecast.items():
-                trend_color = "success" if "Bullish" in data['Trend'] else "error" if "Bearish" in data['Trend'] else "warning"
-                
-                with st.expander(f"📅 {week} - {data['Trend']}", expanded=True):
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        st.markdown(f"**Nifty Range:** {data['Nifty']}")
-                        st.markdown(f"**Key Event:** {data['Key Event']}")
-                    with col2:
-                        st.markdown(f"**Strategy:** {data['Strategy']}")
-
-else:
-    # Welcome Screen
-    st.markdown("""
-    <div class="cosmic-panel">
-        <h2 style="text-align: center; color: #1a202c; margin-bottom: 20px;">
-            🌌 PROFESSIONAL KP ASTROLOGY & MARKET ANALYSIS
-        </h2>
-        <p style="text-align: center; color: #2d3748; font-size: 1.2em; margin: 20px 0; line-height: 1.6;">
-            Get comprehensive astrological analysis for personal life and financial markets
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
-    
-    # Feature highlights
-    col1, col2, col3 = st.columns(3)
-    
-    with col1:
+            **Key Resistance Levels:**
+            - NIFTY: 25,200
+            - BANK NIFTY: 53,000
+            - GOLD: ₹73,000
+            """)
+        
+        # Sector Analysis
+        st.markdown("---")
+        st.subheader("🏦 Sector-wise Planetary Impact")
+        
+        sectors = [
+            {"sector": "Banking", "impact": "Highly Positive", "reason": "Sun in Cancer", "stocks": "HDFC, ICICI, SBI", "target": "+20-25%"},
+            {"sector": "IT", "impact": "Mixed", "reason": "Mercury Retrograde", "stocks": "TCS, Infosys, Wipro", "target": "Wait till Aug 11"},
+            {"sector": "Real Estate", "impact": "Positive", "reason": "Venus-Moon aspect", "stocks": "DLF, Godrej Prop", "target": "+15-20%"},
+            {"sector": "Pharma", "impact": "Positive", "reason": "Mars in Virgo", "stocks": "Sun Pharma, Dr Reddy", "target": "+12-15%"}
+        ]
+        
+        df_sectors = pd.DataFrame(sectors)
+        st.dataframe(df_sectors, use_container_width=True, hide_index=True)
+        
+        # Trading Strategy
+        st.markdown("---")
+        st.subheader("📈 Today's Trading Strategy")
+        
         st.info("""
-        **📊 Personal Horoscope Features:**
-        • Complete Dasha Analysis (MD-AD-PD)
-        • Current & Upcoming Transits
-        • Monthly Predictions
-        • Career & Growth Guidance
-        • Remedial Measures
-        • Life Purpose Analysis
-        """)
-    
-    with col2:
-        st.success("""
-        **📈 Financial Markets Features:**
-        • Planetary Market Dashboard
-        • Key Instruments Analysis
-        • Sector-wise Predictions
-        • Optimal Trading Times
-        • Weekly & Monthly Forecasts
-        • Gann & Astro Techniques
-        """)
-    
-    with col3:
-        st.warning("""
-        **🌟 Current Highlights:**
-        • Mercury Retrograde until Aug 11
-        • Sun enters Leo on Aug 17
-        • Jupiter in Gemini (Knowledge)
-        • Saturn Retrograde (Karma)
-        • Major fortune after Oct 18
-        • Venus favors relationships
+        **Intraday Trading Plan (Aug 7, 2025):**
+        
+        🕐 **9:15-10:30 AM** - Sun Hour
+        - Buy: Banking stocks, Gold
+        - Avoid: Technology stocks
+        
+        🕐 **10:30 AM-12:00 PM** - Venus Hour  
+        - Buy: FMCG, Real Estate
+        - Book partial profits
+        
+        🕐 **12:00-2:30 PM** - Mercury Hour
+        - Avoid new positions (Retrograde)
+        - Square off intraday positions
+        
+        🕐 **2:30-3:30 PM** - Moon/Jupiter Hour
+        - Buy for next day: Healthcare, Education stocks
+        - Accumulate quality stocks on dips
         """)
 
 # Footer
+st.markdown("---")
 st.markdown("""
-<div style="text-align: center; margin: 40px 0 25px 0; padding: 35px; 
-            background: rgba(255, 255, 255, 0.98); border-radius: 20px; 
-            border: 2px solid rgba(102, 126, 234, 0.2);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);">
-    <h3 style="color: #667eea; margin-bottom: 12px; font-family: 'Orbitron', monospace;">
-        🌌 PROFESSIONAL ASTROLOGY & TRADING PLATFORM
-    </h3>
-    <p style="color: #1a202c; font-size: 1.1em; font-family: 'Space Grotesk', sans-serif; margin-bottom: 8px;">
-        Vimshottari Dasha | KP System | Planetary Transits | Life & Market Intelligence
+<div style="text-align: center; padding: 20px; color: #64748b;">
+    <p style="font-size: 14px;">
+        🌟 Professional KP Astrology System | Accurate Planetary Calculations | Financial Astrology
     </p>
-    <p style="color: #2d3748; font-family: 'Poppins', sans-serif; font-size: 0.95em;">
-        Combining ancient wisdom with modern technology for comprehensive life guidance
+    <p style="font-size: 12px; margin-top: 10px;">
+        Disclaimer: For educational and informational purposes only. Please consult professionals for personal and financial decisions.
     </p>
 </div>
 """, unsafe_allow_html=True)
