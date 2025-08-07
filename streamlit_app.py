@@ -1025,6 +1025,7 @@ if analyze_button:
             </div>
             """, unsafe_allow_html=True)
             
+            # Corrected sectors data matching the image
             sectors_analysis = [
                 {
                     "sector": "💻 IT & TECHNOLOGY",
@@ -1052,63 +1053,10 @@ if analyze_button:
                     "stocks": "DLF, Godrej Properties, L&T",
                     "timing": "Strong buy Aug 17+, Hold long-term",
                     "target": "25-40% appreciation"
-                },
-                {
-                    "sector": "⚕️ HEALTHCARE & PHARMA",
-                    "planetary_ruler": "Moon + Jupiter",
-                    "current_status": "Neutral to Bullish",
-                    "impact": "Moon in Sagittarius supports holistic health. Traditional medicine gains focus",
-                    "stocks": "Sun Pharma, Dr. Reddy's, Apollo",
-                    "timing": "Gradual accumulation, Peak Oct+",
-                    "target": "12-20% steady growth"
-                },
-                {
-                    "sector": "⚡ ENERGY & POWER",
-                    "planetary_ruler": "Sun + Saturn",
-                    "current_status": "Mixed",
-                    "impact": "Traditional energy faces Saturn pressure. Solar/renewable energy supported by Sun",
-                    "stocks": "Reliance, Adani Green, NTPC",
-                    "timing": "Renewable: Buy, Traditional: Hold",
-                    "target": "Renewable: 30%+, Traditional: 5-10%"
-                },
-                {
-                    "sector": "🛒 FMCG & CONSUMER",
-                    "planetary_ruler": "Venus + Moon",
-                    "current_status": "Neutral",
-                    "impact": "Venus in Gemini supports communication-based marketing. Family products excel",
-                    "stocks": "HUL, Nestle, ITC",
-                    "timing": "Selective buying, Family products focus",
-                    "target": "8-15% steady growth"
-                },
-                {
-                    "sector": "🚗 AUTO & TRANSPORT",
-                    "planetary_ruler": "Mercury + Mars",
-                    "current_status": "Bearish → Neutral",
-                    "impact": "Mercury retrograde hits transportation. Electric vehicles supported by innovation",
-                    "stocks": "Maruti, Tata Motors, Bajaj Auto",
-                    "timing": "Avoid till Aug 11, EV focus post Aug 12",
-                    "target": "EV: 20%+, Traditional: 5-8%"
-                },
-                {
-                    "sector": "📱 TELECOM & MEDIA",
-                    "planetary_ruler": "Mercury + Rahu",
-                    "current_status": "Bearish",
-                    "impact": "Mercury retrograde severely impacts communication sector. 5G delays possible",
-                    "stocks": "Airtel, Jio, Vodafone Idea",
-                    "timing": "Avoid new positions till Aug 11",
-                    "target": "Recovery post Aug 12, 10-15%"
-                },
-                {
-                    "sector": "💎 METALS & MINING",
-                    "planetary_ruler": "Mars + Saturn",
-                    "current_status": "Bullish",
-                    "impact": "Mars in Virgo supports precision mining. Infrastructure demand strong",
-                    "stocks": "Tata Steel, JSW, Hindalco",
-                    "timing": "Immediate buy, Hold long-term",
-                    "target": "18-28% growth potential"
                 }
             ]
             
+            # Display sectors in 3-column layout
             for i in range(0, len(sectors_analysis), 3):
                 col1, col2, col3 = st.columns(3)
                 cols = [col1, col2, col3]
