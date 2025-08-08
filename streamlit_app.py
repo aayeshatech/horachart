@@ -2877,7 +2877,7 @@ if analyze_button:
                     "events": [
                         "Aug 17: Sun enters Leo - Banking boom",
                         "Sep 1: Saturn direct - FII buying",
-                        "Oct 18: Jupiter Cancer - Mega growth"
+                        "Oct 18: Jupiter in Cancer - Mega growth"
                     ],
                     "strategy": "Aggressive accumulation, hold for 6-12 months"
                 },
@@ -3091,7 +3091,80 @@ if analyze_button:
             </div>
             """, unsafe_allow_html=True)
             
+            # BTC Input Section
+            st.markdown("### 💰 BITCOIN (BTC) PRICE INPUT")
+            
+            btc_price = st.number_input(
+                "Bitcoin Price (USD)",
+                min_value=0.0,
+                value=65000.0,
+                step=100.0,
+                format="%.2f"
+            )
+            
+            # Calculate button for BTC
+            btc_calculate_button = st.button("🔮 CALCULATE BTC FORECAST", type="primary")
+            
+            if btc_calculate_button:
+                st.success("✅ BTC Calculation complete! See results below.")
+            
+            # BTC Analysis
+            st.markdown("### ₿ BITCOIN (BTC) ANALYSIS")
+            
+            # Create two columns for input and report
+            col1, col2 = st.columns([1, 2])
+            
+            with col1:
+                st.markdown("#### 📊 Current Data")
+                st.metric("Current Price", f"${btc_price:.2f}")
+                st.metric("Planetary Ruler", "Uranus + Pluto")
+                st.metric("Current Trend", "Bullish with High Volatility")
+                
+                # Calculate support and resistance based on input price
+                btc_support = btc_price * 0.92  # 8% below current price
+                btc_resistance = btc_price * 1.08  # 8% above current price
+                btc_target_1w = btc_price * 1.05  # 5% above for 1 week
+                btc_target_1m = btc_price * 1.15  # 15% above for 1 month
+                btc_target_3m = btc_price * 1.35  # 35% above for 3 months
+                
+                st.metric("Key Support", f"${btc_support:.2f}")
+                st.metric("Key Resistance", f"${btc_resistance:.2f}")
+            
+            with col2:
+                st.markdown("#### 🔮 Astrological Forecast Report")
+                
+                btc_report = f"""
+                **₿ BITCOIN ASTROLOGICAL ANALYSIS**
+                
+                **Current Price:** ${btc_price:.2f}
+                
+                **📈 Price Targets:**
+                • 1 Week Target: ${btc_target_1w:.2f}
+                • 1 Month Target: ${btc_target_1m:.2f}
+                • 3 Months Target: ${btc_target_3m:.2f}
+                
+                **🔮 Planetary Influences:**
+                • **Uranus:** Innovation, disruption, sudden changes (Strong in 2025)
+                • **Pluto:** Transformation, power, wealth cycles (Long-term influence)
+                • **Jupiter:** Expansion, adoption, growth (Mega boost from Oct 2025)
+                
+                **📅 Key Transit Events:**
+                • **Aug 11, 2025:** Mercury Direct - Crypto communication clarity
+                • **Aug 17, 2025:** Sun in Leo - Institutional adoption increases
+                • **Oct 18, 2025:** Jupiter in Cancer - MEGA CRYPTO BULL RUN begins
+                
+                **📈 Trading Strategy:**
+                Buy on dips to ${btc_support:.2f}, hold for ${btc_target_3m:.2f}+ target
+                
+                **⚠️ Risk Factors:**
+                Regulatory crackdowns, exchange failures, high volatility
+                """
+                
+                st.success(btc_report)
+            
             # Major currency pairs
+            st.markdown("### 💱 MAJOR CURRENCY PAIRS")
+            
             forex_pairs = {
                 "USD/INR": {
                     "current": "83.45",
@@ -3592,69 +3665,220 @@ if analyze_button:
             
             st.info(f"Commodity market analysis using {ayanamsa} ayanamsa ({ayanamsa_options[ayanamsa]['value']}°)")
             
+            # Price Input Section
+            st.markdown("### 💰 INPUT CURRENT PRICES")
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                gold_price = st.number_input(
+                    "Gold Price (USD/oz)",
+                    min_value=0.0,
+                    value=2450.0,
+                    step=0.1,
+                    format="%.2f"
+                )
+                
+            with col2:
+                nifty_price = st.number_input(
+                    "Nifty 50",
+                    min_value=0.0,
+                    value=25075.0,
+                    step=1.0,
+                    format="%.2f"
+                )
+                
+            with col3:
+                bank_nifty_price = st.number_input(
+                    "Bank Nifty",
+                    min_value=0.0,
+                    value=53250.0,
+                    step=1.0,
+                    format="%.2f"
+                )
+            
+            # Calculate button
+            calculate_button = st.button("🔮 CALCULATE ASTROLOGICAL FORECAST", type="primary")
+            
+            if calculate_button:
+                st.success("✅ Calculation complete! See results below.")
+            
             # Gold Analysis
             st.markdown("### 🥇 GOLD ANALYSIS")
             
-            gold_analysis = {
-                "current_price": "$2,450",
-                "planetary_ruler": "Sun (Core) + Jupiter (Expansion)",
-                "current_trend": "Bullish consolidation",
-                "key_support": "$2,380",
-                "key_resistance": "$2,520",
-                "short_term_target": "$2,500 (Aug 2025)",
-                "medium_term_target": "$2,650 (Oct 2025)",
-                "long_term_target": "$3,000+ (2026)",
-                "planetary_influences": [
-                    {"Planet": "Sun", "Effect": "Core value, stability", "Timeline": "Strong until Nov 2030"},
-                    {"Planet": "Jupiter", "Effect": "Expansion, wealth growth", "Timeline": "Mega boost from Oct 2025"},
-                    {"Planet": "Saturn", "Effect": "Traditional value, safety", "Timeline": "Retrograde until Sep 2025"}
-                ],
-                "transit_events": [
-                    {"Date": "Aug 17, 2025", "Event": "Sun in Leo", "Effect": "Gold strength increases", "Action": "Buy on dips"},
-                    {"Date": "Sep 1, 2025", "Event": "Saturn Direct", "Effect": "Traditional value returns", "Action": "Accumulate"},
-                    {"Date": "Oct 18, 2025", "Event": "Jupiter in Cancer", "Effect": "MEGA GOLD RALLY begins", "Action": "Aggressive buying"}
-                ],
-                "trading_strategy": "Buy on dips to $2,380, hold for $3,000+ target",
-                "risk_factors": "Strong USD, rising interest rates, central bank policies"
-            }
+            # Create two columns for input and report
+            col1, col2 = st.columns([1, 2])
             
-            with st.expander("🥇 GOLD DETAILED ANALYSIS", expanded=True):
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.metric("Current Price", gold_analysis["current_price"])
-                    st.metric("Key Support", gold_analysis["key_support"])
-                    st.metric("Key Resistance", gold_analysis["key_resistance"])
-                    
-                    st.markdown("### 🎯 Price Targets")
-                    st.info(f"**Short Term:** {gold_analysis['short_term_target']}")
-                    st.info(f"**Medium Term:** {gold_analysis['medium_term_target']}")
-                    st.info(f"**Long Term:** {gold_analysis['long_term_target']}")
+            with col1:
+                st.markdown("#### 📊 Current Data")
+                st.metric("Current Price", f"${gold_price:.2f}")
+                st.metric("Planetary Ruler", "Sun + Jupiter")
+                st.metric("Current Trend", "Bullish Consolidation")
                 
-                with col2:
-                    st.markdown("### 🔮 Planetary Influences")
-                    for influence in gold_analysis["planetary_influences"]:
-                        st.success(f"**{influence['Planet']}:** {influence['Effect']} ({influence['Timeline']})")
-                    
-                    st.markdown("### 📅 Transit Events")
-                    for event in gold_analysis["transit_events"]:
-                        st.warning(f"**{event['Date']}:** {event['Effect']} → {event['Action']}")
+                # Calculate support and resistance based on input price
+                gold_support = gold_price * 0.97  # 3% below current price
+                gold_resistance = gold_price * 1.03  # 3% above current price
+                gold_target_1m = gold_price * 1.02  # 2% above for 1 month
+                gold_target_3m = gold_price * 1.08  # 8% above for 3 months
+                gold_target_1y = gold_price * 1.22  # 22% above for 1 year
                 
-                st.markdown("### 📈 Trading Strategy")
-                st.success(f"**Strategy:** {gold_analysis['trading_strategy']}")
-                st.error(f"**Risk Factors:** {gold_analysis['risk_factors']}")
+                st.metric("Key Support", f"${gold_support:.2f}")
+                st.metric("Key Resistance", f"${gold_resistance:.2f}")
             
-            # Silver Analysis
+            with col2:
+                st.markdown("#### 🔮 Astrological Forecast Report")
+                
+                gold_report = f"""
+                **🌟 GOLD ASTROLOGICAL ANALYSIS**
+                
+                **Current Price:** ${gold_price:.2f}
+                
+                **📈 Price Targets:**
+                • 1 Month Target: ${gold_target_1m:.2f}
+                • 3 Months Target: ${gold_target_3m:.2f}
+                • 1 Year Target: ${gold_target_1y:.2f}
+                
+                **🔮 Planetary Influences:**
+                • **Sun:** Core value, stability (Strong until Nov 2030)
+                • **Jupiter:** Expansion, wealth growth (Mega boost from Oct 2025)
+                • **Saturn:** Traditional value, safety (Retrograde until Sep 2025)
+                
+                **📅 Key Transit Events:**
+                • **Aug 17, 2025:** Sun in Leo - Gold strength increases
+                • **Sep 1, 2025:** Saturn Direct - Traditional value returns
+                • **Oct 18, 2025:** Jupiter in Cancer - MEGA GOLD RALLY begins
+                
+                **📈 Trading Strategy:**
+                Buy on dips to ${gold_support:.2f}, hold for ${gold_target_1y:.2f}+ target
+                
+                **⚠️ Risk Factors:**
+                Strong USD, rising interest rates, central bank policies
+                """
+                
+                st.success(gold_report)
+            
+            # Nifty Analysis
+            st.markdown("### 📈 NIFTY 50 ANALYSIS")
+            
+            # Create two columns for input and report
+            col1, col2 = st.columns([1, 2])
+            
+            with col1:
+                st.markdown("#### 📊 Current Data")
+                st.metric("Current Price", f"{nifty_price:.2f}")
+                st.metric("Planetary Ruler", "Sun (Authority)")
+                st.metric("Current Trend", "Bullish")
+                
+                # Calculate support and resistance based on input price
+                nifty_support = nifty_price * 0.98  # 2% below current price
+                nifty_resistance = nifty_price * 1.02  # 2% above current price
+                nifty_target_1w = nifty_price * 1.01  # 1% above for 1 week
+                nifty_target_1m = nifty_price * 1.045  # 4.5% above for 1 month
+                nifty_target_3m = nifty_price * 1.096  # 9.6% above for 3 months
+                
+                st.metric("Key Support", f"{nifty_support:.2f}")
+                st.metric("Key Resistance", f"{nifty_resistance:.2f}")
+            
+            with col2:
+                st.markdown("#### 🔮 Astrological Forecast Report")
+                
+                nifty_report = f"""
+                **🌟 NIFTY 50 ASTROLOGICAL ANALYSIS**
+                
+                **Current Price:** {nifty_price:.2f}
+                
+                **📈 Price Targets:**
+                • 1 Week Target: {nifty_target_1w:.2f}
+                • 1 Month Target: {nifty_target_1m:.2f}
+                • 3 Months Target: {nifty_target_3m:.2f}
+                
+                **🔮 Planetary Influences:**
+                • **Sun:** Authority, Government policies (Strong until Nov 2030)
+                • **Moon:** Public sentiment (Current phase until Sep 2025)
+                • **Mercury:** Communication, IT (Volatile until direct Aug 11)
+                
+                **📅 Key Transit Events:**
+                • **Aug 11, 2025:** Mercury Direct - IT sector recovery
+                • **Aug 17, 2025:** Sun in Leo - Banking sector boom
+                • **Oct 18, 2025:** Jupiter in Cancer - MEGA BULL RUN begins
+                
+                **📈 Trading Strategy:**
+                Buy on dips to {nifty_support:.2f}, hold for {nifty_target_3m:.2f}+ target
+                
+                **⚠️ Risk Factors:**
+                Global slowdown, FII selling, regulatory changes
+                """
+                
+                st.success(nifty_report)
+            
+            # Bank Nifty Analysis
+            st.markdown("### 🏦 BANK NIFTY ANALYSIS")
+            
+            # Create two columns for input and report
+            col1, col2 = st.columns([1, 2])
+            
+            with col1:
+                st.markdown("#### 📊 Current Data")
+                st.metric("Current Price", f"{bank_nifty_price:.2f}")
+                st.metric("Planetary Ruler", "Sun + Jupiter")
+                st.metric("Current Trend", "Super Bullish")
+                
+                # Calculate support and resistance based on input price
+                bank_nifty_support = bank_nifty_price * 0.975  # 2.5% below current price
+                bank_nifty_resistance = bank_nifty_price * 1.025  # 2.5% above current price
+                bank_nifty_target_1w = bank_nifty_price * 1.023  # 2.3% above for 1 week
+                bank_nifty_target_1m = bank_nifty_price * 1.07  # 7% above for 1 month
+                bank_nifty_target_3m = bank_nifty_price * 1.163  # 16.3% above for 3 months
+                
+                st.metric("Key Support", f"{bank_nifty_support:.2f}")
+                st.metric("Key Resistance", f"{bank_nifty_resistance:.2f}")
+            
+            with col2:
+                st.markdown("#### 🔮 Astrological Forecast Report")
+                
+                bank_nifty_report = f"""
+                **🌟 BANK NIFTY ASTROLOGICAL ANALYSIS**
+                
+                **Current Price:** {bank_nifty_price:.2f}
+                
+                **📈 Price Targets:**
+                • 1 Week Target: {bank_nifty_target_1w:.2f}
+                • 1 Month Target: {bank_nifty_target_1m:.2f}
+                • 3 Months Target: {bank_nifty_target_3m:.2f}
+                
+                **🔮 Planetary Influences:**
+                • **Sun:** Authority, Banking sector (Perfect match until Nov 2030)
+                • **Jupiter:** Expansion, Financial growth (Mega boost from Oct 2025)
+                • **Venus:** Harmony, Loan growth (Strong from Aug 21)
+                
+                **📅 Key Transit Events:**
+                • **Aug 17, 2025:** Sun in Leo - Banking sector boom
+                • **Aug 21, 2025:** Venus in Cancer - Loan growth increases
+                • **Oct 18, 2025:** Jupiter in Cancer - NII expansion begins
+                
+                **📈 Trading Strategy:**
+                Aggressive accumulation below {bank_nifty_support:.2f}, target {bank_nifty_target_3m:.2f}+
+                
+                **⚠️ Risk Factors:**
+                Interest rate changes, NPA concerns, liquidity issues
+                """
+                
+                st.success(bank_nifty_report)
+            
+            # Silver Analysis (keeping existing format)
             st.markdown("### 🥈 SILVER ANALYSIS")
             
+            silver_price = 28.50  # Default silver price
+            
             silver_analysis = {
-                "current_price": "$28.50",
+                "current_price": f"${silver_price:.2f}",
                 "planetary_ruler": "Moon (Emotions) + Mercury (Communication)",
                 "current_trend": "Bullish with volatility",
-                "key_support": "$27.00",
-                "key_resistance": "$30.00",
-                "short_term_target": "$29.50 (Aug 2025)",
-                "medium_term_target": "$32.00 (Oct 2025)",
-                "long_term_target": "$40.00+ (2026)",
+                "key_support": f"${silver_price * 0.95:.2f}",
+                "key_resistance": f"${silver_price * 1.05:.2f}",
+                "short_term_target": f"${silver_price * 1.035:.2f} (Aug 2025)",
+                "medium_term_target": f"${silver_price * 1.123:.2f} (Oct 2025)",
+                "long_term_target": f"${silver_price * 1.404:.2f}+ (2026)",
                 "planetary_influences": [
                     {"Planet": "Moon", "Effect": "Emotional trading, volatility", "Timeline": "Current phase until Sep 2025"},
                     {"Planet": "Mercury", "Effect": "Communication-driven moves", "Timeline": "Volatile until direct (Aug 11)"},
@@ -3665,7 +3889,7 @@ if analyze_button:
                     {"Date": "Aug 21, 2025", "Event": "Venus in Cancer", "Effect": "Industrial demand increases", "Action": "Accumulate"},
                     {"Date": "Oct 18, 2025", "Event": "Jupiter in Cancer", "Effect": "INDUSTRIAL BOOM", "Action": "Aggressive buying"}
                 ],
-                "trading_strategy": "Buy on dips to $27.00, expect higher volatility than gold",
+                "trading_strategy": f"Buy on dips to ${silver_price * 0.95:.2f}, expect higher volatility than gold",
                 "risk_factors": "Industrial demand swings, economic cycles, higher beta than gold"
             }
             
@@ -3694,18 +3918,20 @@ if analyze_button:
                 st.success(f"**Strategy:** {silver_analysis['trading_strategy']}")
                 st.error(f"**Risk Factors:** {silver_analysis['risk_factors']}")
             
-            # Crude Oil Analysis
+            # Crude Oil Analysis (keeping existing format)
             st.markdown("### 🛢️ CRUDE OIL ANALYSIS")
             
+            crude_price = 78.50  # Default crude price
+            
             crude_analysis = {
-                "current_price": "$78.50",
+                "current_price": f"${crude_price:.2f}",
                 "planetary_ruler": "Mars (Energy) + Jupiter (Expansion)",
                 "current_trend": "Bearish to Neutral",
-                "key_support": "$72.00",
-                "key_resistance": "$85.00",
-                "short_term_target": "$75.00 (Aug 2025)",
-                "medium_term_target": "$82.00 (Oct 2025)",
-                "long_term_target": "$95.00+ (2026)",
+                "key_support": f"${crude_price * 0.917:.2f}",
+                "key_resistance": f"${crude_price * 1.083:.2f}",
+                "short_term_target": f"${crude_price * 0.955:.2f} (Aug 2025)",
+                "medium_term_target": f"${crude_price * 1.045:.2f} (Oct 2025)",
+                "long_term_target": f"${crude_price * 1.210:.2f}+ (2026)",
                 "planetary_influences": [
                     {"Planet": "Mars", "Effect": "Energy sector strength", "Timeline": "Strong in Virgo until Sep 2025"},
                     {"Planet": "Jupiter", "Effect": "Demand expansion", "Timeline": "Growth from Oct 2025"},
@@ -3716,7 +3942,7 @@ if analyze_button:
                     {"Date": "Sep 1, 2025", "Event": "Saturn Direct", "Effect": "Supply constraints ease", "Action": "Monitor production"},
                     {"Date": "Oct 18, 2025", "Event": "Jupiter in Cancer", "Effect": "DEMAND EXPLOSION", "Action": "Buy crude futures"}
                 ],
-                "trading_strategy": "Range trading $72-85, breakout above $85 for $95+ target",
+                "trading_strategy": f"Range trading ${crude_price * 0.917:.2f}-${crude_price * 1.083:.2f}, breakout above ${crude_price * 1.083:.2f} for ${crude_price * 1.210:.2f}+ target",
                 "risk_factors": "OPEC decisions, geopolitical tensions, demand destruction"
             }
             
@@ -3751,32 +3977,32 @@ if analyze_button:
             commodity_comparison = [
                 {
                     "Commodity": "Gold",
-                    "Current Price": "$2,450",
+                    "Current Price": f"${gold_price:.2f}",
                     "Trend": "Bullish Consolidation",
                     "Volatility": "Medium",
                     "Planetary Support": "Very High (Sun + Jupiter)",
-                    "1M Target": "$2,500",
-                    "6M Target": "$2,650",
+                    "1M Target": f"${gold_target_1m:.2f}",
+                    "6M Target": f"${gold_target_3m:.2f}",
                     "Recommendation": "BUY ON DIPS"
                 },
                 {
                     "Commodity": "Silver",
-                    "Current Price": "$28.50",
+                    "Current Price": f"${silver_price:.2f}",
                     "Trend": "Bullish Volatile",
                     "Volatility": "High",
                     "Planetary Support": "High (Moon + Jupiter)",
-                    "1M Target": "$29.50",
-                    "6M Target": "$32.00",
+                    "1M Target": f"${silver_price * 1.035:.2f}",
+                    "6M Target": f"${silver_price * 1.123:.2f}",
                     "Recommendation": "BUY WITH CAUTION"
                 },
                 {
                     "Commodity": "Crude Oil",
-                    "Current Price": "$78.50",
+                    "Current Price": f"${crude_price:.2f}",
                     "Trend": "Bearish to Neutral",
                     "Volatility": "Very High",
                     "Planetary Support": "Medium (Mars + Jupiter)",
-                    "1M Target": "$75.00",
-                    "6M Target": "$82.00",
+                    "1M Target": f"${crude_price * 0.955:.2f}",
+                    "6M Target": f"${crude_price * 1.045:.2f}",
                     "Recommendation": "RANGE TRADING"
                 }
             ]
@@ -3882,28 +4108,28 @@ if analyze_button:
             with col1:
                 st.success("""
                 **🥇 GOLD RECOMMENDATIONS**
-                • **Immediate:** Buy on dips to $2,380
-                • **Medium Term:** Hold for $2,650 target
-                • **Long Term:** Target $3,000+ by 2026
+                • **Immediate:** Buy on dips to ${gold_support:.2f}
+                • **Medium Term:** Hold for ${gold_target_3m:.2f} target
+                • **Long Term:** Target ${gold_target_1y:.2f}+ by 2026
                 • **Strategy:** Accumulate for Jupiter in Cancer
-                • **Risk Management:** SL below $2,350
+                • **Risk Management:** SL below ${gold_support * 0.97:.2f}
                 """)
             
             with col2:
                 st.warning("""
                 **🥈 SILVER RECOMMENDATIONS**
-                • **Immediate:** Buy on dips to $27.00
-                • **Medium Term:** Target $32.00 by Oct 2025
-                • **Long Term:** Target $40.00+ by 2026
+                • **Immediate:** Buy on dips to ${silver_price * 0.95:.2f}
+                • **Medium Term:** Target ${silver_price * 1.123:.2f} by Oct 2025
+                • **Long Term:** Target ${silver_price * 1.404:.2f}+ by 2026
                 • **Strategy:** Higher volatility, smaller positions
-                • **Risk Management:** SL below $26.50
+                • **Risk Management:** SL below ${silver_price * 0.93:.2f}
                 """)
             
             with col3:
                 st.error("""
                 **🛢️ CRUDE OIL RECOMMENDATIONS**
-                • **Immediate:** Range trade $72-85
-                • **Medium Term:** Breakout above $85 for $95
+                • **Immediate:** Range trade ${crude_price * 0.917:.2f}-${crude_price * 1.083:.2f}
+                • **Medium Term:** Breakout above ${crude_price * 1.083:.2f} for ${crude_price * 1.210:.2f}
                 • **Long Term:** Supply/demand balance by 2026
                 • **Strategy:** Wait for clear breakout
                 • **Risk Management:** Use options for protection
