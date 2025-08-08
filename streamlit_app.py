@@ -2,6 +2,7 @@ import streamlit as st
 from datetime import date, datetime, timedelta
 import time
 import pandas as pd
+import numpy as np
 
 # Page config
 st.set_page_config(
@@ -167,6 +168,110 @@ st.markdown("""
         text-transform: uppercase !important;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2) !important;
         box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4) !important;
+    }
+    
+    /* Progress bars */
+    .progress-container {
+        background: #e2e8f0;
+        border-radius: 10px;
+        height: 24px;
+        margin: 10px 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        height: 100%;
+        border-radius: 10px;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+    }
+    
+    /* Rating stars */
+    .rating-stars {
+        color: #f6ad55;
+        font-size: 1.2em;
+    }
+    
+    /* Highlight boxes */
+    .highlight-box {
+        background: rgba(102, 126, 234, 0.1);
+        border-left: 4px solid #667eea;
+        padding: 15px;
+        border-radius: 8px;
+        margin: 10px 0;
+    }
+    
+    /* Gemstone cards */
+    .gemstone-card {
+        background: linear-gradient(135deg, #f7fafc, #edf2f7);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 10px 0;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Daily guidance */
+    .daily-guidance {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 10px 0;
+        border-left: 4px solid #667eea;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Life phase cards */
+    .life-phase-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 10px 0;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .life-phase-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Career cards */
+    .career-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 10px 0;
+        border-top: 3px solid #667eea;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    /* Remedy cards */
+    .remedy-card {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 12px;
+        padding: 15px;
+        margin: 10px 0;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+    
+    .remedy-urgent {
+        border-left: 4px solid #e53e3e;
+    }
+    
+    .remedy-daily {
+        border-left: 4px solid #38a169;
+    }
+    
+    .remedy-weekly {
+        border-left: 4px solid #d69e2e;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -465,19 +570,19 @@ if analyze_button:
             "📊 Dasha Analysis",
             "🌍 Current Transits", 
             "📅 Monthly Predictions",
-            "🔮 Ayanamsa Comparison",
             "💎 Remedial Measures",
-            "📈 Life Graph"
+            "📈 Life Analysis",
+            "🎯 Career Growth"
         ])
         
         with tabs[0]:  # Dasha Analysis
-            st.markdown("""
+            st.markdown(f"""
             <div class="cosmic-panel">
                 <h2 style="text-align: center; margin-bottom: 25px;">
                     📊 VIMSHOTTARI DASHA ANALYSIS - {ayanamsa}
                 </h2>
             </div>
-            """.format(ayanamsa=ayanamsa), unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
             
             dasha_details = calculate_current_dasha_details(birth_date, ayanamsa)
             
@@ -499,12 +604,16 @@ if analyze_button:
                 """)
             
             # Current Dasha Status
+            st.markdown("### 🌟 CURRENT RUNNING PERIODS")
+            
             col1, col2, col3 = st.columns(3)
             
             with col1:
                 st.markdown("### 🌟 Mahadasha (Main Period)")
                 st.info(f"""
                 **Lord:** {dasha_details['mahadasha']['lord']}  
+                **Nakshatra Lord:** Pushya  
+                **Sub-lord:** Saturn  
                 **Duration:** {dasha_details['mahadasha']['total_years']} years  
                 **Current Year:** {dasha_details['mahadasha']['current_year']}  
                 **Period:** {dasha_details['mahadasha']['start']} to {dasha_details['mahadasha']['end']}  
@@ -515,6 +624,9 @@ if analyze_button:
                 st.markdown("### 🌙 Bhukti (Sub-Period)")
                 st.warning(f"""
                 **Lord:** {dasha_details['bhukti']['lord']}  
+                **Nakshatra Lord:** Rohini  
+                **Sub-lord:** Mercury  
+                **Progress:** 60% complete  
                 **Period:** {dasha_details['bhukti']['start']} to {dasha_details['bhukti']['end']}  
                 **Effects:** {dasha_details['bhukti']['effects']}
                 """)
@@ -523,90 +635,94 @@ if analyze_button:
                 st.markdown("### ⭐ Antara (Sub-Sub Period)")
                 st.success(f"""
                 **Lord:** {dasha_details['antara']['lord']}  
+                **Nakshatra Lord:** Ashlesha  
+                **Sub-lord:** Venus  
+                **Progress:** Day 7 of 24 days  
                 **Period:** {dasha_details['antara']['start']} to {dasha_details['antara']['end']}  
                 **Effects:** {dasha_details['antara']['effects']}
                 """)
-        
-        with tabs[3]:  # Ayanamsa Comparison
-            st.markdown("""
-            <div class="cosmic-panel">
-                <h2 style="text-align: center; margin-bottom: 25px;">
-                    🔮 AYANAMSA SYSTEM COMPARISON
-                </h2>
-            </div>
-            """, unsafe_allow_html=True)
             
-            st.markdown("### 📊 How Different Ayanamsa Systems Affect Your Chart")
+            # Upcoming Changes
+            st.markdown("### 🔄 UPCOMING DASHA CHANGES")
             
-            # Create comparison table
-            ayanamsa_comparison = []
-            for ayanamsa_name, details in {
-                "KP (New)": {"value": 23.85, "sun_sign": "Cancer", "moon_sign": "Scorpio", "ascendant": "Virgo"},
-                "KP (Old)": {"value": 23.62, "sun_sign": "Cancer", "moon_sign": "Scorpio", "ascendant": "Virgo"},
-                "Lahiri": {"value": 24.14, "sun_sign": "Gemini", "moon_sign": "Libra", "ascendant": "Leo"},
-                "Raman": {"value": 21.45, "sun_sign": "Cancer", "moon_sign": "Scorpio", "ascendant": "Libra"},
-                "Fagan Bradley": {"value": 24.74, "sun_sign": "Gemini", "moon_sign": "Libra", "ascendant": "Leo"}
-            }.items():
-                is_selected = "✓" if ayanamsa_name.split()[0] in ayanamsa else ""
-                ayanamsa_comparison.append({
-                    "Selected": is_selected,
-                    "Ayanamsa": ayanamsa_name,
-                    "Value (°)": details["value"],
-                    "Sun Sign": details["sun_sign"],
-                    "Moon Sign": details["moon_sign"],
-                    "Ascendant": details["ascendant"]
-                })
+            upcoming_changes = [
+                {"Date": "Aug 20, 2025", "Change": "Antara: Mercury → Ketu", "Duration": "7 days", "Effects": "Spiritual insights, sudden changes"},
+                {"Date": "Sep 7, 2025", "Change": "Bhukti: Moon → Mars", "Duration": "3 months", "Effects": "High energy, action-oriented phase"},
+                {"Date": "Oct 18, 2025", "Change": "Jupiter enters Cancer", "Duration": "1 year", "Effects": "Major life transformation begins"},
+                {"Date": "Nov 9, 2025", "Change": "Antara: Mars → Rahu", "Duration": "18 days", "Effects": "Material gains, foreign connections"}
+            ]
             
-            df_comparison = pd.DataFrame(ayanamsa_comparison)
-            st.dataframe(df_comparison, use_container_width=True)
+            df_upcoming = pd.DataFrame(upcoming_changes)
+            st.dataframe(df_upcoming, use_container_width=True)
             
-            # Highlight current selection
-            st.success(f"**Currently Using:** {ayanamsa} - Your analysis is based on this ayanamsa system")
+            # Complete Life Timeline
+            st.markdown("### 📅 COMPLETE LIFE TIMELINE")
             
-            st.markdown("### 🎯 System-Specific Insights")
+            life_timeline = [
+                {"Mahadasha": "Sun", "Age Range": "34-40", "Theme": "Authority Building", "Key Events": "Career peak, leadership roles"},
+                {"Mahadasha": "Moon", "Age Range": "40-50", "Theme": "Emotional Fulfillment", "Key Events": "Family expansion, home"},
+                {"Mahadasha": "Mars", "Age Range": "50-57", "Theme": "Action & Property", "Key Events": "Real estate, bold ventures"},
+                {"Mahadasha": "Rahu", "Age Range": "57-75", "Theme": "Material Success", "Key Events": "Wealth accumulation, foreign travel"},
+                {"Mahadasha": "Jupiter", "Age Range": "75-91", "Theme": "Wisdom & Teaching", "Key Events": "Mentorship, spiritual growth"},
+                {"Mahadasha": "Saturn", "Age Range": "91-110", "Theme": "Karma Completion", "Key Events": "Legacy, final life lessons"}
+            ]
+            
+            df_timeline = pd.DataFrame(life_timeline)
+            st.dataframe(df_timeline, use_container_width=True)
+            
+            # Current Period Analysis
+            st.markdown("### 🔍 CURRENT PERIOD ANALYSIS")
             
             col1, col2 = st.columns(2)
             with col1:
-                if "KP" in ayanamsa:
-                    st.markdown("""
-                    **🎯 KP System Benefits:**
-                    • Highly precise event timing
-                    • Significator analysis
-                    • Sub-lord theory for accurate predictions
-                    • Excellent for horary questions
-                    • Cusp-based house system
-                    """)
-                elif "Lahiri" in ayanamsa:
-                    st.markdown("""
-                    **🎯 Lahiri System Benefits:**
-                    • Government of India standard
-                    • Traditional Vedic principles
-                    • Balanced astronomical calculations
-                    • Widely accepted in India
-                    • Classical yoga analysis
-                    """)
-                else:
-                    st.markdown("""
-                    **🎯 Selected System Benefits:**
-                    • Time-tested calculations
-                    • Consistent results
-                    • Classical approach
-                    • Astronomical accuracy
-                    • Traditional wisdom
-                    """)
+                st.markdown("""
+                **🌟 Sun Mahadasha Highlights:**
+                • Leadership opportunities
+                • Government connections
+                • Authority in profession
+                • Recognition for talents
+                • Father's influence strong
+                • Political connections helpful
+                """)
             
             with col2:
-                st.markdown(f"""
-                **📈 Current Analysis Based On:**
-                • **Ayanamsa:** {ayanamsa}
-                • **Value:** {ayanamsa_options[ayanamsa]['value']}°
-                • **Method:** {ayanamsa_options[ayanamsa]['description']}
-                
-                **🔄 To Change System:**
-                Select different ayanamsa in sidebar and regenerate analysis for comparison.
+                st.markdown("""
+                **🌙 Moon Bhukti Effects:**
+                • Emotional sensitivity
+                • Public popularity
+                • Mother's health focus
+                • Home improvements
+                • Water-related investments
+                • Emotional decision-making
                 """)
+            
+            # Progress bars for current periods
+            st.markdown("### 📊 CURRENT PERIOD PROGRESS")
+            
+            # Mahadasha progress
+            st.markdown("**Mahadasha Progress (Sun):**")
+            st.markdown(f"""
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 16.7%;">Year 1 of 6</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Bhukti progress
+            st.markdown("**Bhukti Progress (Moon):**")
+            st.markdown(f"""
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 60%;">60% Complete</div>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Antara progress
+            st.markdown("**Antara Progress (Mercury):**")
+            st.markdown(f"""
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 29.2%;">Day 7 of 24</div>
+            </div>
+            """, unsafe_allow_html=True)
         
-        # Continue with other tabs...
         with tabs[1]:  # Current Transits
             st.markdown(f"""
             <div class="cosmic-panel">
@@ -618,22 +734,1133 @@ if analyze_button:
             
             st.info(f"Planetary positions calculated using {ayanamsa} ayanamsa ({ayanamsa_options[ayanamsa]['value']}°)")
             
-            # Sample transit data adjusted for ayanamsa
-            transits_data = {
-                "Planet": ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn", "Rahu", "Ketu"],
-                "Sign (Tropical)": ["Leo", "Pisces", "Virgo", "Leo", "Gemini", "Cancer", "Pisces", "Aquarius", "Leo"],
-                f"Sign ({ayanamsa})": ["Cancer", "Aquarius", "Leo", "Cancer", "Taurus", "Gemini", "Aquarius", "Capricorn", "Cancer"],
-                "House": [11, 6, 12, 11, 9, 10, 6, 5, 11],
-                "Degree": ["15°23'", "8°45'", "22°18'", "3°56'", "18°42'", "27°33'", "12°08'", "25°17'", "25°17'"]
+            # Today's Positions
+            st.markdown("### 📅 TODAY'S POSITIONS (August 8, 2025)")
+            
+            today_positions = [
+                {"Planet": "Sun", "Sign": "Cancer", "Degree": "22°15'", "House": "11", "Nature": "Benefic", "Effect": "Career gains, recognition"},
+                {"Planet": "Moon", "Sign": "Pisces", "Degree": "8°45'", "House": "6", "Nature": "Malefic", "Effect": "Health concerns, debts"},
+                {"Planet": "Mars", "Sign": "Virgo", "Degree": "22°18'", "House": "12", "Nature": "Benefic", "Effect": "Spiritual growth, expenses"},
+                {"Planet": "Mercury", "Sign": "Leo", "Degree": "3°56'", "House": "11", "Nature": "Malefic (Retro)", "Effect": "Communication issues, delays"},
+                {"Planet": "Jupiter", "Sign": "Gemini", "Degree": "18°42'", "House": "9", "Nature": "Benefic", "Effect": "Spiritual growth, luck"},
+                {"Planet": "Venus", "Sign": "Cancer", "Degree": "27°33'", "House": "11", "Nature": "Benefic", "Effect": "Relationship harmony, gains"},
+                {"Planet": "Saturn", "Sign": "Pisces", "Degree": "12°08'", "House": "6", "Nature": "Malefic (Retro)", "Effect": "Health challenges, delays"},
+                {"Planet": "Rahu", "Sign": "Aquarius", "Degree": "25°17'", "House": "5", "Nature": "Malefic", "Effect": "Speculative losses, confusion"},
+                {"Planet": "Ketu", "Sign": "Leo", "Degree": "25°17'", "House": "11", "Nature": "Malefic", "Effect": "Spiritual insights, detachment"}
+            ]
+            
+            df_today = pd.DataFrame(today_positions)
+            st.dataframe(df_today, use_container_width=True)
+            
+            # Hourly Influences
+            st.markdown("### ⏰ HOURLY INFLUENCES")
+            
+            hourly_influences = [
+                {"Time": "6:00-7:30 AM", "Planet": "Saturn", "Activity": "Meditation, Planning", "Advice": "Start with discipline"},
+                {"Time": "7:30-9:00 AM", "Planet": "Jupiter", "Activity": "Learning, Teaching", "Advice": "Expand knowledge"},
+                {"Time": "9:00-10:30 AM", "Planet": "Mars", "Activity": "Exercise, Action", "Advice": "Take initiative"},
+                {"Time": "10:30-12:00 PM", "Planet": "Sun", "Activity": "Leadership, Authority", "Advice": "Make decisions"},
+                {"Time": "12:00-1:30 PM", "Planet": "Venus", "Activity": "Relationships, Creativity", "Advice": "Connect with others"},
+                {"Time": "1:30-3:00 PM", "Planet": "Mercury", "Activity": "Communication, Travel", "Advice": "Be cautious (retrograde)"},
+                {"Time": "3:00-4:30 PM", "Planet": "Moon", "Activity": "Emotions, Home", "Advice": "Nurture yourself"},
+                {"Time": "4:30-6:00 PM", "Planet": "Saturn", "Activity": "Work, Responsibility", "Advice": "Complete tasks"},
+                {"Time": "6:00-7:30 PM", "Planet": "Jupiter", "Activity": "Social, Spiritual", "Advice": "Share wisdom"},
+                {"Time": "7:30-9:00 PM", "Planet": "Mars", "Activity": "Exercise, Passion", "Advice": "Release energy"},
+                {"Time": "9:00-10:30 PM", "Planet": "Sun", "Activity": "Reflection, Rest", "Advice": "Recharge"},
+                {"Time": "10:30 PM-6:00 AM", "Planet": "Moon", "Activity": "Sleep, Dreams", "Advice": "Rest deeply"}
+            ]
+            
+            df_hourly = pd.DataFrame(hourly_influences)
+            st.dataframe(df_hourly, use_container_width=True)
+            
+            # Weekly Events
+            st.markdown("### 📅 WEEKLY EVENTS (Aug 5-11, 2025)")
+            
+            weekly_events = [
+                {"Date": "Aug 5", "Event": "Moon in Aquarius", "Effect": "Social connections, humanitarian work"},
+                {"Date": "Aug 6", "Event": "Moon conjunct Saturn", "Effect": "Emotional restriction, discipline needed"},
+                {"Date": "Aug 7", "Event": "Moon in Pisces", "Effect": "Intuition high, spiritual activities"},
+                {"Date": "Aug 8", "Event": "Moon-Jupiter trine", "Effect": "Good fortune, opportunities"},
+                {"Date": "Aug 9", "Event": "Moon in Aries", "Effect": "High energy, new beginnings"},
+                {"Date": "Aug 10", "Event": "Moon-Mars square", "Effect": "Irritation, conflicts possible"},
+                {"Date": "Aug 11", "Event": "MERCURY DIRECT!", "Effect": "Communication breakthrough, clarity"}
+            ]
+            
+            df_weekly = pd.DataFrame(weekly_events)
+            st.dataframe(df_weekly, use_container_width=True)
+            
+            # Transit Alerts
+            st.markdown("### 🚨 TRANSIT ALERTS")
+            
+            transit_alerts = [
+                {"Alert": "Mercury Retrograde", "Status": "Ending Soon", "Date": "Until Aug 11", "Action": "Avoid new contracts, double-check communications"},
+                {"Alert": "Mars in Virgo", "Status": "Active", "Date": "Until Sep 13", "Action": "Focus on health, service, details"},
+                {"Alert": "Saturn Retrograde", "Status": "Active", "Date": "Until Sep 1", "Action": "Review responsibilities, health check"},
+                {"Alert": "Jupiter in Gemini", "Status": "Active", "Date": "Until Oct 18", "Action": "Expand knowledge, communication skills"},
+                {"Alert": "Venus in Cancer", "Status": "Active", "Date": "Until Sep 15", "Action": "Focus on home, family, emotional bonds"}
+            ]
+            
+            for alert in transit_alerts:
+                alert_type = "error" if "Retrograde" in alert["Alert"] else "warning" if "Ending Soon" in alert["Status"] else "info"
+                if alert_type == "error":
+                    st.error(f"**{alert['Alert']}** - {alert['Status']} - {alert['Date']} - {alert['Action']}")
+                elif alert_type == "warning":
+                    st.warning(f"**{alert['Alert']}** - {alert['Status']} - {alert['Date']} - {alert['Action']}")
+                else:
+                    st.info(f"**{alert['Alert']}** - {alert['Status']} - {alert['Date']} - {alert['Action']}")
+            
+            # Mood & Health
+            st.markdown("### 💭 MOOD & HEALTH EFFECTS")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("""
+                **🧠 Mental State Today:**
+                • **Focus:** High (Sun in 11th)
+                • **Creativity:** Medium (Mercury retrograde)
+                • **Emotional Balance:** Low (Moon in 6th)
+                • **Decision Making:** Good (Sun strong)
+                • **Stress Level:** Medium (Saturn aspect)
+                """)
+            
+            with col2:
+                st.markdown("""
+                **💪 Physical Health Today:**
+                • **Energy Level:** Medium (Mars in 12th)
+                • **Immunity:** Good (Jupiter trine)
+                • **Digestion:** Sensitive (Moon in 6th)
+                • **Sleep Quality:** Fair (Saturn retrograde)
+                • **Exercise Benefit:** High (Morning hours)
+                """)
+            
+            # Today's Recommendations
+            st.markdown("### ✅ TODAY'S RECOMMENDATIONS")
+            
+            st.success("""
+            **🌟 Best Activities Today:**
+            • Important meetings (10:30 AM - 12:00 PM)
+            • Financial decisions (after 12:00 PM)
+            • Spiritual practices (early morning)
+            • Exercise (9:00 - 10:30 AM)
+            
+            **⚠️ Avoid Today:**
+            • New contracts (Mercury retrograde)
+            • Arguments (Moon-Mars tension)
+            • Heavy meals (digestion sensitive)
+            • Late nights (energy low)
+            """)
+        
+        with tabs[2]:  # Monthly Predictions
+            st.markdown(f"""
+            <div class="cosmic-panel">
+                <h2 style="text-align: center; margin-bottom: 25px;">
+                    📅 MONTHLY PREDICTIONS - {ayanamsa} SYSTEM
+                </h2>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Monthly Overview
+            st.markdown("### 📊 MONTHLY OVERVIEW")
+            
+            monthly_overview = [
+                {"Month": "August 2025", "Theme": "Transition & Preparation", "Key Planet": "Mercury Direct (Aug 11)", "Overall Rating": "7.5/10"},
+                {"Month": "September 2025", "Theme": "Action & Energy", "Key Planet": "Mars Strong", "Overall Rating": "8.5/10"},
+                {"Month": "October 2025", "Theme": "MEGA FORTUNE", "Key Planet": "Jupiter in Cancer", "Overall Rating": "9.8/10"}
+            ]
+            
+            df_overview = pd.DataFrame(monthly_overview)
+            st.dataframe(df_overview, use_container_width=True)
+            
+            # August 2025 Details
+            st.markdown("### 🌞 AUGUST 2025 (CURRENT MONTH)")
+            
+            august_weeks = [
+                {
+                    "Week": "Week 1 (Aug 1-7)",
+                    "Theme": "Mercury Retrograde Peak",
+                    "Key Events": "Saturn retrograde, Moon-Saturn conjunction",
+                    "Career": "Delays in projects, communication issues",
+                    "Wealth": "Hold investments, avoid new financial commitments",
+                    "Love": "Misunderstandings possible, give space",
+                    "Health": "Stress-related issues, focus on immunity",
+                    "Rating": "6/10"
+                },
+                {
+                    "Week": "Week 2 (Aug 8-14)",
+                    "Theme": "MERCURY DIRECT BREAKTHROUGH",
+                    "Key Events": "Mercury direct (Aug 11), Sun in Leo (Aug 17)",
+                    "Career": "Sudden progress, clarity in decisions",
+                    "Wealth": "Investment opportunities appear, review portfolio",
+                    "Love": "Communication improves, resolve issues",
+                    "Health": "Energy increases, start new health routines",
+                    "Rating": "8.5/10"
+                },
+                {
+                    "Week": "Week 3 (Aug 15-21)",
+                    "Theme": "Sun Authority Period",
+                    "Key Events": "Sun in Leo, Venus enters Cancer (Aug 21)",
+                    "Career": "Leadership opportunities, recognition",
+                    "Wealth": "Financial gains through authority positions",
+                    "Love": "Romance blossoms, family harmony",
+                    "Health": "Vitality high, but avoid overexertion",
+                    "Rating": "9/10"
+                },
+                {
+                    "Week": "Week 4 (Aug 22-31)",
+                    "Theme": "Venus Harmony & Preparation",
+                    "Key Events": "Venus in Cancer, Mars aspects",
+                    "Career": "Teamwork successful, prepare for September",
+                    "Wealth": "Luxury purchases, home investments",
+                    "Love": "Deep emotional connections, family time",
+                    "Health": "Good period for relaxation, self-care",
+                    "Rating": "8/10"
+                }
+            ]
+            
+            for week in august_weeks:
+                with st.expander(f"📅 {week['Week']} - {week['Theme']} (Rating: {week['Rating']})", expanded=True):
+                    col1, col2 = st.columns(2)
+                    
+                    with col1:
+                        st.markdown(f"**🎯 Key Events:** {week['Key Events']}")
+                        st.markdown(f"**💼 Career:** {week['Career']}")
+                        st.markdown(f"**💰 Wealth:** {week['Wealth']}")
+                    
+                    with col2:
+                        st.markdown(f"**❤️ Love:** {week['Love']}")
+                        st.markdown(f"**🏥 Health:** {week['Health']}")
+                        st.markdown(f"**⭐ Overall Rating:** {week['Rating']}")
+            
+            # September 2025 Preview
+            st.markdown("### 🍂 SEPTEMBER 2025 PREVIEW")
+            
+            st.info("""
+            **🔥 MARS ENERGY MONTH**
+            
+            **Key Dates:**
+            • Sep 1: Saturn Direct - Responsibilities clear up
+            • Sep 7: Mars Bhukti begins - High energy phase
+            • Sep 13: Mars enters Libra - Balanced action
+            • Sep 22: Sun enters Libra - Relationship focus
+            
+            **Overall Theme:** Action, initiative, and bold moves
+            **Best For:** Starting new projects, physical activities, assertiveness
+            **Caution:** Avoid impulsiveness, manage anger
+            **Life Areas:** Career advancement, property matters, health initiatives
+            """)
+            
+            # October 2025 Preview
+            st.markdown("### 🎃 OCTOBER 2025 PREVIEW")
+            
+            st.success("""
+            **🚀 JUPITER IN CANCER - MEGA FORTUNE MONTH**
+            
+            **Key Dates:**
+            • Oct 18: Jupiter enters Cancer - LIFE TRANSFORMATION begins
+            • Oct 20: Sun enters Scorpio - Intensity and depth
+            • Oct 31: Mars in Scorpio - Powerful energy
+            
+            **Overall Theme:** Major life expansion, fortune, opportunities
+            **Best For:** Investments, higher education, travel, spiritual growth
+            **Caution:** Over-optimism, overcommitment
+            **Life Areas:** Career breakthrough, financial abundance, relationships
+            """)
+            
+            # Daily Guidance
+            st.markdown("### 📆 DAILY GUIDANCE (Next 25 Days)")
+            
+            daily_guidance = []
+            start_date = date(2025, 8, 8)
+            
+            for i in range(25):
+                current_date = start_date + timedelta(days=i)
+                day_of_week = current_date.strftime("%A")
+                
+                # Generate daily predictions based on date
+                if current_date == date(2025, 8, 11):
+                    theme = "Mercury Direct - Communication Breakthrough"
+                    rating = "9.5/10"
+                    action = "Sign contracts, clear misunderstandings"
+                elif current_date == date(2025, 8, 17):
+                    theme = "Sun in Leo - Authority Peak"
+                    rating = "9.8/10"
+                    action = "Take leadership, make important decisions"
+                elif current_date == date(2025, 8, 21):
+                    theme = "Venus in Cancer - Family Harmony"
+                    rating = "9.0/10"
+                    action = "Focus on relationships, home, emotions"
+                elif current_date == date(2025, 9, 1):
+                    theme = "Saturn Direct - Clarity"
+                    rating = "8.5/10"
+                    action = "Address responsibilities, health check"
+                elif current_date == date(2025, 9, 7):
+                    theme = "Mars Bhukti Begins - High Energy"
+                    rating = "8.8/10"
+                    action = "Start new projects, exercise, assertiveness"
+                elif current_date == date(2025, 10, 18):
+                    theme = "JUPITER IN CANCER - LIFE TRANSFORMATION"
+                    rating = "10/10"
+                    action = "Major decisions, investments, new beginnings"
+                else:
+                    # Generic day
+                    themes = [
+                        "Steady progress day", "Communication focus", "Relationship harmony",
+                        "Career advancement", "Financial planning", "Health awareness",
+                        "Spiritual growth", "Family time", "Social connections"
+                    ]
+                    theme = themes[i % len(themes)]
+                    rating = f"{7 + (i % 3)}.{5 * (i % 2)}/10"
+                    action = "Routine day, maintain balance"
+                
+                daily_guidance.append({
+                    "Date": current_date.strftime("%b %d"),
+                    "Day": day_of_week,
+                    "Theme": theme,
+                    "Rating": rating,
+                    "Action": action
+                })
+            
+            df_daily = pd.DataFrame(daily_guidance)
+            st.dataframe(df_daily, use_container_width=True)
+            
+            # Life Areas Rating
+            st.markdown("### 🎯 LIFE AREAS RATING")
+            
+            life_areas = [
+                {"Area": "Career", "Current": "85%", "Trend": "↑ Improving", "Peak Date": "Oct 18, 2025"},
+                {"Area": "Wealth", "Current": "80%", "Trend": "↑ Improving", "Peak Date": "Oct 18, 2025"},
+                {"Area": "Love", "Current": "75%", "Trend": "→ Stable", "Peak Date": "Aug 21, 2025"},
+                {"Area": "Health", "Current": "85%", "Trend": "↑ Improving", "Peak Date": "Sep 1, 2025"},
+                {"Area": "Spiritual", "Current": "90%", "Trend": "↑ Improving", "Peak Date": "Aug 25, 2025"}
+            ]
+            
+            for area in life_areas:
+                col1, col2, col3, col4 = st.columns([2, 1, 1, 2])
+                with col1:
+                    st.markdown(f"**{area['Area']}**")
+                with col2:
+                    st.markdown(f"**{area['Current']}**")
+                with col3:
+                    st.markdown(f"{area['Trend']}")
+                with col4:
+                    st.markdown(f"Peak: {area['Peak Date']}")
+                
+                # Progress bar
+                progress_value = int(area['Current'].replace('%', ''))
+                st.markdown(f"""
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: {progress_value}%;"></div>
+                </div>
+                """, unsafe_allow_html=True)
+        
+        with tabs[3]:  # Remedial Measures
+            st.markdown(f"""
+            <div class="cosmic-panel">
+                <h2 style="text-align: center; margin-bottom: 25px;">
+                    💎 REMEDIAL MEASURES - {ayanamsa} SYSTEM
+                </h2>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Urgent Actions
+            st.markdown("### 🚨 URGENT ACTIONS")
+            
+            urgent_remedies = [
+                {
+                    "Issue": "Mercury Retrograde (Until Aug 11)",
+                    "Remedy": "Recite 'Om Budhaya Namah' 108 times daily",
+                    "Duration": "Until Aug 11",
+                    "Materials": "Green cloth, moong dal donation",
+                    "Effectiveness": "95%"
+                },
+                {
+                    "Issue": "Saturn Retrograde in 6th House",
+                    "Remedy": "Light mustard oil lamp on Saturdays",
+                    "Duration": "Until Sep 1",
+                    "Materials": "Mustard oil, black sesame seeds",
+                    "Effectiveness": "90%"
+                },
+                {
+                    "Issue": "Moon in 6th House causing health concerns",
+                    "Remedy": "Donate milk on Mondays",
+                    "Duration": "4 Mondays",
+                    "Materials": "Milk, white flowers",
+                    "Effectiveness": "85%"
+                }
+            ]
+            
+            for remedy in urgent_remedies:
+                with st.expander(f"🚨 {remedy['Issue']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Remedy:** {remedy['Remedy']}")
+                        st.markdown(f"**Duration:** {remedy['Duration']}")
+                    with col2:
+                        st.markdown(f"**Materials:** {remedy['Materials']}")
+                        st.markdown(f"**Effectiveness:** {remedy['Effectiveness']}")
+            
+            # Gemstone Recommendations
+            st.markdown("### 💎 GEMSTONE RECOMMENDATIONS")
+            
+            gemstones = [
+                {
+                    "Stone": "Ruby (Manikya)",
+                    "Planet": "Sun (Mahadasha Lord)",
+                    "Weight": "3-5 carats",
+                    "Metal": "Gold or Panchdhatu",
+                    "Finger": "Ring finger",
+                    "Day": "Sunday morning",
+                    "Cost": "₹15,000 - ₹25,000",
+                    "Alternative": "Red Garnet (₹3,000 - ₹5,000)",
+                    "Benefits": "Leadership, authority, career growth, health"
+                },
+                {
+                    "Stone": "Pearl (Moti)",
+                    "Planet": "Moon (Bhukti Lord)",
+                    "Weight": "5-7 carats",
+                    "Metal": "Silver",
+                    "Finger": "Little finger",
+                    "Day": "Monday morning",
+                    "Cost": "₹8,000 - ₹15,000",
+                    "Alternative": "Moonstone (₹2,000 - ₹4,000)",
+                    "Benefits": "Emotional balance, mother's health, intuition"
+                },
+                {
+                    "Stone": "Emerald (Panna)",
+                    "Planet": "Mercury (Antara Lord)",
+                    "Weight": "3-4 carats",
+                    "Metal": "Gold",
+                    "Finger": "Little finger",
+                    "Day": "Wednesday morning",
+                    "Cost": "₹12,000 - ₹20,000",
+                    "Alternative": "Peridot (₹1,500 - ₹3,000)",
+                    "Benefits": "Communication, intelligence, business success"
+                }
+            ]
+            
+            for gem in gemstones:
+                with st.expander(f"💎 {gem['Stone']} for {gem['Planet']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Weight:** {gem['Weight']}")
+                        st.markdown(f"**Metal:** {gem['Metal']}")
+                        st.markdown(f"**Finger:** {gem['Finger']}")
+                        st.markdown(f"**Day:** {gem['Day']}")
+                    with col2:
+                        st.markdown(f"**Cost:** {gem['Cost']}")
+                        st.markdown(f"**Alternative:** {gem['Alternative']}")
+                        st.markdown(f"**Benefits:** {gem['Benefits']}")
+            
+            # Daily Practices
+            st.markdown("### 🙏 DAILY PRACTICES")
+            
+            daily_practices = [
+                {
+                    "Time": "Early Morning (5:00-6:00 AM)",
+                    "Practice": "Surya Namaskar and Sun Mantra",
+                    "Mantra": "Om Ghrini Surya Aditya",
+                    "Duration": "15 minutes",
+                    "Benefits": "Vitality, leadership, career success"
+                },
+                {
+                    "Time": "Midday (12:00-1:00 PM)",
+                    "Practice": "Meditation with Moon visualization",
+                    "Mantra": "Om Somaya Namah",
+                    "Duration": "10 minutes",
+                    "Benefits": "Emotional balance, intuition"
+                },
+                {
+                    "Time": "Evening (6:00-7:00 PM)",
+                    "Practice": "Mercury mantra for communication",
+                    "Mantra": "Om Budhaya Namah",
+                    "Duration": "10 minutes",
+                    "Benefits": "Clear thinking, business success"
+                },
+                {
+                    "Time": "Night (9:00-10:00 PM)",
+                    "Practice": "Gratitude journaling",
+                    "Mantra": "Personal affirmations",
+                    "Duration": "15 minutes",
+                    "Benefits": "Peace, manifestation, sleep quality"
+                }
+            ]
+            
+            for practice in daily_practices:
+                with st.expander(f"🕐 {practice['Time']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Practice:** {practice['Practice']}")
+                        st.markdown(f"**Mantra:** {practice['Mantra']}")
+                    with col2:
+                        st.markdown(f"**Duration:** {practice['Duration']}")
+                        st.markdown(f"**Benefits:** {practice['Benefits']}")
+            
+            # Weekly Donations
+            st.markdown("### 🕉️ WEEKLY DONATIONS")
+            
+            weekly_donations = [
+                {"Day": "Sunday", "Item": "Wheat, jaggery", "Cause": "Sun strength", "Amount": "₹111"},
+                {"Day": "Monday", "Item": "Rice, milk", "Cause": "Moon peace", "Amount": "₹51"},
+                {"Day": "Tuesday", "Item": "Red lentils, red flowers", "Cause": "Mars energy", "Amount": "₹101"},
+                {"Day": "Wednesday", "Item": "Green moong, books", "Cause": "Mercury intellect", "Amount": "₹71"},
+                {"Day": "Thursday", "Item": "Yellow clothes, turmeric", "Cause": "Jupiter expansion", "Amount": "₹501"},
+                {"Day": "Friday", "Item": "White rice, yogurt", "Cause": "Venus harmony", "Amount": "₹121"},
+                {"Day": "Saturday", "Item": "Black sesame, mustard oil", "Cause": "Saturn karma", "Amount": "₹251"}
+            ]
+            
+            df_donations = pd.DataFrame(weekly_donations)
+            st.dataframe(df_donations, use_container_width=True)
+            
+            # Yantra Installation
+            st.markdown("### 📐 YANTRA INSTALLATION")
+            
+            yantras = [
+                {
+                    "Yantra": "Surya Yantra",
+                    "Purpose": "Strengthens Sun Mahadasha",
+                    "Material": "Copper plate",
+                    "Size": "3x3 inches",
+                    "Installation": "Sunday morning at sunrise",
+                    "Placement": "East direction, home/office",
+                    "Mantra": "Om Ghrini Surya Aditya (108 times)",
+                    "Cost": "₹1,500 - ₹3,000"
+                },
+                {
+                    "Yantra": "Chandra Yantra",
+                    "Purpose": "Balances Moon Bhukti",
+                    "Material": "Silver plate",
+                    "Size": "3x3 inches",
+                    "Installation": "Monday evening",
+                    "Placement": "Northwest direction, bedroom",
+                    "Mantra": "Om Somaya Namah (108 times)",
+                    "Cost": "₹2,000 - ₹4,000"
+                },
+                {
+                    "Yantra": "Budh Yantra",
+                    "Purpose": "Enhances Mercury Antara",
+                    "Material": "Bronze plate",
+                    "Size": "3x3 inches",
+                    "Installation": "Wednesday morning",
+                    "Placement": "North direction, office/study",
+                    "Mantra": "Om Budhaya Namah (108 times)",
+                    "Cost": "₹1,200 - ₹2,500"
+                }
+            ]
+            
+            for yantra in yantras:
+                with st.expander(f"📐 {yantra['Yantra']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Purpose:** {yantra['Purpose']}")
+                        st.markdown(f"**Material:** {yantra['Material']}")
+                        st.markdown(f"**Size:** {yantra['Size']}")
+                    with col2:
+                        st.markdown(f"**Installation:** {yantra['Installation']}")
+                        st.markdown(f"**Placement:** {yantra['Placement']}")
+                        st.markdown(f"**Cost:** {yantra['Cost']}")
+                    st.markdown(f"**Mantra:** {yantra['Mantra']}")
+            
+            # Fasting Recommendations
+            st.markdown("### 🍽️ FASTING RECOMMENDATIONS")
+            
+            fasting = [
+                {
+                    "Day": "Sunday",
+                    "Type": "Partial fast",
+                    "Food": "Once meal, no salt",
+                    "Benefit": "Sun strength, career growth",
+                    "Frequency": "Weekly"
+                },
+                {
+                    "Day": "Monday",
+                    "Type": "Full fast",
+                    "Food": "Only fruits, milk",
+                    "Benefit": "Moon peace, emotional balance",
+                    "Frequency": "Weekly"
+                },
+                {
+                    "Day": "Thursday",
+                    "Type": "Partial fast",
+                    "Food": "Once meal, yellow foods",
+                    "Benefit": "Jupiter expansion, wealth",
+                    "Frequency": "Weekly"
+                }
+            ]
+            
+            for fast in fasting:
+                st.info(f"""
+                **{fast['Day']} Fasting:**
+                • **Type:** {fast['Type']}
+                • **Food:** {fast['Food']}
+                • **Benefit:** {fast['Benefit']}
+                • **Frequency:** {fast['Frequency']}
+                """)
+        
+        with tabs[4]:  # Life Analysis
+            st.markdown(f"""
+            <div class="cosmic-panel">
+                <h2 style="text-align: center; margin-bottom: 25px;">
+                    📈 COMPLETE LIFE ANALYSIS - {ayanamsa} SYSTEM
+                </h2>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # 9 Life Phases
+            st.markdown("### 🔄 9 LIFE PHASES")
+            
+            life_phases = [
+                {
+                    "Phase": "1. Sun Mahadasha",
+                    "Age": "34-40 years",
+                    "Theme": "Authority Building",
+                    "Key Events": "Career peak, leadership roles, recognition",
+                    "Challenges": "Ego management, health concerns",
+                    "Opportunities": "Government connections, authority positions",
+                    "Life Area Focus": "Career, reputation, father relationship"
+                },
+                {
+                    "Phase": "2. Moon Mahadasha",
+                    "Age": "40-50 years",
+                    "Theme": "Emotional Fulfillment",
+                    "Key Events": "Family expansion, home purchase, emotional growth",
+                    "Challenges": "Emotional instability, mother's health",
+                    "Opportunities": "Public popularity, intuitive decisions",
+                    "Life Area Focus": "Family, home, emotions, mother"
+                },
+                {
+                    "Phase": "3. Mars Mahadasha",
+                    "Age": "50-57 years",
+                    "Theme": "Action & Property",
+                    "Key Events": "Real estate investments, bold ventures, surgery",
+                    "Challenges": "Accidents, conflicts, property disputes",
+                    "Opportunities": "Property gains, courage, physical vitality",
+                    "Life Area Focus": "Property, courage, siblings, health"
+                },
+                {
+                    "Phase": "4. Rahu Mahadasha",
+                    "Age": "57-75 years",
+                    "Theme": "Material Success",
+                    "Key Events": "Wealth accumulation, foreign travel, innovation",
+                    "Challenges": "Confusion, addiction, deception",
+                    "Opportunities": "Material gains, foreign connections, technology",
+                    "Life Area Focus": "Wealth, foreign lands, innovation"
+                },
+                {
+                    "Phase": "5. Jupiter Mahadasha",
+                    "Age": "75-91 years",
+                    "Theme": "Wisdom & Teaching",
+                    "Key Events": "Mentorship, spiritual growth, teaching",
+                    "Challenges": "Over-optimism, weight gain, liver issues",
+                    "Opportunities": "Wisdom sharing, spiritual growth, wealth",
+                    "Life Area Focus": "Wisdom, teaching, spirituality, wealth"
+                },
+                {
+                    "Phase": "6. Saturn Mahadasha",
+                    "Age": "91-110 years",
+                    "Theme": "Karma Completion",
+                    "Key Events": "Legacy building, final life lessons",
+                    "Challenges": "Health issues, isolation, restrictions",
+                    "Opportunities": "Karma completion, spiritual liberation",
+                    "Life Area Focus": "Karma, spirituality, legacy"
+                }
+            ]
+            
+            for phase in life_phases:
+                with st.expander(f"🔄 {phase['Phase']} ({phase['Age']})", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Theme:** {phase['Theme']}")
+                        st.markdown(f"**Key Events:** {phase['Key Events']}")
+                        st.markdown(f"**Challenges:** {phase['Challenges']}")
+                    with col2:
+                        st.markdown(f"**Opportunities:** {phase['Opportunities']}")
+                        st.markdown(f"**Life Area Focus:** {phase['Life Area Focus']}")
+            
+            # Current Phase Analysis
+            st.markdown("### 🔍 CURRENT PHASE ANALYSIS")
+            
+            current_phase = {
+                "Phase": "Sun Mahadasha (34-40 years)",
+                "Current Age": "35 years",
+                "Progress": "16.7% complete",
+                "Remaining": "5 years",
+                "Key Focus": "Building authority and career foundation",
+                "Strengths": "Leadership abilities, decision-making power",
+                "Challenges": "Managing ego, health maintenance",
+                "Opportunities": "Government connections, career advancement",
+                "Recommended Actions": [
+                    "Take leadership roles in profession",
+                    "Maintain health through regular check-ups",
+                    "Connect with authority figures",
+                    "Avoid arrogance and ego conflicts",
+                    "Wear Ruby gemstone for Sun strength"
+                ]
             }
             
-            df_transits = pd.DataFrame(transits_data)
-            st.dataframe(df_transits, use_container_width=True)
+            st.success(f"""
+            **Current Phase:** {current_phase['Phase']}  
+            **Current Age:** {current_phase['Current Age']}  
+            **Progress:** {current_phase['Progress']} ({current_phase['Remaining']} remaining)
+            """)
             
-            st.markdown(f"**Note:** The '{ayanamsa}' column shows the sidereal positions as per your selected ayanamsa system.")
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("""
+                **🌟 Key Focus:** Building authority and career foundation
+                
+                **💪 Strengths:**
+                • Leadership abilities
+                • Decision-making power
+                • Government connections
+                • Recognition potential
+                """)
+            
+            with col2:
+                st.markdown("""
+                **⚠️ Challenges:**
+                • Managing ego
+                • Health maintenance
+                • Father's health
+                • Authority conflicts
+                
+                **🎯 Opportunities:**
+                • Career advancement
+                • Government jobs
+                • Leadership positions
+                """)
+            
+            st.markdown("**Recommended Actions:**")
+            for action in current_phase['Recommended Actions']:
+                st.success(f"• {action}")
+            
+            # Future Milestones
+            st.markdown("### 🚀 FUTURE MILESTONES")
+            
+            future_milestones = [
+                {"Age": "36 years", "Year": "2026", "Event": "Career promotion to leadership role", "Probability": "90%"},
+                {"Age": "38 years", "Year": "2028", "Event": "Major property acquisition", "Probability": "85%"},
+                {"Age": "40 years", "Year": "2030", "Event": "Sun Mahadasha ends, Moon begins", "Probability": "100%"},
+                {"Age": "42 years", "Year": "2032", "Event": "Family expansion possible", "Probability": "75%"},
+                {"Age": "45 years", "Year": "2035", "Event": "Business establishment", "Probability": "80%"},
+                {"Age": "50 years", "Year": "2040", "Event": "Mars Mahadasha begins", "Probability": "100%"},
+                {"Age": "57 years", "Year": "2047", "Event": "Rahu Mahadasha - foreign connection", "Probability": "95%"},
+                {"Age": "75 years", "Year": "2065", "Event": "Jupiter Mahadasha - wisdom phase", "Probability": "100%"}
+            ]
+            
+            df_milestones = pd.DataFrame(future_milestones)
+            st.dataframe(df_milestones, use_container_width=True)
+            
+            # Life Satisfaction Forecast
+            st.markdown("### 😊 LIFE SATISFACTION FORECAST")
+            
+            life_satisfaction = [
+                {"Age": "35 (Current)", "Satisfaction": "75%", "Factors": "Career growth, health concerns"},
+                {"Age": "40", "Satisfaction": "85%", "Factors": "Established career, family harmony"},
+                {"Age": "45", "Satisfaction": "88%", "Factors": "Business success, property ownership"},
+                {"Age": "50", "Satisfaction": "82%", "Factors": "Mars energy, health focus"},
+                {"Age": "60", "Satisfaction": "90%", "Factors": "Wealth accumulation, wisdom"},
+                {"Age": "75", "Satisfaction": "95%", "Factors": "Spiritual growth, teaching"},
+                {"Age": "90+", "Satisfaction": "98%", "Factors": "Karma completion, peace"}
+            ]
+            
+            for item in life_satisfaction:
+                col1, col2, col3 = st.columns([1, 1, 2])
+                with col1:
+                    st.markdown(f"**Age {item['Age']}**")
+                with col2:
+                    st.markdown(f"**{item['Satisfaction']}**")
+                with col3:
+                    st.markdown(item['Factors'])
+                
+                # Progress bar
+                satisfaction_value = int(item['Satisfaction'].replace('%', ''))
+                st.markdown(f"""
+                <div class="progress-container">
+                    <div class="progress-bar" style="width: {satisfaction_value}%;"></div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            # Peak Potential
+            st.markdown("### ⭐ PEAK POTENTIAL ANALYSIS")
+            
+            peak_potential = {
+                "Overall Rating": "92% Exceptional Life",
+                "Best Life Phase": "Jupiter Mahadasha (75-91 years)",
+                "Peak Career Age": "38-45 years",
+                "Peak Wealth Age": "57-75 years",
+                "Peak Spiritual Age": "75+ years",
+                "Key Strengths": [
+                    "Leadership abilities (Sun)",
+                    "Emotional intelligence (Moon)",
+                    "Courage and action (Mars)",
+                    "Material success potential (Rahu)",
+                    "Wisdom and teaching (Jupiter)"
+                ],
+                "Life Purpose": "To lead with authority, build material success, and eventually share wisdom with others",
+                "Karmic Lessons": [
+                    "Balance authority with humility",
+                    "Use power responsibly",
+                    "Transform material success into spiritual growth"
+                ]
+            }
+            
+            st.success(f"""
+            **Overall Life Rating:** {peak_potential['Overall Rating']}  
+            **Best Life Phase:** {peak_potential['Best Life Phase']}  
+            **Peak Career Age:** {peak_potential['Peak Career Age']}  
+            **Peak Wealth Age:** {peak_potential['Peak Wealth Age']}  
+            **Peak Spiritual Age:** {peak_potential['Peak Spiritual Age']}
+            """)
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("**Key Strengths:**")
+                for strength in peak_potential['Key Strengths']:
+                    st.success(f"• {strength}")
+            
+            with col2:
+                st.markdown("**Karmic Lessons:**")
+                for lesson in peak_potential['Karmic Lessons']:
+                    st.warning(f"• {lesson}")
+            
+            st.markdown(f"""
+            **Life Purpose:** {peak_potential['Life Purpose']}
+            """)
+            
+            # Life Balance Analysis
+            st.markdown("### ⚖️ LIFE BALANCE ANALYSIS")
+            
+            life_balance = [
+                {"Area": "Career", "Current": "85%", "Ideal": "80%", "Status": "Slightly Overfocused"},
+                {"Area": "Family", "Current": "70%", "Ideal": "85%", "Status": "Needs Attention"},
+                {"Area": "Health", "Current": "75%", "Ideal": "90%", "Status": "Needs Improvement"},
+                {"Area": "Wealth", "Current": "80%", "Ideal": "80%", "Status": "Balanced"},
+                {"Area": "Spiritual", "Current": "65%", "Ideal": "75%", "Status": "Developing"},
+                {"Area": "Social", "Current": "60%", "Ideal": "70%", "Status": "Needs Development"}
+            ]
+            
+            for balance in life_balance:
+                status_color = "success" if balance['Status'] == "Balanced" else "warning" if "Needs" in balance['Status'] else "error"
+                
+                col1, col2, col3, col4 = st.columns([2, 1, 1, 2])
+                with col1:
+                    st.markdown(f"**{balance['Area']}**")
+                with col2:
+                    st.markdown(f"{balance['Current']}")
+                with col3:
+                    st.markdown(f"(Ideal: {balance['Ideal']})")
+                with col4:
+                    if status_color == "success":
+                        st.success(balance['Status'])
+                    elif status_color == "warning":
+                        st.warning(balance['Status'])
+                    else:
+                        st.error(balance['Status'])
+                
+                # Progress bars
+                current_value = int(balance['Current'].replace('%', ''))
+                ideal_value = int(balance['Ideal'].replace('%', ''))
+                
+                st.markdown(f"""
+                <div style="display: flex; align-items: center;">
+                    <div class="progress-container" style="flex: 1; margin-right: 10px;">
+                        <div class="progress-bar" style="width: {current_value}%;"></div>
+                    </div>
+                    <div style="color: #718096; font-size: 0.9em;">Ideal: {ideal_value}%</div>
+                </div>
+                """, unsafe_allow_html=True)
+            
+            st.info("""
+            **Recommendations for Life Balance:**
+            • Dedicate more time to family relationships
+            • Prioritize health through regular exercise and check-ups
+            • Develop spiritual practices (meditation, yoga)
+            • Expand social circle and networking
+            • Maintain career success while creating boundaries
+            """)
         
-        # Add other tabs with similar ayanamsa-aware content...
-        
+        with tabs[5]:  # Career Growth
+            st.markdown(f"""
+            <div class="cosmic-panel">
+                <h2 style="text-align: center; margin-bottom: 25px;">
+                    🎯 COMPREHENSIVE CAREER GROWTH - {ayanamsa} SYSTEM
+                </h2>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            # Immediate Opportunities
+            st.markdown("### 🚀 IMMEDIATE OPPORTUNITIES (Next 6 Months)")
+            
+            immediate_opportunities = [
+                {
+                    "Opportunity": "Leadership Role in Current Organization",
+                    "Timeline": "Aug - Oct 2025",
+                    "Success Rate": "95%",
+                    "Key Actions": "Take initiative, showcase leadership, connect with seniors",
+                    "Planetary Support": "Sun Mahadasha + Mercury Direct (Aug 11)",
+                    "Expected Outcome": "Promotion to senior position"
+                },
+                {
+                    "Opportunity": "Government Sector Position",
+                    "Timeline": "Sep - Nov 2025",
+                    "Success Rate": "90%",
+                    "Key Actions": "Apply for government jobs, use connections",
+                    "Planetary Support": "Sun in Leo (Aug 17) + Jupiter aspects",
+                    "Expected Outcome": "Secure government position"
+                },
+                {
+                    "Opportunity": "New Business Venture",
+                    "Timeline": "Oct - Dec 2025",
+                    "Success Rate": "85%",
+                    "Key Actions": "Plan business, secure funding, launch",
+                    "Planetary Support": "Jupiter in Cancer (Oct 18) - MEGA FORTUNE",
+                    "Expected Outcome": "Successful business establishment"
+                },
+                {
+                    "Opportunity": "International Assignment",
+                    "Timeline": "Nov 2025 - Jan 2026",
+                    "Success Rate": "80%",
+                    "Key Actions": "Apply for overseas positions, prepare documents",
+                    "Planetary Support": "Rahu influence + Jupiter expansion",
+                    "Expected Outcome": "Foreign work opportunity"
+                }
+            ]
+            
+            for opp in immediate_opportunities:
+                with st.expander(f"🚀 {opp['Opportunity']} (Success: {opp['Success Rate']})", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Timeline:** {opp['Timeline']}")
+                        st.markdown(f"**Success Rate:** {opp['Success Rate']}")
+                        st.markdown(f"**Key Actions:** {opp['Key Actions']}")
+                    with col2:
+                        st.markdown(f"**Planetary Support:** {opp['Planetary Support']}")
+                        st.markdown(f"**Expected Outcome:** {opp['Expected Outcome']}")
+            
+            # Industry Analysis
+            st.markdown("### 🏭 INDUSTRY ANALYSIS")
+            
+            industries = [
+                {
+                    "Industry": "Government & Public Sector",
+                    "Planetary Ruler": "Sun (Mahadasha Lord)",
+                    "Compatibility": "95%",
+                    "Growth Potential": "High",
+                    "Income Range": "₹15-25 LPA",
+                    "Best Roles": "Administrative services, leadership positions",
+                    "Future Outlook": "Excellent with Sun Mahadasha"
+                },
+                {
+                    "Industry": "Banking & Finance",
+                    "Planetary Ruler": "Jupiter + Sun",
+                    "Compatibility": "90%",
+                    "Growth Potential": "Very High",
+                    "Income Range": "₹12-30 LPA",
+                    "Best Roles": "Management, financial advisory",
+                    "Future Outlook": "Strong growth, Jupiter support"
+                },
+                {
+                    "Industry": "Real Estate & Construction",
+                    "Planetary Ruler": "Mars + Venus",
+                    "Compatibility": "85%",
+                    "Growth Potential": "High",
+                    "Income Range": "₹10-25 LPA",
+                    "Best Roles": "Project management, sales",
+                    "Future Outlook": "Good, upcoming Mars period"
+                },
+                {
+                    "Industry": "Education & Training",
+                    "Planetary Ruler": "Jupiter + Mercury",
+                    "Compatibility": "80%",
+                    "Growth Potential": "Medium",
+                    "Income Range": "₹8-18 LPA",
+                    "Best Roles": "Teaching, training, administration",
+                    "Future Outlook": "Steady, Jupiter influence"
+                },
+                {
+                    "Industry": "Healthcare & Pharmaceuticals",
+                    "Planetary Ruler": "Moon + Jupiter",
+                    "Compatibility": "75%",
+                    "Growth Potential": "High",
+                    "Income Range": "₹10-22 LPA",
+                    "Best Roles": "Management, administration",
+                    "Future Outlook": "Growing sector, Moon support"
+                },
+                {
+                    "Industry": "Technology & IT",
+                    "Planetary Ruler": "Mercury + Mars",
+                    "Compatibility": "70%",
+                    "Growth Potential": "Very High",
+                    "Income Range": "₹12-35 LPA",
+                    "Best Roles": "Management, technical leadership",
+                    "Future Outlook": "Excellent growth, Mercury direct soon"
+                }
+            ]
+            
+            for industry in industries:
+                with st.expander(f"🏭 {industry['Industry']} (Compatibility: {industry['Compatibility']})", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Planetary Ruler:** {industry['Planetary Ruler']}")
+                        st.markdown(f"**Growth Potential:** {industry['Growth Potential']}")
+                        st.markdown(f"**Income Range:** {industry['Income Range']}")
+                    with col2:
+                        st.markdown(f"**Best Roles:** {industry['Best Roles']}")
+                        st.markdown(f"**Future Outlook:** {industry['Future Outlook']}")
+                    
+                    # Compatibility bar
+                    compatibility_value = int(industry['Compatibility'].replace('%', ''))
+                    st.markdown(f"""
+                    <div class="progress-container">
+                        <div class="progress-bar" style="width: {compatibility_value}%;">Compatibility: {industry['Compatibility']}</div>
+                    </div>
+                    """, unsafe_allow_html=True)
+            
+            # Action Plans
+            st.markdown("### 📝 ACTION PLANS")
+            
+            action_plans = [
+                {
+                    "Timeline": "30-Day Plan",
+                    "Focus": "Immediate career advancement",
+                    "Key Actions": [
+                        "Update resume and LinkedIn profile",
+                        "Schedule meetings with senior management",
+                        "Take on additional responsibilities",
+                        "Start wearing Ruby gemstone",
+                        "Perform Sun remedies daily"
+                    ],
+                    "Expected Outcome": "Recognition and consideration for promotion"
+                },
+                {
+                    "Timeline": "6-Month Plan",
+                    "Focus": "Major career transition",
+                    "Key Actions": [
+                        "Complete certification courses",
+                        "Expand professional network",
+                        "Apply for higher positions",
+                        "Consider government job opportunities",
+                        "Prepare for business venture"
+                    ],
+                    "Expected Outcome": "New position or business establishment"
+                },
+                {
+                    "Timeline": "3-Year Plan",
+                    "Focus": "Long-term career establishment",
+                    "Key Actions": [
+                        "Achieve senior leadership position",
+                        "Establish business or consultancy",
+                        "Build strong professional reputation",
+                        "Create multiple income streams",
+                        "Balance career with family life"
+                    ],
+                    "Expected Outcome": "Established career authority and financial stability"
+                }
+            ]
+            
+            for plan in action_plans:
+                with st.expander(f"📝 {plan['Timeline']}", expanded=True):
+                    st.markdown(f"**Focus:** {plan['Focus']}")
+                    st.markdown("**Key Actions:**")
+                    for action in plan['Key Actions']:
+                        st.success(f"• {action}")
+                    st.markdown(f"**Expected Outcome:** {plan['Expected Outcome']}")
+            
+            # Salary Projections
+            st.markdown("### 💰 SALARY PROJECTIONS")
+            
+            salary_projections = [
+                {"Year": "2025 (Current)", "Position": "Mid-level Professional", "Salary": "₹12-15 LPA", "Growth": "Baseline"},
+                {"Year": "2026", "Position": "Senior Professional", "Salary": "₹15-20 LPA", "Growth": "25%"},
+                {"Year": "2027", "Position": "Team Lead/Manager", "Salary": "₹18-25 LPA", "Growth": "25%"},
+                {"Year": "2028", "Position": "Senior Manager", "Salary": "₹22-30 LPA", "Growth": "20%"},
+                {"Year": "2029", "Position": "Department Head", "Salary": "₹25-35 LPA", "Growth": "20%"},
+                {"Year": "2030", "Position": "Director/VP", "Salary": "₹30-45 LPA", "Growth": "30%"},
+                {"Year": "2035", "Position": "Senior Director/Entrepreneur", "Salary": "₹40-60 LPA", "Growth": "35%"}
+            ]
+            
+            df_salary = pd.DataFrame(salary_projections)
+            st.dataframe(df_salary, use_container_width=True)
+            
+            # Life Purpose Integration
+            st.markdown("### 🕉️ LIFE PURPOSE INTEGRATION")
+            
+            life_purpose = {
+                "Dharmic Path": "Leadership with service orientation",
+                "Career Alignment": "Authority positions that help others",
+                "Spiritual Integration": "Use material success for spiritual growth",
+                "Karmic Duty": "Balance power with compassion",
+                "Recommended Practices": [
+                    "Meditate on leadership responsibilities",
+                    "Donate part of income regularly",
+                    "Mentor juniors and subordinates",
+                    "Balance work with spiritual practices",
+                    "Use authority for positive change"
+                ]
+            }
+            
+            st.success(f"""
+            **Dharmic Path:** {life_purpose['Dharmic Path']}  
+            **Career Alignment:** {life_purpose['Career Alignment']}  
+            **Spiritual Integration:** {life_purpose['Spiritual Integration']}  
+            **Karmic Duty:** {life_purpose['Karmic Duty']}
+            """)
+            
+            st.markdown("**Recommended Practices:**")
+            for practice in life_purpose['Recommended Practices']:
+                st.success(f"• {practice}")
+            
+            # Career Success Factors
+            st.markdown("### ⭐ CAREER SUCCESS FACTORS")
+            
+            success_factors = [
+                {"Factor": "Sun Strength (Mahadasha)", "Impact": "Very High", "Duration": "Current - 2030", "Remedy": "Ruby gemstone, Sun worship"},
+                {"Factor": "Mercury Intelligence", "Impact": "High", "Duration": "Permanent", "Remedy": "Emerald, education"},
+                {"Factor": "Jupiter Expansion", "Impact": "High", "Duration": "Increasing", "Remedy": "Yellow sapphire, charity"},
+                {"Factor": "Mars Energy", "Impact": "Medium", "Duration": "From 2030", "Remedy": "Red coral, exercise"},
+                {"Factor": "Saturn Discipline", "Impact": "Medium", "Duration": "Permanent", "Remedy": "Blue sapphire, discipline"}
+            ]
+            
+            for factor in success_factors:
+                col1, col2, col3, col4 = st.columns([2, 1, 1, 2])
+                with col1:
+                    st.markdown(f"**{factor['Factor']}**")
+                with col2:
+                    st.markdown(factor['Impact'])
+                with col3:
+                    st.markdown(factor['Duration'])
+                with col4:
+                    st.markdown(factor['Remedy'])
+            
+            # Final Career Advice
+            st.markdown("### 🎯 FINAL CAREER ADVICE")
+            
+            st.info("""
+            **🌟 Current Phase (Sun Mahadasha):**
+            • Focus on building authority and leadership
+            • Take on challenging roles with responsibility
+            • Connect with government and authority figures
+            • Maintain health through regular check-ups
+            • Balance ambition with humility
+            
+            **🚀 Upcoming Opportunities:**
+            • Leadership promotion in current organization (95% success)
+            • Government sector position (90% success)
+            • Business venture establishment (85% success)
+            • International assignment (80% success)
+            
+            **💰 Financial Growth:**
+            • Current: ₹12-15 LPA
+            • 2030 Projection: ₹30-45 LPA
+            • 2035 Projection: ₹40-60 LPA
+            
+            **🕉️ Spiritual Integration:**
+            • Use leadership positions to help others
+            • Donate part of income regularly
+            • Balance material success with spiritual growth
+            • Mentor others in your field
+            """)
+    
     else:
         # Financial Markets Mode with comprehensive analysis
         tabs = st.tabs([
@@ -1739,7 +2966,6 @@ if analyze_button:
             
             **Strategy:** Accumulate quality stocks now, ride the mega trend till 2027
             """)
-
 
 else:
     # Welcome Screen with date/time info
