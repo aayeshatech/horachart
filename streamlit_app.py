@@ -191,87 +191,51 @@ st.markdown("""
         font-weight: bold;
     }
     
-    /* Rating stars */
-    .rating-stars {
-        color: #f6ad55;
-        font-size: 1.2em;
-    }
-    
-    /* Highlight boxes */
-    .highlight-box {
-        background: rgba(102, 126, 234, 0.1);
-        border-left: 4px solid #667eea;
-        padding: 15px;
-        border-radius: 8px;
-        margin: 10px 0;
-    }
-    
-    /* Gemstone cards */
-    .gemstone-card {
-        background: linear-gradient(135deg, #f7fafc, #edf2f7);
-        border-radius: 12px;
-        padding: 15px;
-        margin: 10px 0;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    
-    /* Daily guidance */
-    .daily-guidance {
+    /* Commodity cards */
+    .commodity-card {
         background: rgba(255, 255, 255, 0.98);
-        border-radius: 12px;
-        padding: 15px;
+        border-radius: 15px;
+        padding: 20px;
         margin: 10px 0;
-        border-left: 4px solid #667eea;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    
-    /* Life phase cards */
-    .life-phase-card {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 12px;
-        padding: 15px;
-        margin: 10px 0;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        border-left: 4px solid;
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
         transition: all 0.3s ease;
     }
     
-    .life-phase-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-    }
+    .gold-card { border-left-color: #d4af37; }
+    .silver-card { border-left-color: #c0c0c0; }
+    .crude-card { border-left-color: #2f4f4f; }
     
-    /* Career cards */
-    .career-card {
+    /* Cycle forecast */
+    .cycle-forecast {
         background: rgba(255, 255, 255, 0.98);
-        border-radius: 12px;
-        padding: 15px;
-        margin: 10px 0;
-        border-top: 3px solid #667eea;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-    
-    /* Remedy cards */
-    .remedy-card {
-        background: rgba(255, 255, 255, 0.98);
-        border-radius: 12px;
-        padding: 15px;
+        border-radius: 15px;
+        padding: 20px;
         margin: 10px 0;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        box-shadow: 0 6px 25px rgba(0, 0, 0, 0.06);
+        transition: all 0.3s ease;
     }
     
-    .remedy-urgent {
-        border-left: 4px solid #e53e3e;
+    .cycle-forecast:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
     }
     
-    .remedy-daily {
-        border-left: 4px solid #38a169;
+    /* Bullish/Bearish indicators */
+    .bullish-indicator {
+        color: #38a169;
+        font-weight: bold;
     }
     
-    .remedy-weekly {
-        border-left: 4px solid #d69e2e;
+    .bearish-indicator {
+        color: #e53e3e;
+        font-weight: bold;
+    }
+    
+    .neutral-indicator {
+        color: #d69e2e;
+        font-weight: bold;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -486,6 +450,8 @@ def calculate_current_dasha_details(birth_date, ayanamsa_type):
         "ayanamsa_info": ayanamsa_calc,
         "mahadasha": {
             "lord": current_dasha,
+            "nakshatra_lord": "Pushya",
+            "sub_lord": "Saturn",
             "start": "2024-11-19",
             "end": "2030-11-09",
             "nature": f"As per {ayanamsa_type} calculations",
@@ -495,15 +461,35 @@ def calculate_current_dasha_details(birth_date, ayanamsa_type):
         },
         "bhukti": {
             "lord": sub_period,
+            "nakshatra_lord": "Rohini",
+            "sub_lord": "Mercury",
             "start": "2025-03-07",
             "end": "2025-09-07",
             "effects": f"Sub-period results vary with {ayanamsa_type} system"
         },
         "antara": {
             "lord": sub_sub,
+            "nakshatra_lord": "Ashlesha",
+            "sub_lord": "Venus",
             "start": "2025-08-01",
             "end": "2025-08-20",
             "effects": f"Precise timing as per {ayanamsa_type} calculations"
+        },
+        "pratyantara": {
+            "lord": "Ketu",
+            "nakshatra_lord": "Magha",
+            "sub_lord": "Sun",
+            "start": "2025-08-08",
+            "end": "2025-08-11",
+            "effects": "Spiritual insights, sudden changes"
+        },
+        "sookshma": {
+            "lord": "Venus",
+            "nakshatra_lord": "Purva Phalguni",
+            "sub_lord": "Sun",
+            "start": "2025-08-08",
+            "end": "2025-08-09",
+            "effects": "Relationship harmony, luxury"
         }
     }
 
@@ -612,8 +598,8 @@ if analyze_button:
                 st.markdown("### 🌟 Mahadasha (Main Period)")
                 st.info(f"""
                 **Lord:** {dasha_details['mahadasha']['lord']}  
-                **Nakshatra Lord:** Pushya  
-                **Sub-lord:** Saturn  
+                **Nakshatra Lord:** {dasha_details['mahadasha']['nakshatra_lord']}  
+                **Sub-lord:** {dasha_details['mahadasha']['sub_lord']}  
                 **Duration:** {dasha_details['mahadasha']['total_years']} years  
                 **Current Year:** {dasha_details['mahadasha']['current_year']}  
                 **Period:** {dasha_details['mahadasha']['start']} to {dasha_details['mahadasha']['end']}  
@@ -624,8 +610,8 @@ if analyze_button:
                 st.markdown("### 🌙 Bhukti (Sub-Period)")
                 st.warning(f"""
                 **Lord:** {dasha_details['bhukti']['lord']}  
-                **Nakshatra Lord:** Rohini  
-                **Sub-lord:** Mercury  
+                **Nakshatra Lord:** {dasha_details['bhukti']['nakshatra_lord']}  
+                **Sub-lord:** {dasha_details['bhukti']['sub_lord']}  
                 **Progress:** 60% complete  
                 **Period:** {dasha_details['bhukti']['start']} to {dasha_details['bhukti']['end']}  
                 **Effects:** {dasha_details['bhukti']['effects']}
@@ -635,21 +621,49 @@ if analyze_button:
                 st.markdown("### ⭐ Antara (Sub-Sub Period)")
                 st.success(f"""
                 **Lord:** {dasha_details['antara']['lord']}  
-                **Nakshatra Lord:** Ashlesha  
-                **Sub-lord:** Venus  
+                **Nakshatra Lord:** {dasha_details['antara']['nakshatra_lord']}  
+                **Sub-lord:** {dasha_details['antara']['sub_lord']}  
                 **Progress:** Day 7 of 24 days  
                 **Period:** {dasha_details['antara']['start']} to {dasha_details['antara']['end']}  
                 **Effects:** {dasha_details['antara']['effects']}
+                """)
+            
+            # Additional Dasha Levels
+            st.markdown("### 🔍 DEEPER DASHA LEVELS")
+            
+            col1, col2 = st.columns(2)
+            
+            with col1:
+                st.markdown("### 🌀 Pratyantara (Sub-Sub-Sub Period)")
+                st.warning(f"""
+                **Lord:** {dasha_details['pratyantara']['lord']}  
+                **Nakshatra Lord:** {dasha_details['pratyantara']['nakshatra_lord']}  
+                **Sub-lord:** {dasha_details['pratyantara']['sub_lord']}  
+                **Progress:** Day 1 of 4 days  
+                **Period:** {dasha_details['pratyantara']['start']} to {dasha_details['pratyantara']['end']}  
+                **Effects:** {dasha_details['pratyantara']['effects']}
+                """)
+            
+            with col2:
+                st.markdown("### ✨ Sookshma (5th Level Period)")
+                st.info(f"""
+                **Lord:** {dasha_details['sookshma']['lord']}  
+                **Nakshatra Lord:** {dasha_details['sookshma']['nakshatra_lord']}  
+                **Sub-lord:** {dasha_details['sookshma']['sub_lord']}  
+                **Progress:** Day 1 of 2 days  
+                **Period:** {dasha_details['sookshma']['start']} to {dasha_details['sookshma']['end']}  
+                **Effects:** {dasha_details['sookshma']['effects']}
                 """)
             
             # Upcoming Changes
             st.markdown("### 🔄 UPCOMING DASHA CHANGES")
             
             upcoming_changes = [
-                {"Date": "Aug 20, 2025", "Change": "Antara: Mercury → Ketu", "Duration": "7 days", "Effects": "Spiritual insights, sudden changes"},
-                {"Date": "Sep 7, 2025", "Change": "Bhukti: Moon → Mars", "Duration": "3 months", "Effects": "High energy, action-oriented phase"},
-                {"Date": "Oct 18, 2025", "Change": "Jupiter enters Cancer", "Duration": "1 year", "Effects": "Major life transformation begins"},
-                {"Date": "Nov 9, 2025", "Change": "Antara: Mars → Rahu", "Duration": "18 days", "Effects": "Material gains, foreign connections"}
+                {"Date": "Aug 11, 2025", "Time": "02:30 PM", "Change": "Pratyantara: Ketu → Venus", "Duration": "3 days", "Effects": "Relationship harmony, luxury focus", "Market Impact": "Bullish for luxury stocks"},
+                {"Date": "Aug 20, 2025", "Time": "11:45 AM", "Change": "Antara: Mercury → Ketu", "Duration": "7 days", "Effects": "Spiritual insights, sudden changes", "Market Impact": "Volatility in tech stocks"},
+                {"Date": "Sep 7, 2025", "Time": "09:15 AM", "Change": "Bhukti: Moon → Mars", "Duration": "3 months", "Effects": "High energy, action-oriented phase", "Market Impact": "Bullish for infrastructure, auto"},
+                {"Date": "Oct 18, 2025", "Time": "06:30 PM", "Change": "Jupiter enters Cancer", "Duration": "1 year", "Effects": "Major life transformation begins", "Market Impact": "MEGA BULL RUN"},
+                {"Date": "Nov 9, 2025", "Time": "03:45 PM", "Change": "Antara: Mars → Rahu", "Duration": "18 days", "Effects": "Material gains, foreign connections", "Market Impact": "Foreign fund inflows"}
             ]
             
             df_upcoming = pd.DataFrame(upcoming_changes)
@@ -659,12 +673,12 @@ if analyze_button:
             st.markdown("### 📅 COMPLETE LIFE TIMELINE")
             
             life_timeline = [
-                {"Mahadasha": "Sun", "Age Range": "34-40", "Theme": "Authority Building", "Key Events": "Career peak, leadership roles"},
-                {"Mahadasha": "Moon", "Age Range": "40-50", "Theme": "Emotional Fulfillment", "Key Events": "Family expansion, home"},
-                {"Mahadasha": "Mars", "Age Range": "50-57", "Theme": "Action & Property", "Key Events": "Real estate, bold ventures"},
-                {"Mahadasha": "Rahu", "Age Range": "57-75", "Theme": "Material Success", "Key Events": "Wealth accumulation, foreign travel"},
-                {"Mahadasha": "Jupiter", "Age Range": "75-91", "Theme": "Wisdom & Teaching", "Key Events": "Mentorship, spiritual growth"},
-                {"Mahadasha": "Saturn", "Age Range": "91-110", "Theme": "Karma Completion", "Key Events": "Legacy, final life lessons"}
+                {"Mahadasha": "Sun", "Age Range": "34-40", "Theme": "Authority Building", "Key Events": "Career peak, leadership roles", "Market Effect": "Government sector boom"},
+                {"Mahadasha": "Moon", "Age Range": "40-50", "Theme": "Emotional Fulfillment", "Key Events": "Family expansion, home purchase", "Market Effect": "Real estate growth"},
+                {"Mahadasha": "Mars", "Age Range": "50-57", "Theme": "Action & Property", "Key Events": "Real estate investments, bold ventures", "Market Effect": "Infrastructure surge"},
+                {"Mahadasha": "Rahu", "Age Range": "57-75", "Theme": "Material Success", "Key Events": "Wealth accumulation, foreign travel", "Market Effect": "Technology revolution"},
+                {"Mahadasha": "Jupiter", "Age Range": "75-91", "Theme": "Wisdom & Teaching", "Key Events": "Mentorship, spiritual growth", "Market Effect": "Education sector growth"},
+                {"Mahadasha": "Saturn", "Age Range": "91-110", "Theme": "Karma Completion", "Key Events": "Legacy building, final lessons", "Market Effect": "Traditional value investing"}
             ]
             
             df_timeline = pd.DataFrame(life_timeline)
@@ -738,117 +752,230 @@ if analyze_button:
             st.markdown("### 📅 TODAY'S POSITIONS (August 8, 2025)")
             
             today_positions = [
-                {"Planet": "Sun", "Sign": "Cancer", "Degree": "22°15'", "House": "11", "Nature": "Benefic", "Effect": "Career gains, recognition"},
-                {"Planet": "Moon", "Sign": "Pisces", "Degree": "8°45'", "House": "6", "Nature": "Malefic", "Effect": "Health concerns, debts"},
-                {"Planet": "Mars", "Sign": "Virgo", "Degree": "22°18'", "House": "12", "Nature": "Benefic", "Effect": "Spiritual growth, expenses"},
-                {"Planet": "Mercury", "Sign": "Leo", "Degree": "3°56'", "House": "11", "Nature": "Malefic (Retro)", "Effect": "Communication issues, delays"},
-                {"Planet": "Jupiter", "Sign": "Gemini", "Degree": "18°42'", "House": "9", "Nature": "Benefic", "Effect": "Spiritual growth, luck"},
-                {"Planet": "Venus", "Sign": "Cancer", "Degree": "27°33'", "House": "11", "Nature": "Benefic", "Effect": "Relationship harmony, gains"},
-                {"Planet": "Saturn", "Sign": "Pisces", "Degree": "12°08'", "House": "6", "Nature": "Malefic (Retro)", "Effect": "Health challenges, delays"},
-                {"Planet": "Rahu", "Sign": "Aquarius", "Degree": "25°17'", "House": "5", "Nature": "Malefic", "Effect": "Speculative losses, confusion"},
-                {"Planet": "Ketu", "Sign": "Leo", "Degree": "25°17'", "House": "11", "Nature": "Malefic", "Effect": "Spiritual insights, detachment"}
+                {"Planet": "Sun", "Sign": "Cancer", "Degree": "22°15'", "House": "11", "Nature": "Benefic", "Effect": "Career gains, recognition", "Market Impact": "Bullish for government stocks"},
+                {"Planet": "Moon", "Sign": "Pisces", "Degree": "8°45'", "House": "6", "Nature": "Malefic", "Effect": "Health concerns, debts", "Market Impact": "Bearish for healthcare stocks"},
+                {"Planet": "Mars", "Sign": "Virgo", "Degree": "22°18'", "House": "12", "Nature": "Benefic", "Effect": "Spiritual growth, expenses", "Market Impact": "Neutral for markets"},
+                {"Planet": "Mercury", "Sign": "Leo", "Degree": "3°56'", "House": "11", "Nature": "Malefic (Retro)", "Effect": "Communication issues, delays", "Market Impact": "Bearish for IT stocks"},
+                {"Planet": "Jupiter", "Sign": "Gemini", "Degree": "18°42'", "House": "9", "Nature": "Benefic", "Effect": "Spiritual growth, luck", "Market Impact": "Bullish for financial stocks"},
+                {"Planet": "Venus", "Sign": "Cancer", "Degree": "27°33'", "House": "11", "Nature": "Benefic", "Effect": "Relationship harmony, gains", "Market Impact": "Bullish for real estate"},
+                {"Planet": "Saturn", "Sign": "Pisces", "Degree": "12°08'", "House": "6", "Nature": "Malefic (Retro)", "Effect": "Health challenges, delays", "Market Impact": "Bearish for auto stocks"},
+                {"Planet": "Rahu", "Sign": "Aquarius", "Degree": "25°17'", "House": "5", "Nature": "Malefic", "Effect": "Speculative losses, confusion", "Market Impact": "Volatile for small caps"},
+                {"Planet": "Ketu", "Sign": "Leo", "Degree": "25°17'", "House": "11", "Nature": "Malefic", "Effect": "Spiritual insights, detachment", "Market Impact": "Bearish for luxury stocks"}
             ]
             
             df_today = pd.DataFrame(today_positions)
             st.dataframe(df_today, use_container_width=True)
             
-            # Hourly Influences
-            st.markdown("### ⏰ HOURLY INFLUENCES")
+            # Running Transits
+            st.markdown("### 🔄 RUNNING TRANSITS")
             
-            hourly_influences = [
-                {"Time": "6:00-7:30 AM", "Planet": "Saturn", "Activity": "Meditation, Planning", "Advice": "Start with discipline"},
-                {"Time": "7:30-9:00 AM", "Planet": "Jupiter", "Activity": "Learning, Teaching", "Advice": "Expand knowledge"},
-                {"Time": "9:00-10:30 AM", "Planet": "Mars", "Activity": "Exercise, Action", "Advice": "Take initiative"},
-                {"Time": "10:30-12:00 PM", "Planet": "Sun", "Activity": "Leadership, Authority", "Advice": "Make decisions"},
-                {"Time": "12:00-1:30 PM", "Planet": "Venus", "Activity": "Relationships, Creativity", "Advice": "Connect with others"},
-                {"Time": "1:30-3:00 PM", "Planet": "Mercury", "Activity": "Communication, Travel", "Advice": "Be cautious (retrograde)"},
-                {"Time": "3:00-4:30 PM", "Planet": "Moon", "Activity": "Emotions, Home", "Advice": "Nurture yourself"},
-                {"Time": "4:30-6:00 PM", "Planet": "Saturn", "Activity": "Work, Responsibility", "Advice": "Complete tasks"},
-                {"Time": "6:00-7:30 PM", "Planet": "Jupiter", "Activity": "Social, Spiritual", "Advice": "Share wisdom"},
-                {"Time": "7:30-9:00 PM", "Planet": "Mars", "Activity": "Exercise, Passion", "Advice": "Release energy"},
-                {"Time": "9:00-10:30 PM", "Planet": "Sun", "Activity": "Reflection, Rest", "Advice": "Recharge"},
-                {"Time": "10:30 PM-6:00 AM", "Planet": "Moon", "Activity": "Sleep, Dreams", "Advice": "Rest deeply"}
+            running_transits = [
+                {
+                    "Planet": "Mercury",
+                    "Transit": "Retrograde in Leo",
+                    "Start Date": "Jul 26, 2025",
+                    "End Date": "Aug 11, 2025",
+                    "Time": "Until 02:30 PM",
+                    "Effect": "Communication breakdowns, delays, confusion",
+                    "Market Impact": "Bearish for IT, Telecom, Media",
+                    "Remedy": "Avoid new contracts, double-check communications"
+                },
+                {
+                    "Planet": "Saturn",
+                    "Transit": "Retrograde in Pisces",
+                    "Start Date": "Jun 29, 2025",
+                    "End Date": "Sep 1, 2025",
+                    "Time": "Until 10:15 AM",
+                    "Effect": "Delays, restrictions, health issues",
+                    "Market Impact": "Bearish for Auto, Infrastructure",
+                    "Remedy": "Review responsibilities, health check-ups"
+                },
+                {
+                    "Planet": "Mars",
+                    "Transit": "In Virgo",
+                    "Start Date": "Jul 20, 2025",
+                    "End Date": "Sep 13, 2025",
+                    "Time": "Ongoing",
+                    "Effect": "Focus on health, service, details",
+                    "Market Impact": "Bullish for Healthcare, Pharma",
+                    "Remedy": "Channel energy into productive activities"
+                },
+                {
+                    "Planet": "Venus",
+                    "Transit": "In Cancer",
+                    "Start Date": "Jul 31, 2025",
+                    "End Date": "Sep 15, 2025",
+                    "Time": "Ongoing",
+                    "Effect": "Emotional harmony, home focus",
+                    "Market Impact": "Bullish for Real Estate, FMCG",
+                    "Remedy": "Focus on relationships, home improvements"
+                }
             ]
             
-            df_hourly = pd.DataFrame(hourly_influences)
-            st.dataframe(df_hourly, use_container_width=True)
+            for transit in running_transits:
+                impact_type = "error" if "Retrograde" in transit["Transit"] else "warning" if "Bearish" in transit["Market Impact"] else "info"
+                
+                with st.expander(f"🔄 {transit['Planet']} - {transit['Transit']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Duration:** {transit['Start Date']} to {transit['End Date']}")
+                        st.markdown(f"**Time:** {transit['Time']}")
+                        st.markdown(f"**Effect:** {transit['Effect']}")
+                    with col2:
+                        st.markdown(f"**Market Impact:** {transit['Market Impact']}")
+                        st.markdown(f"**Remedy:** {transit['Remedy']}")
             
-            # Weekly Events
-            st.markdown("### 📅 WEEKLY EVENTS (Aug 5-11, 2025)")
+            # Upcoming Transits
+            st.markdown("### 🚀 UPCOMING TRANSITS")
             
-            weekly_events = [
-                {"Date": "Aug 5", "Event": "Moon in Aquarius", "Effect": "Social connections, humanitarian work"},
-                {"Date": "Aug 6", "Event": "Moon conjunct Saturn", "Effect": "Emotional restriction, discipline needed"},
-                {"Date": "Aug 7", "Event": "Moon in Pisces", "Effect": "Intuition high, spiritual activities"},
-                {"Date": "Aug 8", "Event": "Moon-Jupiter trine", "Effect": "Good fortune, opportunities"},
-                {"Date": "Aug 9", "Event": "Moon in Aries", "Effect": "High energy, new beginnings"},
-                {"Date": "Aug 10", "Event": "Moon-Mars square", "Effect": "Irritation, conflicts possible"},
-                {"Date": "Aug 11", "Event": "MERCURY DIRECT!", "Effect": "Communication breakthrough, clarity"}
+            upcoming_transits = [
+                {
+                    "Planet": "Mercury",
+                    "Transit": "Direct in Leo",
+                    "Date": "Aug 11, 2025",
+                    "Time": "02:30 PM",
+                    "Effect": "Communication breakthrough, clarity",
+                    "Market Impact": "Bullish for IT, Telecom, Media",
+                    "Action": "Buy tech stocks, sign contracts"
+                },
+                {
+                    "Planet": "Sun",
+                    "Transit": "Enters Leo",
+                    "Date": "Aug 17, 2025",
+                    "Time": "11:45 AM",
+                    "Effect": "Authority peak, leadership energy",
+                    "Market Impact": "Bullish for Banking, Government stocks",
+                    "Action": "Buy PSU, Banking stocks"
+                },
+                {
+                    "Planet": "Venus",
+                    "Transit": "Enters Cancer",
+                    "Date": "Aug 21, 2025",
+                    "Time": "09:30 PM",
+                    "Effect": "Relationship harmony, luxury focus",
+                    "Market Impact": "Bullish for Real Estate, Luxury goods",
+                    "Action": "Buy realty, consumer stocks"
+                },
+                {
+                    "Planet": "Saturn",
+                    "Transit": "Direct in Pisces",
+                    "Date": "Sep 1, 2025",
+                    "Time": "10:15 AM",
+                    "Effect": "Clarity in responsibilities, progress",
+                    "Market Impact": "Bullish for Infrastructure, Auto",
+                    "Action": "Buy cyclical stocks"
+                },
+                {
+                    "Planet": "Mars",
+                    "Transit": "Enters Libra",
+                    "Date": "Sep 13, 2025",
+                    "Time": "03:45 PM",
+                    "Effect": "Balanced action, partnerships",
+                    "Market Impact": "Neutral to Bullish for markets",
+                    "Action": "Focus on quality stocks"
+                },
+                {
+                    "Planet": "Jupiter",
+                    "Transit": "Enters Cancer",
+                    "Date": "Oct 18, 2025",
+                    "Time": "06:30 PM",
+                    "Effect": "MEGA FORTUNE begins, expansion",
+                    "Market Impact": "SUPER BULLISH for all sectors",
+                    "Action": "BUY EVERYTHING"
+                }
             ]
             
-            df_weekly = pd.DataFrame(weekly_events)
-            st.dataframe(df_weekly, use_container_width=True)
+            for transit in upcoming_transits:
+                impact_type = "success" if "Bullish" in transit["Market Impact"] else "warning" if "Neutral" in transit["Market Impact"] else "error"
+                
+                with st.expander(f"🚀 {transit['Planet']} - {transit['Transit']} on {transit['Date']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Date & Time:** {transit['Date']} at {transit['Time']}")
+                        st.markdown(f"**Effect:** {transit['Effect']}")
+                    with col2:
+                        st.markdown(f"**Market Impact:** {transit['Market Impact']}")
+                        st.markdown(f"**Action:** {transit['Action']}")
             
-            # Transit Alerts
-            st.markdown("### 🚨 TRANSIT ALERTS")
+            # 5-8 Year Cycle Forecast
+            st.markdown("### 🔮 5-8 YEAR CYCLE FORECAST")
             
-            transit_alerts = [
-                {"Alert": "Mercury Retrograde", "Status": "Ending Soon", "Date": "Until Aug 11", "Action": "Avoid new contracts, double-check communications"},
-                {"Alert": "Mars in Virgo", "Status": "Active", "Date": "Until Sep 13", "Action": "Focus on health, service, details"},
-                {"Alert": "Saturn Retrograde", "Status": "Active", "Date": "Until Sep 1", "Action": "Review responsibilities, health check"},
-                {"Alert": "Jupiter in Gemini", "Status": "Active", "Date": "Until Oct 18", "Action": "Expand knowledge, communication skills"},
-                {"Alert": "Venus in Cancer", "Status": "Active", "Date": "Until Sep 15", "Action": "Focus on home, family, emotional bonds"}
+            cycle_forecasts = [
+                {
+                    "Year": "2025-2026",
+                    "Key Transit": "Jupiter in Gemini (Until Oct 18, 2025)",
+                    "Effect": "Communication, technology focus",
+                    "Market Trend": "Bullish for IT, Telecom",
+                    "Bullish Sectors": "Technology, Communication, Education",
+                    "Bearish Sectors": "Traditional manufacturing",
+                    "Overall Outlook": "Positive growth with tech leadership"
+                },
+                {
+                    "Year": "2026-2027",
+                    "Key Transit": "Jupiter in Cancer (Oct 2025 - Oct 2026)",
+                    "Effect": "MEGA BULL RUN, real estate boom",
+                    "Market Trend": "Super Bullish across all sectors",
+                    "Bullish Sectors": "Real Estate, Banking, Healthcare",
+                    "Bearish Sectors": "None - Universal bull market",
+                    "Overall Outlook": "Exceptional growth, new market highs"
+                },
+                {
+                    "Year": "2027-2028",
+                    "Key Transit": "Saturn in Pisces (Until 2027)",
+                    "Effect": "Discipline, structure, responsibility",
+                    "Market Trend": "Consolidation, value investing",
+                    "Bullish Sectors": "Infrastructure, PSU, Traditional sectors",
+                    "Bearish Sectors": "Speculative stocks, high debt companies",
+                    "Overall Outlook": "Steady growth with focus on fundamentals"
+                },
+                {
+                    "Year": "2028-2029",
+                    "Key Transit": "Rahu in Aries (2028-2029)",
+                    "Effect": "Innovation, disruption, foreign influence",
+                    "Market Trend": "Volatile with upward bias",
+                    "Bullish Sectors": "Technology, Startups, Foreign companies",
+                    "Bearish Sectors": "Traditional sectors, government companies",
+                    "Overall Outlook": "Transformation period with high volatility"
+                },
+                {
+                    "Year": "2029-2030",
+                    "Key Transit": "Jupiter in Leo (2029-2030)",
+                    "Effect": "Leadership, authority, creativity",
+                    "Market Trend": "Bullish with leadership focus",
+                    "Bullish Sectors": "Banking, Government, Entertainment",
+                    "Bearish Sectors": "Defensive sectors, utilities",
+                    "Overall Outlook": "Strong growth with leadership themes"
+                },
+                {
+                    "Year": "2030-2031",
+                    "Key Transit": "Saturn in Aries (2030-2032)",
+                    "Effect": "Disciplined action, new beginnings",
+                    "Market Trend": "Cautious optimism",
+                    "Bullish Sectors": "Infrastructure, Auto, Engineering",
+                    "Bearish Sectors": "Luxury, speculative stocks",
+                    "Overall Outlook": "Foundation building for next cycle"
+                },
+                {
+                    "Year": "2031-2032",
+                    "Key Transit": "Jupiter in Virgo (2031-2032)",
+                    "Effect": "Analysis, health, service focus",
+                    "Market Trend": "Steady growth in service sectors",
+                    "Bullish Sectors": "Healthcare, Pharma, Service industries",
+                    "Bearish Sectors": "Manufacturing, commodities",
+                    "Overall Outlook": "Sustainable growth with focus on health"
+                }
             ]
             
-            for alert in transit_alerts:
-                alert_type = "error" if "Retrograde" in alert["Alert"] else "warning" if "Ending Soon" in alert["Status"] else "info"
-                if alert_type == "error":
-                    st.error(f"**{alert['Alert']}** - {alert['Status']} - {alert['Date']} - {alert['Action']}")
-                elif alert_type == "warning":
-                    st.warning(f"**{alert['Alert']}** - {alert['Status']} - {alert['Date']} - {alert['Action']}")
-                else:
-                    st.info(f"**{alert['Alert']}** - {alert['Status']} - {alert['Date']} - {alert['Action']}")
-            
-            # Mood & Health
-            st.markdown("### 💭 MOOD & HEALTH EFFECTS")
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                st.markdown("""
-                **🧠 Mental State Today:**
-                • **Focus:** High (Sun in 11th)
-                • **Creativity:** Medium (Mercury retrograde)
-                • **Emotional Balance:** Low (Moon in 6th)
-                • **Decision Making:** Good (Sun strong)
-                • **Stress Level:** Medium (Saturn aspect)
-                """)
-            
-            with col2:
-                st.markdown("""
-                **💪 Physical Health Today:**
-                • **Energy Level:** Medium (Mars in 12th)
-                • **Immunity:** Good (Jupiter trine)
-                • **Digestion:** Sensitive (Moon in 6th)
-                • **Sleep Quality:** Fair (Saturn retrograde)
-                • **Exercise Benefit:** High (Morning hours)
-                """)
-            
-            # Today's Recommendations
-            st.markdown("### ✅ TODAY'S RECOMMENDATIONS")
-            
-            st.success("""
-            **🌟 Best Activities Today:**
-            • Important meetings (10:30 AM - 12:00 PM)
-            • Financial decisions (after 12:00 PM)
-            • Spiritual practices (early morning)
-            • Exercise (9:00 - 10:30 AM)
-            
-            **⚠️ Avoid Today:**
-            • New contracts (Mercury retrograde)
-            • Arguments (Moon-Mars tension)
-            • Heavy meals (digestion sensitive)
-            • Late nights (energy low)
-            """)
+            for forecast in cycle_forecasts:
+                with st.expander(f"🔮 {forecast['Year']} - {forecast['Key Transit']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Effect:** {forecast['Effect']}")
+                        st.markdown(f"**Market Trend:** {forecast['Market Trend']}")
+                        st.markdown(f"**Bullish Sectors:** {forecast['Bullish Sectors']}")
+                    with col2:
+                        st.markdown(f"**Bearish Sectors:** {forecast['Bearish Sectors']}")
+                        st.markdown(f"**Overall Outlook:** {forecast['Overall Outlook']}")
         
         with tabs[2]:  # Monthly Predictions
             st.markdown(f"""
@@ -1712,7 +1839,7 @@ if analyze_button:
                     compatibility_value = int(industry['Compatibility'].replace('%', ''))
                     st.markdown(f"""
                     <div class="progress-container">
-                        <div class="progress-bar" style="width: {compatibility_value}%;">Compatibility: {industry['Compatibility']}</div>
+                        <div class="progress-bar" style="width: {compatibility_value}%;"></div>
                     </div>
                     """, unsafe_allow_html=True)
             
@@ -1873,7 +2000,8 @@ if analyze_button:
             "🌏 Global Markets",
             "💱 Forex Analysis",
             "⏰ Trading Times",
-            "📈 Technical + Astro"
+            "📈 Technical + Astro",
+            "🥇 Commodities Analysis"
         ])
         
         with tabs[0]:  # Market Dasha Analysis
@@ -1930,8 +2058,172 @@ if analyze_button:
                 **Trading:** Scalping opportunities
                 """)
             
+            # Detailed Dasha Analysis
+            st.markdown("### 🔍 DETAILED DASHA ANALYSIS")
+            
+            detailed_dasha = [
+                {
+                    "Level": "Mahadasha",
+                    "Lord": "Sun",
+                    "Nakshatra Lord": "Pushya",
+                    "Sub-lord": "Saturn",
+                    "Start": "Nov 19, 2024",
+                    "End": "Nov 9, 2030",
+                    "Remaining": "5 years, 3 months",
+                    "Market Effect": "Government sector boom, authority figures drive markets",
+                    "Best Strategy": "Long-term investments in PSU, Banking"
+                },
+                {
+                    "Level": "Bhukti",
+                    "Lord": "Moon",
+                    "Nakshatra Lord": "Rohini",
+                    "Sub-lord": "Mercury",
+                    "Start": "Mar 7, 2025",
+                    "End": "Sep 7, 2025",
+                    "Remaining": "1 month",
+                    "Market Effect": "Public sentiment drives markets, emotional trading",
+                    "Best Strategy": "Follow market sentiment, defensive stance"
+                },
+                {
+                    "Level": "Antara",
+                    "Lord": "Mercury",
+                    "Nakshatra Lord": "Ashlesha",
+                    "Sub-lord": "Venus",
+                    "Start": "Aug 1, 2025",
+                    "End": "Aug 20, 2025",
+                    "Remaining": "12 days",
+                    "Market Effect": "News-driven volatility, communication sectors active",
+                    "Best Strategy": "Short-term trading, focus on IT, Media"
+                },
+                {
+                    "Level": "Pratyantara",
+                    "Lord": "Ketu",
+                    "Nakshatra Lord": "Magha",
+                    "Sub-lord": "Sun",
+                    "Start": "Aug 8, 2025",
+                    "End": "Aug 11, 2025",
+                    "Remaining": "3 days",
+                    "Market Effect": "Sudden moves, spiritual sector growth",
+                    "Best Strategy": "Caution, avoid new positions"
+                },
+                {
+                    "Level": "Sookshma",
+                    "Lord": "Venus",
+                    "Nakshatra Lord": "Purva Phalguni",
+                    "Sub-lord": "Sun",
+                    "Start": "Aug 8, 2025",
+                    "End": "Aug 9, 2025",
+                    "Remaining": "1 day",
+                    "Market Effect": "Luxury, real estate focus",
+                    "Best Strategy": "Buy realty, consumer stocks"
+                }
+            ]
+            
+            for dasha in detailed_dasha:
+                level_color = {
+                    "Mahadasha": "success",
+                    "Bhukti": "warning",
+                    "Antara": "info",
+                    "Pratyantara": "error",
+                    "Sookshma": "success"
+                }
+                
+                with st.expander(f"🔍 {dasha['Level']} - {dasha['Lord']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Lord:** {dasha['Lord']}")
+                        st.markdown(f"**Nakshatra Lord:** {dasha['Nakshatra Lord']}")
+                        st.markdown(f"**Sub-lord:** {dasha['Sub-lord']}")
+                        st.markdown(f"**Period:** {dasha['Start']} to {dasha['End']}")
+                        st.markdown(f"**Remaining:** {dasha['Remaining']}")
+                    with col2:
+                        st.markdown(f"**Market Effect:** {dasha['Market Effect']}")
+                        st.markdown(f"**Best Strategy:** {dasha['Best Strategy']}")
+            
+            # Upcoming Dasha Changes
+            st.markdown("### 🔄 UPCOMING DASHA CHANGES")
+            
+            upcoming_dasha = [
+                {
+                    "Date": "Aug 11, 2025",
+                    "Time": "02:30 PM",
+                    "Change": "Pratyantara: Ketu → Venus",
+                    "Duration": "3 days",
+                    "Effect": "Relationship harmony, luxury focus",
+                    "Market Impact": "Bullish for real estate, consumer stocks",
+                    "Action": "Buy realty, FMCG stocks"
+                },
+                {
+                    "Date": "Aug 20, 2025",
+                    "Time": "11:45 AM",
+                    "Change": "Antara: Mercury → Ketu",
+                    "Duration": "7 days",
+                    "Effect": "Spiritual insights, sudden changes",
+                    "Market Impact": "Volatility in tech, pharma stocks",
+                    "Action": "Caution in tech, focus on pharma"
+                },
+                {
+                    "Date": "Sep 7, 2025",
+                    "Time": "09:15 AM",
+                    "Change": "Bhukti: Moon → Mars",
+                    "Duration": "3 months",
+                    "Effect": "High energy, action-oriented phase",
+                    "Market Impact": "Bullish for infrastructure, auto",
+                    "Action": "Buy cyclical stocks, infrastructure"
+                },
+                {
+                    "Date": "Oct 18, 2025",
+                    "Time": "06:30 PM",
+                    "Change": "Jupiter enters Cancer",
+                    "Duration": "1 year",
+                    "Effect": "MEGA FORTUNE begins",
+                    "Market Impact": "SUPER BULLISH for all sectors",
+                    "Action": "BUY EVERYTHING"
+                },
+                {
+                    "Date": "Nov 9, 2025",
+                    "Time": "03:45 PM",
+                    "Change": "Antara: Mars → Rahu",
+                    "Duration": "18 days",
+                    "Effect": "Material gains, foreign connections",
+                    "Market Impact": "Foreign fund inflows",
+                    "Action": "Focus on MNC stocks, export sectors"
+                }
+            ]
+            
+            df_upcoming = pd.DataFrame(upcoming_dasha)
+            st.dataframe(df_upcoming, use_container_width=True)
+            
+            # Current Market Dasha Impacts
+            st.markdown("### 🎯 CURRENT PERIOD MARKET IMPACTS")
+            
+            col1, col2 = st.columns(2)
+            with col1:
+                st.markdown("**🟢 Bullish Factors (Sun-Moon-Mercury Period):**")
+                st.success("""
+                • Government policy support
+                • Banking sector strength
+                • Authority figures favor markets
+                • Public sentiment improving
+                • Foreign institutional buying
+                • Infrastructure spending
+                • Communication sector recovery post-Aug 11
+                """)
+            
+            with col2:
+                st.markdown("**🔴 Bearish Risks:**")
+                st.error("""
+                • Mercury retrograde confusion (until Aug 11)
+                • Communication breakdowns
+                • Tech sector volatility
+                • News-driven selling
+                • Regulatory uncertainties
+                • Global headwinds
+                • Emotional trading decisions
+                """)
+            
             # Market Dasha Timeline
-            st.markdown("### 📅 Complete Market Dasha Cycle")
+            st.markdown("### 📅 COMPLETE MARKET DASHA CYCLE")
             
             market_dasha_data = [
                 {"Period": "Sun MD", "Years": "2024-2030", "Market Trend": "Government & Banking Bull Run", "Best Sectors": "PSU, Banking, Defense", "Strategy": "Long-term Holdings"},
@@ -1943,32 +2235,6 @@ if analyze_button:
             
             df_market_dasha = pd.DataFrame(market_dasha_data)
             st.dataframe(df_market_dasha, use_container_width=True)
-            
-            # Current Market Dasha Impacts
-            st.markdown("### 🎯 Current Period Market Impacts")
-            
-            col1, col2 = st.columns(2)
-            with col1:
-                st.markdown("**🟢 Bullish Factors (Sun-Moon Period):**")
-                st.success("""
-                • Government policy support
-                • Banking sector strength
-                • Authority figures favor markets
-                • Public sentiment improving
-                • Foreign institutional buying
-                • Infrastructure spending
-                """)
-            
-            with col2:
-                st.markdown("**🔴 Bearish Risks:**")
-                st.error("""
-                • Mercury retrograde confusion
-                • Communication breakdowns
-                • Tech sector volatility
-                • News-driven selling
-                • Regulatory uncertainties
-                • Global headwinds
-                """)
         
         with tabs[1]:  # Market Transits
             st.markdown(f"""
@@ -1979,90 +2245,235 @@ if analyze_button:
             </div>
             """, unsafe_allow_html=True)
             
-            # Market Transit Analysis
-            market_transits = [
+            # Running Transits
+            st.markdown("### 🔄 RUNNING TRANSITS")
+            
+            running_transits = [
                 {
-                    "planet": "Jupiter",
-                    "position": "Gemini (Communication)",
-                    "market_house": "3rd House - Short Term",
-                    "duration": "Until Oct 18, 2025",
-                    "market_impact": "Bullish for IT, Telecom, Media",
-                    "sectors": "TCS, Infosys, Airtel, Zee",
-                    "strategy": "Long IT stocks, avoid on dips",
-                    "target": "15-25% upside"
+                    "Planet": "Mercury",
+                    "Transit": "Retrograde in Leo",
+                    "Start Date": "Jul 26, 2025",
+                    "End Date": "Aug 11, 2025",
+                    "Time": "Until 02:30 PM",
+                    "Effect": "Communication breakdowns, delays, confusion",
+                    "Market Impact": "Bearish for IT, Telecom, Media",
+                    "Remedy": "Avoid new trades, double-check analysis"
                 },
                 {
-                    "planet": "Saturn",
-                    "position": "Pisces (Retrograde)",
-                    "market_house": "12th House - Foreign",
-                    "duration": "Sep 1, 2025 (Direct)",
-                    "market_impact": "Mixed - Foreign outflows initially",
-                    "sectors": "Export-oriented stocks",
-                    "strategy": "Buy on Saturn direct motion",
-                    "target": "Gradual recovery"
+                    "Planet": "Saturn",
+                    "Transit": "Retrograde in Pisces",
+                    "Start Date": "Jun 29, 2025",
+                    "End Date": "Sep 1, 2025",
+                    "Time": "Until 10:15 AM",
+                    "Effect": "Delays, restrictions, debt concerns",
+                    "Market Impact": "Bearish for Auto, Infrastructure, NBFC",
+                    "Remedy": "Focus on quality stocks, avoid leverage"
                 },
                 {
-                    "planet": "Mars",
-                    "position": "Virgo (Service)",
-                    "market_house": "6th House - Competition",
-                    "duration": "Until Sep 13, 2025",
-                    "market_impact": "Bullish for healthcare, pharma",
-                    "sectors": "Sun Pharma, Dr Reddy's, Apollo",
-                    "strategy": "Aggressive buying in healthcare",
-                    "target": "20-30% gains"
+                    "Planet": "Mars",
+                    "Transit": "In Virgo",
+                    "Start Date": "Jul 20, 2025",
+                    "End Date": "Sep 13, 2025",
+                    "Time": "Ongoing",
+                    "Effect": "Focus on health, service, details",
+                    "Market Impact": "Bullish for Healthcare, Pharma, Service sectors",
+                    "Remedy": "Invest in healthcare, pharma stocks"
                 },
                 {
-                    "planet": "Venus",
-                    "position": "Cancer (Domestic)",
-                    "market_house": "4th House - Real Estate",
-                    "duration": "Aug 21 - Sep 15, 2025",
-                    "market_impact": "Super bullish for realty",
-                    "sectors": "DLF, Godrej Properties, Oberoi",
-                    "strategy": "Buy realty stocks aggressively",
-                    "target": "25-40% upside"
+                    "Planet": "Venus",
+                    "Transit": "In Cancer",
+                    "Start Date": "Jul 31, 2025",
+                    "End Date": "Sep 15, 2025",
+                    "Time": "Ongoing",
+                    "Effect": "Emotional harmony, home focus",
+                    "Market Impact": "Bullish for Real Estate, FMCG, Consumer",
+                    "Remedy": "Accumulate realty, consumer stocks"
                 }
             ]
             
-            for transit in market_transits:
-                impact_color = "🟢" if "bullish" in transit["market_impact"].lower() else "🟡" if "mixed" in transit["market_impact"].lower() else "🔴"
+            for transit in running_transits:
+                impact_type = "error" if "Retrograde" in transit["Transit"] else "warning" if "Bearish" in transit["Market Impact"] else "info"
                 
-                with st.expander(f"{impact_color} {transit['planet']} in {transit['position']} - {transit['market_impact']}", expanded=True):
+                with st.expander(f"🔄 {transit['Planet']} - {transit['Transit']}", expanded=True):
                     col1, col2 = st.columns(2)
-                    
                     with col1:
-                        st.markdown(f"""
-                        **📍 Position:** {transit['position']}  
-                        **🏠 Market House:** {transit['market_house']}  
-                        **⏱️ Duration:** {transit['duration']}  
-                        **💹 Impact:** {transit['market_impact']}
-                        """)
-                    
+                        st.markdown(f"**Duration:** {transit['Start Date']} to {transit['End Date']}")
+                        st.markdown(f"**Time:** {transit['Time']}")
+                        st.markdown(f"**Effect:** {transit['Effect']}")
                     with col2:
-                        st.markdown(f"""
-                        **🎯 Target Sectors:** {transit['sectors']}  
-                        **📈 Strategy:** {transit['strategy']}  
-                        **🎯 Target:** {transit['target']}  
-                        **⭐ Recommendation:** {"BUY" if "bullish" in transit['market_impact'].lower() else "HOLD"}
-                        """)
+                        st.markdown(f"**Market Impact:** {transit['Market Impact']}")
+                        st.markdown(f"**Remedy:** {transit['Remedy']}")
             
-            # Transit Calendar
-            st.markdown("### 📅 Upcoming Market Transit Events")
+            # Upcoming Transits
+            st.markdown("### 🚀 UPCOMING TRANSITS")
             
-            transit_events = [
-                {"Date": "Aug 11, 2025", "Event": "Mercury Direct", "Market Impact": "IT sector recovery", "Action": "Buy tech stocks"},
-                {"Date": "Aug 17, 2025", "Event": "Sun → Leo", "Market Impact": "Banking sector boom", "Action": "Load bank stocks"},
-                {"Date": "Aug 21, 2025", "Event": "Venus → Cancer", "Market Impact": "Real estate surge", "Action": "Buy property stocks"},
-                {"Date": "Sep 1, 2025", "Event": "Saturn Direct", "Market Impact": "FII buying resumes", "Action": "Market bullishness"},
-                {"Date": "Sep 13, 2025", "Event": "Mars → Libra", "Market Impact": "Balance in markets", "Action": "Book some profits"},
-                {"Date": "Oct 18, 2025", "Event": "Jupiter → Cancer", "Market Impact": "MEGA BULL RUN", "Action": "All-in strategy"}
+            upcoming_transits = [
+                {
+                    "Planet": "Mercury",
+                    "Transit": "Direct in Leo",
+                    "Date": "Aug 11, 2025",
+                    "Time": "02:30 PM",
+                    "Effect": "Communication breakthrough, clarity",
+                    "Market Impact": "Bullish for IT, Telecom, Media",
+                    "Action": "Buy tech stocks, sign contracts"
+                },
+                {
+                    "Planet": "Sun",
+                    "Transit": "Enters Leo",
+                    "Date": "Aug 17, 2025",
+                    "Time": "11:45 AM",
+                    "Effect": "Authority peak, leadership energy",
+                    "Market Impact": "Bullish for Banking, Government stocks",
+                    "Action": "Buy PSU, Banking stocks"
+                },
+                {
+                    "Planet": "Venus",
+                    "Transit": "Enters Cancer",
+                    "Date": "Aug 21, 2025",
+                    "Time": "09:30 PM",
+                    "Effect": "Relationship harmony, luxury focus",
+                    "Market Impact": "Bullish for Real Estate, Luxury goods",
+                    "Action": "Buy realty, consumer stocks"
+                },
+                {
+                    "Planet": "Saturn",
+                    "Transit": "Direct in Pisces",
+                    "Date": "Sep 1, 2025",
+                    "Time": "10:15 AM",
+                    "Effect": "Clarity in responsibilities, progress",
+                    "Market Impact": "Bullish for Infrastructure, Auto",
+                    "Action": "Buy cyclical stocks"
+                },
+                {
+                    "Planet": "Mars",
+                    "Transit": "Enters Libra",
+                    "Date": "Sep 13, 2025",
+                    "Time": "03:45 PM",
+                    "Effect": "Balanced action, partnerships",
+                    "Market Impact": "Neutral to Bullish for markets",
+                    "Action": "Focus on quality stocks"
+                },
+                {
+                    "Planet": "Jupiter",
+                    "Transit": "Enters Cancer",
+                    "Date": "Oct 18, 2025",
+                    "Time": "06:30 PM",
+                    "Effect": "MEGA FORTUNE begins, expansion",
+                    "Market Impact": "SUPER BULLISH for all sectors",
+                    "Action": "BUY EVERYTHING"
+                }
             ]
             
-            for event in transit_events:
-                impact_type = "success" if any(word in event["Market Impact"].lower() for word in ["boom", "surge", "bull", "recovery"]) else "warning"
-                if impact_type == "success":
-                    st.success(f"**{event['Date']}** - {event['Event']} → {event['Market Impact']} → **{event['Action']}**")
-                else:
-                    st.warning(f"**{event['Date']}** - {event['Event']} → {event['Market Impact']} → **{event['Action']}**")
+            for transit in upcoming_transits:
+                impact_type = "success" if "Bullish" in transit["Market Impact"] else "warning" if "Neutral" in transit["Market Impact"] else "error"
+                
+                with st.expander(f"🚀 {transit['Planet']} - {transit['Transit']} on {transit['Date']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Date & Time:** {transit['Date']} at {transit['Time']}")
+                        st.markdown(f"**Effect:** {transit['Effect']}")
+                    with col2:
+                        st.markdown(f"**Market Impact:** {transit['Market Impact']}")
+                        st.markdown(f"**Action:** {transit['Action']}")
+            
+            # 5-8 Year Cycle Forecast
+            st.markdown("### 🔮 5-8 YEAR CYCLE FORECAST")
+            
+            cycle_forecasts = [
+                {
+                    "Year": "2025-2026",
+                    "Key Transit": "Jupiter in Gemini (Until Oct 18, 2025)",
+                    "Effect": "Communication, technology focus",
+                    "Market Trend": "Bullish for IT, Telecom",
+                    "Bullish Sectors": "Technology, Communication, Education",
+                    "Bearish Sectors": "Traditional manufacturing",
+                    "Overall Outlook": "Positive growth with tech leadership"
+                },
+                {
+                    "Year": "2026-2027",
+                    "Key Transit": "Jupiter in Cancer (Oct 2025 - Oct 2026)",
+                    "Effect": "MEGA BULL RUN, real estate boom",
+                    "Market Trend": "Super Bullish across all sectors",
+                    "Bullish Sectors": "Real Estate, Banking, Healthcare",
+                    "Bearish Sectors": "None - Universal bull market",
+                    "Overall Outlook": "Exceptional growth, new market highs"
+                },
+                {
+                    "Year": "2027-2028",
+                    "Key Transit": "Saturn in Pisces (Until 2027)",
+                    "Effect": "Discipline, structure, responsibility",
+                    "Market Trend": "Consolidation, value investing",
+                    "Bullish Sectors": "Infrastructure, PSU, Traditional sectors",
+                    "Bearish Sectors": "Speculative stocks, high debt companies",
+                    "Overall Outlook": "Steady growth with focus on fundamentals"
+                },
+                {
+                    "Year": "2028-2029",
+                    "Key Transit": "Rahu in Aries (2028-2029)",
+                    "Effect": "Innovation, disruption, foreign influence",
+                    "Market Trend": "Volatile with upward bias",
+                    "Bullish Sectors": "Technology, Startups, Foreign companies",
+                    "Bearish Sectors": "Traditional sectors, government companies",
+                    "Overall Outlook": "Transformation period with high volatility"
+                },
+                {
+                    "Year": "2029-2030",
+                    "Key Transit": "Jupiter in Leo (2029-2030)",
+                    "Effect": "Leadership, authority, creativity",
+                    "Market Trend": "Bullish with leadership focus",
+                    "Bullish Sectors": "Banking, Government, Entertainment",
+                    "Bearish Sectors": "Defensive sectors, utilities",
+                    "Overall Outlook": "Strong growth with leadership themes"
+                },
+                {
+                    "Year": "2030-2031",
+                    "Key Transit": "Saturn in Aries (2030-2032)",
+                    "Effect": "Disciplined action, new beginnings",
+                    "Market Trend": "Cautious optimism",
+                    "Bullish Sectors": "Infrastructure, Auto, Engineering",
+                    "Bearish Sectors": "Luxury, speculative stocks",
+                    "Overall Outlook": "Foundation building for next cycle"
+                },
+                {
+                    "Year": "2031-2032",
+                    "Key Transit": "Jupiter in Virgo (2031-2032)",
+                    "Effect": "Analysis, health, service focus",
+                    "Market Trend": "Steady growth in service sectors",
+                    "Bullish Sectors": "Healthcare, Pharma, Service industries",
+                    "Bearish Sectors": "Manufacturing, commodities",
+                    "Overall Outlook": "Sustainable growth with focus on health"
+                }
+            ]
+            
+            for forecast in cycle_forecasts:
+                with st.expander(f"🔮 {forecast['Year']} - {forecast['Key Transit']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Effect:** {forecast['Effect']}")
+                        st.markdown(f"**Market Trend:** {forecast['Market Trend']}")
+                        st.markdown(f"**Bullish Sectors:** {forecast['Bullish Sectors']}")
+                    with col2:
+                        st.markdown(f"**Bearish Sectors:** {forecast['Bearish Sectors']}")
+                        st.markdown(f"**Overall Outlook:** {forecast['Overall Outlook']}")
+            
+            # Market Transit Calendar
+            st.markdown("### 📅 MARKET TRANSIT CALENDAR")
+            
+            transit_calendar = [
+                {"Date": "Aug 11, 2025", "Time": "02:30 PM", "Event": "Mercury Direct", "Market Impact": "IT sector recovery", "Action": "Buy tech stocks"},
+                {"Date": "Aug 17, 2025", "Time": "11:45 AM", "Event": "Sun → Leo", "Market Impact": "Banking sector boom", "Action": "Load bank stocks"},
+                {"Date": "Aug 21, 2025", "Time": "09:30 PM", "Event": "Venus → Cancer", "Market Impact": "Real estate surge", "Action": "Buy property stocks"},
+                {"Date": "Sep 1, 2025", "Time": "10:15 AM", "Event": "Saturn Direct", "Market Impact": "FII buying resumes", "Action": "Market bullishness"},
+                {"Date": "Sep 13, 2025", "Time": "03:45 PM", "Event": "Mars → Libra", "Market Impact": "Balance in markets", "Action": "Book some profits"},
+                {"Date": "Oct 18, 2025", "Time": "06:30 PM", "Event": "Jupiter → Cancer", "Market Impact": "MEGA BULL RUN", "Action": "All-in strategy"},
+                {"Date": "Nov 14, 2025", "Time": "01:20 PM", "Event": "Mercury → Scorpio", "Market Impact": "Deep analysis, research", "Action": "Focus on fundamentals"},
+                {"Date": "Dec 15, 2025", "Time": "09:45 AM", "Event": "Sun → Sagittarius", "Market Impact": "Optimism, expansion", "Action": "Growth stocks"},
+                {"Date": "Jan 14, 2026", "Time": "11:30 PM", "Event": "Mars → Sagittarius", "Market Impact": "Adventure, risk-taking", "Action": "High beta stocks"},
+                {"Date": "Feb 12, 2026", "Time": "03:15 PM", "Event": "Venus → Aquarius", "Market Impact": "Innovation, technology", "Action": "Tech sector focus"}
+            ]
+            
+            df_calendar = pd.DataFrame(transit_calendar)
+            st.dataframe(df_calendar, use_container_width=True)
         
         with tabs[2]:  # Monthly Market Forecast
             st.markdown(f"""
@@ -2387,6 +2798,56 @@ if analyze_button:
             
             df_stocks = pd.DataFrame(top_stocks)
             st.dataframe(df_stocks, use_container_width=True)
+            
+            # Market Movers
+            st.markdown("### 📈 MARKET MOVERS - PLANETARY INFLUENCE")
+            
+            market_movers = [
+                {
+                    "Planet": "Sun",
+                    "Influence": "Authority, Government",
+                    "Effect": "Bullish for PSU, Banking",
+                    "Key Stocks": "SBI, PNB, BOB",
+                    "Timeline": "Strong until Nov 2030"
+                },
+                {
+                    "Planet": "Moon",
+                    "Influence": "Public Sentiment",
+                    "Effect": "Drives FMCG, Healthcare",
+                    "Key Stocks": "ITC, HUL, Sun Pharma",
+                    "Timeline": "Current phase until Sep 2025"
+                },
+                {
+                    "Planet": "Mars",
+                    "Influence": "Energy, Action",
+                    "Effect": "Bullish for Auto, Infrastructure",
+                    "Key Stocks": "Tata Motors, L&T",
+                    "Timeline": "Increasing from Sep 2025"
+                },
+                {
+                    "Planet": "Mercury",
+                    "Influence": "Communication",
+                    "Effect": "Volatile for IT until direct",
+                    "Key Stocks": "TCS, Infosys, Wipro",
+                    "Timeline": "Recovery from Aug 11"
+                },
+                {
+                    "Planet": "Jupiter",
+                    "Influence": "Expansion, Growth",
+                    "Effect": "Mega bull from Oct 18",
+                    "Key Stocks": "All quality stocks",
+                    "Timeline": "MEGA RUN from Oct 2025"
+                }
+            ]
+            
+            for mover in market_movers:
+                with st.expander(f"🌟 {mover['Planet']} - {mover['Influence']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Effect:** {mover['Effect']}")
+                        st.markdown(f"**Key Stocks:** {mover['Key Stocks']}")
+                    with col2:
+                        st.markdown(f"**Timeline:** {mover['Timeline']}")
         
         with tabs[5]:  # Sector Analysis
             st.markdown(f"""
@@ -2508,6 +2969,21 @@ if analyze_button:
                         st.markdown("**📅 Key Events:**")
                         for event in sector_data["events"]:
                             st.warning(f"• {event}")
+            
+            # Sector Performance Forecast
+            st.markdown("### 📊 SECTOR PERFORMANCE FORECAST")
+            
+            sector_forecast = [
+                {"Sector": "Banking", "1M": "+12%", "3M": "+25%", "6M": "+40%", "1Y": "+65%", "Rating": "⭐⭐⭐⭐⭐"},
+                {"Sector": "IT", "1M": "+8%", "3M": "+18%", "6M": "+30%", "1Y": "+45%", "Rating": "⭐⭐⭐⭐"},
+                {"Sector": "Real Estate", "1M": "+15%", "3M": "+35%", "6M": "+60%", "1Y": "+85%", "Rating": "⭐⭐⭐⭐⭐"},
+                {"Sector": "Pharma", "1M": "+10%", "3M": "+22%", "6M": "+35%", "1Y": "+50%", "Rating": "⭐⭐⭐⭐"},
+                {"Sector": "Auto", "1M": "+5%", "3M": "+15%", "6M": "+25%", "1Y": "+40%", "Rating": "⭐⭐⭐"},
+                {"Sector": "FMCG", "1M": "+7%", "3M": "+18%", "6M": "+28%", "1Y": "+42%", "Rating": "⭐⭐⭐⭐"}
+            ]
+            
+            df_sector_forecast = pd.DataFrame(sector_forecast)
+            st.dataframe(df_sector_forecast, use_container_width=True)
         
         with tabs[6]:  # Global Markets
             st.markdown(f"""
@@ -2579,7 +3055,7 @@ if analyze_button:
                         st.warning(f"**Strategy:**  \n{data['strategy']}")
             
             # Global themes affecting India
-            st.markdown("### 🌐 Global Themes Impacting Indian Markets")
+            st.markdown("### 🌐 GLOBAL THEMES IMPACTING INDIAN MARKETS")
             
             global_themes = [
                 {"Theme": "US Fed Policy", "Impact": "Bullish for India if rates pause", "Indian Beneficiaries": "Banks, NBFCs", "Timeline": "Sep Fed meeting"},
@@ -2591,6 +3067,20 @@ if analyze_button:
             
             df_global_themes = pd.DataFrame(global_themes)
             st.dataframe(df_global_themes, use_container_width=True)
+            
+            # Global Market Correlation
+            st.markdown("### 🔄 GLOBAL MARKET CORRELATION")
+            
+            correlation_data = [
+                {"Market": "S&P 500", "Correlation with Nifty": "0.75", "Effect": "Strong positive movement"},
+                {"Market": "NASDAQ", "Correlation with Nifty IT": "0.85", "Effect": "Very strong tech correlation"},
+                {"Market": "NIKKEI", "Correlation with Nifty Auto": "0.65", "Effect": "Moderate auto sector correlation"},
+                {"Market": "HANG SENG", "Correlation with Nifty": "0.45", "Effect": "Weak correlation, divergent trends"},
+                {"Market": "DAX", "Correlation with Nifty": "0.60", "Effect": "Moderate correlation, export-dependent"}
+            ]
+            
+            df_correlation = pd.DataFrame(correlation_data)
+            st.dataframe(df_correlation, use_container_width=True)
         
         with tabs[7]:  # Forex Analysis
             st.markdown(f"""
@@ -2683,7 +3173,7 @@ if analyze_button:
                         st.warning(f"**Stock Impact:** {data['impact_on_stocks']}")
             
             # Currency impact on sectors
-            st.markdown("### 📊 Currency Impact on Indian Sectors")
+            st.markdown("### 📊 CURRENCY IMPACT ON INDIAN SECTORS")
             
             currency_impact = [
                 {"Currency Move": "USD/INR Falls (INR Strength)", "Beneficiary Sectors": "Import-heavy (Oil, Gold)", "Negative Impact": "IT, Pharma exports", "Net Effect": "Positive for economy"},
@@ -2694,6 +3184,25 @@ if analyze_button:
             
             df_currency_impact = pd.DataFrame(currency_impact)
             st.dataframe(df_currency_impact, use_container_width=True)
+            
+            # Forex Transit Calendar
+            st.markdown("### 📅 FOREX TRANSIT CALENDAR")
+            
+            forex_events = [
+                {"Date": "Aug 11, 2025", "Time": "02:30 PM", "Event": "Mercury Direct", "Currency Impact": "INR strength vs GBP, EUR", "Action": "Sell GBP/INR, EUR/INR"},
+                {"Date": "Aug 17, 2025", "Time": "11:45 AM", "Event": "Sun in Leo", "Currency Impact": "USD strength peaks, then weakens", "Action": "Sell USD/INR after peak"},
+                {"Date": "Aug 21, 2025", "Time": "09:30 PM", "Event": "Venus in Cancer", "Currency Impact": "INR strength vs all currencies", "Action": "Sell all pairs vs INR"},
+                {"Date": "Sep 1, 2025", "Time": "10:15 AM", "Event": "Saturn Direct", "Currency Impact": "JPY strength, INR stability", "Action": "Buy JPY/INR"},
+                {"Date": "Oct 18, 2025", "Time": "06:30 PM", "Event": "Jupiter in Cancer", "Currency Impact": "MAJOR INR STRENGTH", "Action": "Sell all pairs vs INR"}
+            ]
+            
+            for event in forex_events:
+                impact_type = "success" if "strength" in event["Currency Impact"] and "INR" in event["Currency Impact"] else "warning"
+                
+                if impact_type == "success":
+                    st.success(f"**{event['Date']}** - {event['Event']} → {event['Currency Impact']} → **{event['Action']}**")
+                else:
+                    st.warning(f"**{event['Date']}** - {event['Event']} → {event['Currency Impact']} → **{event['Action']}**")
         
         with tabs[8]:  # Trading Times
             st.markdown(f"""
@@ -2793,7 +3302,7 @@ if analyze_button:
             st.dataframe(df_trading_times, use_container_width=True)
             
             # Daily trading calendar
-            st.markdown("### 📅 Weekly Trading Calendar")
+            st.markdown("### 📅 WEEKLY TRADING CALENDAR")
             
             weekly_calendar = {
                 "Monday": {"Ruler": "Moon", "Best": "Emotional stocks (FMCG, Healthcare)", "Avoid": "Aggressive trades", "Strategy": "Gentle accumulation"},
@@ -2820,6 +3329,71 @@ if analyze_button:
                     st.success(f"Best: {data['Best']}")
                 with col4:
                     st.info(f"Strategy: {data['Strategy']}")
+            
+            # Trading Strategy by Planet
+            st.markdown("### 🌟 TRADING STRATEGY BY PLANET")
+            
+            planet_strategies = [
+                {
+                    "Planet": "Sun",
+                    "Best Strategy": "Buy leadership stocks, PSU, Banking",
+                    "Time Frame": "Medium to Long-term",
+                    "Risk Level": "Low to Medium",
+                    "Key Indicators": "Government policy announcements, authority figures"
+                },
+                {
+                    "Planet": "Moon",
+                    "Best Strategy": "Follow sentiment, trade FMCG, Healthcare",
+                    "Time Frame": "Short-term",
+                    "Risk Level": "Medium",
+                    "Key Indicators": "Public mood, emotional news, lunar phases"
+                },
+                {
+                    "Planet": "Mars",
+                    "Best Strategy": "Momentum trading, Auto, Infrastructure",
+                    "Time Frame": "Short to Medium",
+                    "Risk Level": "High",
+                    "Key Indicators": "Energy levels, action-oriented news"
+                },
+                {
+                    "Planet": "Mercury",
+                    "Best Strategy": "IT, Telecom, quick trades",
+                    "Time Frame": "Intraday to Short-term",
+                    "Risk Level": "Medium (High when retrograde)",
+                    "Key Indicators": "Communication news, technology updates"
+                },
+                {
+                    "Planet": "Jupiter",
+                    "Best Strategy": "Value investing, Financial stocks",
+                    "Time Frame": "Long-term",
+                    "Risk Level": "Low",
+                    "Key Indicators": "Expansion news, growth announcements"
+                },
+                {
+                    "Planet": "Venus",
+                    "Best Strategy": "Luxury, Real Estate, Consumer stocks",
+                    "Time Frame": "Medium to Long-term",
+                    "Risk Level": "Low to Medium",
+                    "Key Indicators": "Relationship news, luxury trends"
+                },
+                {
+                    "Planet": "Saturn",
+                    "Best Strategy": "Value investing, Infrastructure, PSU",
+                    "Time Frame": "Long-term",
+                    "Risk Level": "Low",
+                    "Key Indicators": "Discipline, structure, long-term trends"
+                }
+            ]
+            
+            for strategy in planet_strategies:
+                with st.expander(f"🌟 {strategy['Planet']} Strategy", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Best Strategy:** {strategy['Best Strategy']}")
+                        st.markdown(f"**Time Frame:** {strategy['Time Frame']}")
+                        st.markdown(f"**Risk Level:** {strategy['Risk Level']}")
+                    with col2:
+                        st.markdown(f"**Key Indicators:** {strategy['Key Indicators']}")
         
         with tabs[9]:  # Technical + Astro
             st.markdown(f"""
@@ -2831,7 +3405,7 @@ if analyze_button:
             """, unsafe_allow_html=True)
             
             # Combined technical and astrological analysis
-            st.markdown("### 🔗 Technical Levels with Planetary Timing")
+            st.markdown("### 🔗 TECHNICAL LEVELS WITH PLANETARY TIMING")
             
             combined_analysis = {
                 "NIFTY 50": {
@@ -2845,7 +3419,8 @@ if analyze_button:
                     },
                     "astrological": {
                         "Current": "Sun-Moon period supports 25,000+",
-                        "Aug 17": "Sun in Leo - Break 25,300 resistance",
+                        "Aug 11": "Mercury Direct - Break 25,300 resistance",
+                        "Aug 17": "Sun in Leo - Break 25,500 resistance",
                         "Aug 21": "Venus boost - Target 25,500",
                         "Sep 1": "Saturn direct - FII flows, 26,000+",
                         "Oct 18": "Jupiter in Cancer - 27,000+"
@@ -2879,7 +3454,7 @@ if analyze_button:
                     col1, col2 = st.columns(2)
                     
                     with col1:
-                        st.markdown("### 📈 Technical Analysis")
+                        st.markdown("### 📈 TECHNICAL ANALYSIS")
                         for level, value in analysis["technical"].items():
                             if "Support" in level:
                                 st.success(f"**{level}:** {value}")
@@ -2889,12 +3464,12 @@ if analyze_button:
                                 st.info(f"**{level}:** {value}")
                     
                     with col2:
-                        st.markdown("### 🔮 Astrological Timing")
+                        st.markdown("### 🔮 ASTROLOGICAL TIMING")
                         for timing, effect in analysis["astrological"].items():
                             st.warning(f"**{timing}:** {effect}")
                     
                     # Combined strategy
-                    st.markdown("### 🎯 Combined Strategy & Risk Management")
+                    st.markdown("### 🎯 COMBINED STRATEGY & RISK MANAGEMENT")
                     col1, col2 = st.columns(2)
                     with col1:
                         st.success(f"**Strategy:** {analysis['combined_strategy']}")
@@ -2902,7 +3477,7 @@ if analyze_button:
                         st.error(f"**Risk Management:** {analysis['risk_management']}")
             
             # Gann + Astro timing
-            st.markdown("### ⭐ Gann Squares + Planetary Timing")
+            st.markdown("### ⭐ GANN SQUARES + PLANETARY TIMING")
             
             gann_astro = [
                 {"Date": "Aug 11, 2025", "Gann Level": "25,000 (Square of 5000)", "Planetary Event": "Mercury Direct", "Combined Effect": "Breakout above 25,000"},
@@ -2914,6 +3489,45 @@ if analyze_button:
             
             df_gann_astro = pd.DataFrame(gann_astro)
             st.dataframe(df_gann_astro, use_container_width=True)
+            
+            # Technical Indicators with Planetary Correlation
+            st.markdown("### 📊 TECHNICAL INDICATORS WITH PLANETARY CORRELATION")
+            
+            indicators_correlation = [
+                {
+                    "Indicator": "RSI (Relative Strength Index)",
+                    "Planetary Correlation": "Mars energy levels",
+                    "Interpretation": "High RSI = High Mars energy = Overbought",
+                    "Trading Signal": "Sell when RSI > 70 + Mars strong"
+                },
+                {
+                    "Indicator": "MACD (Moving Average Convergence Divergence)",
+                    "Planetary Correlation": "Mercury communication + Venus harmony",
+                    "Interpretation": "Positive crossover = Mercury direct + Venus strong",
+                    "Trading Signal": "Buy on MACD crossover during Mercury direct"
+                },
+                {
+                    "Indicator": "Bollinger Bands",
+                    "Planetary Correlation": "Saturn boundaries + Jupiter expansion",
+                    "Interpretation": "Bands expand = Jupiter strong, contract = Saturn strong",
+                    "Trading Signal": "Buy at lower band during Jupiter, sell at upper during Saturn"
+                },
+                {
+                    "Indicator": "Fibonacci Retracement",
+                    "Planetary Correlation": "Golden ratio = Venus beauty + Sun perfection",
+                    "Interpretation": "Key levels align with Venus/Sun aspects",
+                    "Trading Signal": "Respect Fibonacci levels during Venus/Sun transits"
+                }
+            ]
+            
+            for indicator in indicators_correlation:
+                with st.expander(f"📈 {indicator['Indicator']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Planetary Correlation:** {indicator['Planetary Correlation']}")
+                        st.markdown(f"**Interpretation:** {indicator['Interpretation']}")
+                    with col2:
+                        st.markdown(f"**Trading Signal:** {indicator['Trading Signal']}")
             
             # Final recommendations
             st.markdown("### 🎯 FINAL TRADING RECOMMENDATIONS")
@@ -2965,6 +3579,352 @@ if analyze_button:
             • **Nov 2025+:** New All-Time Highs Across Board
             
             **Strategy:** Accumulate quality stocks now, ride the mega trend till 2027
+            """)
+        
+        with tabs[10]:  # Commodities Analysis
+            st.markdown(f"""
+            <div class="cosmic-panel">
+                <h2 style="text-align: center; margin-bottom: 25px;">
+                    🥇 COMMODITIES ANALYSIS - {ayanamsa} SYSTEM
+                </h2>
+            </div>
+            """, unsafe_allow_html=True)
+            
+            st.info(f"Commodity market analysis using {ayanamsa} ayanamsa ({ayanamsa_options[ayanamsa]['value']}°)")
+            
+            # Gold Analysis
+            st.markdown("### 🥇 GOLD ANALYSIS")
+            
+            gold_analysis = {
+                "current_price": "$2,450",
+                "planetary_ruler": "Sun (Core) + Jupiter (Expansion)",
+                "current_trend": "Bullish consolidation",
+                "key_support": "$2,380",
+                "key_resistance": "$2,520",
+                "short_term_target": "$2,500 (Aug 2025)",
+                "medium_term_target": "$2,650 (Oct 2025)",
+                "long_term_target": "$3,000+ (2026)",
+                "planetary_influences": [
+                    {"Planet": "Sun", "Effect": "Core value, stability", "Timeline": "Strong until Nov 2030"},
+                    {"Planet": "Jupiter", "Effect": "Expansion, wealth growth", "Timeline": "Mega boost from Oct 2025"},
+                    {"Planet": "Saturn", "Effect": "Traditional value, safety", "Timeline": "Retrograde until Sep 2025"}
+                ],
+                "transit_events": [
+                    {"Date": "Aug 17, 2025", "Event": "Sun in Leo", "Effect": "Gold strength increases", "Action": "Buy on dips"},
+                    {"Date": "Sep 1, 2025", "Event": "Saturn Direct", "Effect": "Traditional value returns", "Action": "Accumulate"},
+                    {"Date": "Oct 18, 2025", "Event": "Jupiter in Cancer", "Effect": "MEGA GOLD RALLY begins", "Action": "Aggressive buying"}
+                ],
+                "trading_strategy": "Buy on dips to $2,380, hold for $3,000+ target",
+                "risk_factors": "Strong USD, rising interest rates, central bank policies"
+            }
+            
+            with st.expander("🥇 GOLD DETAILED ANALYSIS", expanded=True):
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Current Price", gold_analysis["current_price"])
+                    st.metric("Key Support", gold_analysis["key_support"])
+                    st.metric("Key Resistance", gold_analysis["key_resistance"])
+                    
+                    st.markdown("### 🎯 Price Targets")
+                    st.info(f"**Short Term:** {gold_analysis['short_term_target']}")
+                    st.info(f"**Medium Term:** {gold_analysis['medium_term_target']}")
+                    st.info(f"**Long Term:** {gold_analysis['long_term_target']}")
+                
+                with col2:
+                    st.markdown("### 🔮 Planetary Influences")
+                    for influence in gold_analysis["planetary_influences"]:
+                        st.success(f"**{influence['Planet']}:** {influence['Effect']} ({influence['Timeline']})")
+                    
+                    st.markdown("### 📅 Transit Events")
+                    for event in gold_analysis["transit_events"]:
+                        st.warning(f"**{event['Date']}:** {event['Effect']} → {event['Action']}")
+                
+                st.markdown("### 📈 Trading Strategy")
+                st.success(f"**Strategy:** {gold_analysis['trading_strategy']}")
+                st.error(f"**Risk Factors:** {gold_analysis['risk_factors']}")
+            
+            # Silver Analysis
+            st.markdown("### 🥈 SILVER ANALYSIS")
+            
+            silver_analysis = {
+                "current_price": "$28.50",
+                "planetary_ruler": "Moon (Emotions) + Mercury (Communication)",
+                "current_trend": "Bullish with volatility",
+                "key_support": "$27.00",
+                "key_resistance": "$30.00",
+                "short_term_target": "$29.50 (Aug 2025)",
+                "medium_term_target": "$32.00 (Oct 2025)",
+                "long_term_target": "$40.00+ (2026)",
+                "planetary_influences": [
+                    {"Planet": "Moon", "Effect": "Emotional trading, volatility", "Timeline": "Current phase until Sep 2025"},
+                    {"Planet": "Mercury", "Effect": "Communication-driven moves", "Timeline": "Volatile until direct (Aug 11)"},
+                    {"Planet": "Jupiter", "Effect": "Industrial demand growth", "Timeline": "Strong from Oct 2025"}
+                ],
+                "transit_events": [
+                    {"Date": "Aug 11, 2025", "Event": "Mercury Direct", "Effect": "Volatility decreases, trend clarity", "Action": "Buy on clarity"},
+                    {"Date": "Aug 21, 2025", "Event": "Venus in Cancer", "Effect": "Industrial demand increases", "Action": "Accumulate"},
+                    {"Date": "Oct 18, 2025", "Event": "Jupiter in Cancer", "Effect": "INDUSTRIAL BOOM", "Action": "Aggressive buying"}
+                ],
+                "trading_strategy": "Buy on dips to $27.00, expect higher volatility than gold",
+                "risk_factors": "Industrial demand swings, economic cycles, higher beta than gold"
+            }
+            
+            with st.expander("🥈 SILVER DETAILED ANALYSIS", expanded=True):
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Current Price", silver_analysis["current_price"])
+                    st.metric("Key Support", silver_analysis["key_support"])
+                    st.metric("Key Resistance", silver_analysis["key_resistance"])
+                    
+                    st.markdown("### 🎯 Price Targets")
+                    st.info(f"**Short Term:** {silver_analysis['short_term_target']}")
+                    st.info(f"**Medium Term:** {silver_analysis['medium_term_target']}")
+                    st.info(f"**Long Term:** {silver_analysis['long_term_target']}")
+                
+                with col2:
+                    st.markdown("### 🔮 Planetary Influences")
+                    for influence in silver_analysis["planetary_influences"]:
+                        st.success(f"**{influence['Planet']}:** {influence['Effect']} ({influence['Timeline']})")
+                    
+                    st.markdown("### 📅 Transit Events")
+                    for event in silver_analysis["transit_events"]:
+                        st.warning(f"**{event['Date']}:** {event['Effect']} → {event['Action']}")
+                
+                st.markdown("### 📈 Trading Strategy")
+                st.success(f"**Strategy:** {silver_analysis['trading_strategy']}")
+                st.error(f"**Risk Factors:** {silver_analysis['risk_factors']}")
+            
+            # Crude Oil Analysis
+            st.markdown("### 🛢️ CRUDE OIL ANALYSIS")
+            
+            crude_analysis = {
+                "current_price": "$78.50",
+                "planetary_ruler": "Mars (Energy) + Jupiter (Expansion)",
+                "current_trend": "Bearish to Neutral",
+                "key_support": "$72.00",
+                "key_resistance": "$85.00",
+                "short_term_target": "$75.00 (Aug 2025)",
+                "medium_term_target": "$82.00 (Oct 2025)",
+                "long_term_target": "$95.00+ (2026)",
+                "planetary_influences": [
+                    {"Planet": "Mars", "Effect": "Energy sector strength", "Timeline": "Strong in Virgo until Sep 2025"},
+                    {"Planet": "Jupiter", "Effect": "Demand expansion", "Timeline": "Growth from Oct 2025"},
+                    {"Planet": "Saturn", "Effect": "Supply constraints, discipline", "Timeline": "Retrograde limiting supply"}
+                ],
+                "transit_events": [
+                    {"Date": "Aug 17, 2025", "Event": "Sun in Leo", "Effect": "Energy focus increases", "Action": "Buy energy stocks"},
+                    {"Date": "Sep 1, 2025", "Event": "Saturn Direct", "Effect": "Supply constraints ease", "Action": "Monitor production"},
+                    {"Date": "Oct 18, 2025", "Event": "Jupiter in Cancer", "Effect": "DEMAND EXPLOSION", "Action": "Buy crude futures"}
+                ],
+                "trading_strategy": "Range trading $72-85, breakout above $85 for $95+ target",
+                "risk_factors": "OPEC decisions, geopolitical tensions, demand destruction"
+            }
+            
+            with st.expander("🛢️ CRUDE OIL DETAILED ANALYSIS", expanded=True):
+                col1, col2 = st.columns(2)
+                with col1:
+                    st.metric("Current Price", crude_analysis["current_price"])
+                    st.metric("Key Support", crude_analysis["key_support"])
+                    st.metric("Key Resistance", crude_analysis["key_resistance"])
+                    
+                    st.markdown("### 🎯 Price Targets")
+                    st.info(f"**Short Term:** {crude_analysis['short_term_target']}")
+                    st.info(f"**Medium Term:** {crude_analysis['medium_term_target']}")
+                    st.info(f"**Long Term:** {crude_analysis['long_term_target']}")
+                
+                with col2:
+                    st.markdown("### 🔮 Planetary Influences")
+                    for influence in crude_analysis["planetary_influences"]:
+                        st.success(f"**{influence['Planet']}:** {influence['Effect']} ({influence['Timeline']})")
+                    
+                    st.markdown("### 📅 Transit Events")
+                    for event in crude_analysis["transit_events"]:
+                        st.warning(f"**{event['Date']}:** {event['Effect']} → {event['Action']}")
+                
+                st.markdown("### 📈 Trading Strategy")
+                st.success(f"**Strategy:** {crude_analysis['trading_strategy']}")
+                st.error(f"**Risk Factors:** {crude_analysis['risk_factors']}")
+            
+            # Commodity Comparison
+            st.markdown("### 📊 COMMODITY COMPARISON")
+            
+            commodity_comparison = [
+                {
+                    "Commodity": "Gold",
+                    "Current Price": "$2,450",
+                    "Trend": "Bullish Consolidation",
+                    "Volatility": "Medium",
+                    "Planetary Support": "Very High (Sun + Jupiter)",
+                    "1M Target": "$2,500",
+                    "6M Target": "$2,650",
+                    "Recommendation": "BUY ON DIPS"
+                },
+                {
+                    "Commodity": "Silver",
+                    "Current Price": "$28.50",
+                    "Trend": "Bullish Volatile",
+                    "Volatility": "High",
+                    "Planetary Support": "High (Moon + Jupiter)",
+                    "1M Target": "$29.50",
+                    "6M Target": "$32.00",
+                    "Recommendation": "BUY WITH CAUTION"
+                },
+                {
+                    "Commodity": "Crude Oil",
+                    "Current Price": "$78.50",
+                    "Trend": "Bearish to Neutral",
+                    "Volatility": "Very High",
+                    "Planetary Support": "Medium (Mars + Jupiter)",
+                    "1M Target": "$75.00",
+                    "6M Target": "$82.00",
+                    "Recommendation": "RANGE TRADING"
+                }
+            ]
+            
+            df_commodity = pd.DataFrame(commodity_comparison)
+            st.dataframe(df_commodity, use_container_width=True)
+            
+            # Commodity Transit Calendar
+            st.markdown("### 📅 COMMODITY TRANSIT CALENDAR")
+            
+            commodity_events = [
+                {"Date": "Aug 11, 2025", "Time": "02:30 PM", "Event": "Mercury Direct", "Gold Effect": "Stability returns", "Silver Effect": "Volatility decreases", "Crude Effect": "Clarity in energy policy", "Action": "Buy gold, silver on dips"},
+                {"Date": "Aug 17, 2025", "Time": "11:45 AM", "Event": "Sun in Leo", "Gold Effect": "Strength increases", "Silver Effect": "Industrial demand rises", "Crude Effect": "Energy focus", "Action": "Buy all commodities"},
+                {"Date": "Aug 21, 2025", "Time": "09:30 PM", "Event": "Venus in Cancer", "Gold Effect": "Luxury demand", "Silver Effect": "Industrial boom", "Crude Effect": "Consumer demand", "Action": "Accumulate silver"},
+                {"Date": "Sep 1, 2025", "Time": "10:15 AM", "Event": "Saturn Direct", "Gold Effect": "Traditional value", "Silver Effect": "Supply discipline", "Crude Effect": "Production increases", "Action": "Buy gold, monitor crude"},
+                {"Date": "Oct 18, 2025", "Time": "06:30 PM", "Event": "Jupiter in Cancer", "Gold Effect": "MEGA RALLY", "Silver Effect": "INDUSTRIAL BOOM", "Crude Effect": "DEMAND EXPLOSION", "Action": "BUY ALL COMMODITIES"}
+            ]
+            
+            for event in commodity_events:
+                impact_type = "success" if "MEGA" in event["Gold Effect"] or "BOOM" in event["Silver Effect"] or "EXPLOSION" in event["Crude Effect"] else "warning"
+                
+                if impact_type == "success":
+                    st.success(f"**{event['Date']}** - {event['Event']} → Gold: {event['Gold Effect']}, Silver: {event['Silver Effect']}, Crude: {event['Crude Effect']} → **{event['Action']}**")
+                else:
+                    st.warning(f"**{event['Date']}** - {event['Event']} → Gold: {event['Gold Effect']}, Silver: {event['Silver Effect']}, Crude: {event['Crude Effect']} → **{event['Action']}**")
+            
+            # Long-term Commodity Cycle
+            st.markdown("### 🔮 LONG-TERM COMMODITY CYCLE (5-8 YEARS)")
+            
+            commodity_cycle = [
+                {
+                    "Period": "2025-2026",
+                    "Key Transit": "Jupiter in Cancer (Oct 2025 - Oct 2026)",
+                    "Gold Outlook": "MEGA BULL RUN - New all-time highs",
+                    "Silver Outlook": "Industrial boom drives prices higher",
+                    "Crude Outlook": "Demand explosion, supply constraints",
+                    "Overall Trend": "Bullish across all commodities",
+                    "Best Strategy": "Accumulate all commodities, focus on gold/silver"
+                },
+                {
+                    "Period": "2026-2027",
+                    "Key Transit": "Saturn in Pisces (2026-2027)",
+                    "Gold Outlook": "Consolidation at high levels",
+                    "Silver Outlook": "Volatility with upward bias",
+                    "Crude Outlook": "Supply discipline, range-bound",
+                    "Overall Trend": "Consolidation with selective opportunities",
+                    "Best Strategy": "Trade ranges, focus on gold stability"
+                },
+                {
+                    "Period": "2027-2028",
+                    "Key Transit": "Rahu in Aries (2027-2029)",
+                    "Gold Outlook": "Innovation-driven demand",
+                    "Silver Outlook": "Technology applications boost demand",
+                    "Crude Outlook": "New energy transitions create volatility",
+                    "Overall Trend": "Volatile with innovation themes",
+                    "Best Strategy": "Focus on technology-driven commodities"
+                },
+                {
+                    "Period": "2028-2029",
+                    "Key Transit": "Jupiter in Leo (2028-2029)",
+                    "Gold Outlook": "Leadership-driven demand",
+                    "Silver Outlook": "Industrial expansion continues",
+                    "Crude Outlook": "Energy leadership themes",
+                    "Overall Trend": "Bullish with leadership focus",
+                    "Best Strategy": "Buy commodity leaders, energy stocks"
+                },
+                {
+                    "Period": "2029-2030",
+                    "Key Transit": "Saturn in Aries (2029-2032)",
+                    "Gold Outlook": "Safe haven demand increases",
+                    "Silver Outlook": "Industrial discipline, value focus",
+                    "Crude Outlook": "New energy foundations",
+                    "Overall Trend": "Value-driven with safety bias",
+                    "Best Strategy": "Focus on gold, value commodities"
+                },
+                {
+                    "Period": "2030-2031",
+                    "Key Transit": "Jupiter in Virgo (2030-2032)",
+                    "Gold Outlook": "Analysis-driven demand",
+                    "Silver Outlook": "Healthcare, technology applications",
+                    "Crude Outlook": "Efficiency, service focus",
+                    "Overall Trend": "Steady growth in specialty commodities",
+                    "Best Strategy": "Focus on technology commodities"
+                }
+            ]
+            
+            for cycle in commodity_cycle:
+                with st.expander(f"🔮 {cycle['Period']} - {cycle['Key Transit']}", expanded=True):
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown(f"**Gold Outlook:** {cycle['Gold Outlook']}")
+                        st.markdown(f"**Silver Outlook:** {cycle['Silver Outlook']}")
+                    with col2:
+                        st.markdown(f"**Crude Outlook:** {cycle['Crude Outlook']}")
+                        st.markdown(f"**Overall Trend:** {cycle['Overall Trend']}")
+                    st.markdown(f"**Best Strategy:** {cycle['Best Strategy']}")
+            
+            # Commodity Trading Recommendations
+            st.markdown("### 🎯 COMMODITY TRADING RECOMMENDATIONS")
+            
+            col1, col2, col3 = st.columns(3)
+            
+            with col1:
+                st.success("""
+                **🥇 GOLD RECOMMENDATIONS**
+                • **Immediate:** Buy on dips to $2,380
+                • **Medium Term:** Hold for $2,650 target
+                • **Long Term:** Target $3,000+ by 2026
+                • **Strategy:** Accumulate for Jupiter in Cancer
+                • **Risk Management:** SL below $2,350
+                """)
+            
+            with col2:
+                st.warning("""
+                **🥈 SILVER RECOMMENDATIONS**
+                • **Immediate:** Buy on dips to $27.00
+                • **Medium Term:** Target $32.00 by Oct 2025
+                • **Long Term:** Target $40.00+ by 2026
+                • **Strategy:** Higher volatility, smaller positions
+                • **Risk Management:** SL below $26.50
+                """)
+            
+            with col3:
+                st.error("""
+                **🛢️ CRUDE OIL RECOMMENDATIONS**
+                • **Immediate:** Range trade $72-85
+                • **Medium Term:** Breakout above $85 for $95
+                • **Long Term:** Supply/demand balance by 2026
+                • **Strategy:** Wait for clear breakout
+                • **Risk Management:** Use options for protection
+                """)
+            
+            # Final Commodity Outlook
+            st.markdown("### 🚀 FINAL COMMODITY OUTLOOK")
+            st.success("""
+            **🌟 COMMODITY SUPER CYCLE BEGINS** - Jupiter enters Cancer Oct 18, 2025
+            
+            **Timeline:**
+            • **Aug 2025:** Accumulation phase for all commodities
+            • **Sep 2025:** Positioning for Jupiter transit
+            • **Oct 2025:** COMMODITY BOOM BEGINS
+            • **Nov 2025+:** New highs across commodity complex
+            
+            **Strategy:** 
+            • Gold: Core holding, buy on dips
+            • Silver: Higher beta, smaller positions
+            • Crude: Range trading until breakout
+            • Overall: Commodities entering multi-year bull market
             """)
 
 else:
